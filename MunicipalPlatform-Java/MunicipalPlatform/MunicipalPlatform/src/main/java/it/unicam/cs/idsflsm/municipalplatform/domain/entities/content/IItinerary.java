@@ -1,19 +1,12 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentStatus;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 
-import java.util.UUID;
+import java.util.List;
 
-public interface IItinerary {
-    UUID getId();
-    String getName();
-    Coordinates getCoordinates();
-    Date getExpiryDate();
-    ContentStatus getState();
-    void setName(String name);
-    void setCoordinates(Coordinates coordinates);
-    void setExpiryDate(Date expiryDate);
-    void setState(ContentStatus state);
+public interface IItinerary extends IContent {
+    List<POI> getItineraryPois();
+    List<AuthenticatedTourist> getTourists();
+    List<Attachment> getAttachments();
 }

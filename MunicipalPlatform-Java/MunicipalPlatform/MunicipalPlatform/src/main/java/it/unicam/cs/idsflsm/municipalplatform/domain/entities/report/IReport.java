@@ -4,6 +4,7 @@ import java.util.UUID;
 
 public interface IReport {
     UUID getId();
+    void setId(UUID id);
     String getMotivation();
     void setMotivation(String motivation);
 }

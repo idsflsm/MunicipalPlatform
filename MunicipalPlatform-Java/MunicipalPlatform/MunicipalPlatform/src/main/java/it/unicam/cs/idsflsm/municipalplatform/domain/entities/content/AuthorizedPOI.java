@@ -1,59 +1,22 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentStatus;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+import java.util.List;
 import java.util.UUID;
-
+@Entity
+@DiscriminatorValue("authorized_poi")
 public class AuthorizedPOI extends POI {
-
-    public AuthorizedPOI(String name, Coordinates coordinates, Date expiryDate, ContentStatus state) {
-
+    public AuthorizedPOI() {
     }
-
-    @Override
-    public UUID getId() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "";
-    }
-
-    @Override
-    public Coordinates getCoordinates() {
-        return null;
-    }
-
-    @Override
-    public Date getExpiryDate() {
-        return null;
-    }
-
-    @Override
-    public ContentStatus getState() {
-        return null;
-    }
-
-    @Override
-    public void setName(String name) {
-
-    }
-
-    @Override
-    public void setCoordinates(Coordinates coordinates) {
-
-    }
-
-    @Override
-    public void setExpiryDate(Date expiryDate) {
-
-    }
-
-    @Override
-    public void setState(ContentStatus state) {
-
+    public AuthorizedPOI(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedTourist> tourists, List<Attachment> attachments) {
+        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments);
+        super.setState(ContentState.UPLOADABLE);
     }
 }
