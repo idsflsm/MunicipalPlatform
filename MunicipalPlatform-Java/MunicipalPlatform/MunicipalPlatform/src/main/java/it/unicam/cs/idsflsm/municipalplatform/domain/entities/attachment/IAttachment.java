@@ -1,8 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 

@@ -1,8 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -15,8 +14,10 @@ import java.util.UUID;
 @DiscriminatorValue("pending_attachment")
 public class PendingAttachment extends Attachment {
     public PendingAttachment() {
+        this.setState(ContentState.VALIDABLE);
     }
     public PendingAttachment(UUID id, String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
         super(id, name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
+        this.setState(ContentState.VALIDABLE);
     }
 }

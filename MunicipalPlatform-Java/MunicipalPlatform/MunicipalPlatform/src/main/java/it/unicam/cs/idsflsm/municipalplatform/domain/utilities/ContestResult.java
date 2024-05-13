@@ -1,4 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
+import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidContestResultException;
 import lombok.Getter;
 @Getter
 public enum ContestResult {
@@ -7,5 +8,19 @@ public enum ContestResult {
     private final int value;
     private ContestResult(int value) {
         this.value = value;
+    }
+    // Method to convert string to enum
+    public static ContestResult fromString(String text) {
+        for (ContestResult result : ContestResult.values()) {
+            if (result.name().equalsIgnoreCase(text)) {
+                return result;
+            }
+        }
+        throw new InvalidContestResultException(text);
+    }
+    // Method to convert enum to string
+    @Override
+    public String toString() {
+        return this.name();
     }
 }

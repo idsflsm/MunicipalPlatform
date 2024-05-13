@@ -15,7 +15,7 @@ import java.util.UUID;
 public class Contest implements IContest {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "author", nullable = false, unique = false)
@@ -46,7 +46,7 @@ public class Contest implements IContest {
     public Contest() {
     }
     public Contest(UUID id, String name, String author, String description, Date creationDate, Date expiryDate, boolean hasWinner, List<Contribution> contributions, List<AuthenticatedTourist> participatingTourists) {
-        this.id = id;
+        this.id = (id != null) ? id : UUID.randomUUID();
         this.name = name;
         this.author = author;
         this.description = description;

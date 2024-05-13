@@ -1,9 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -11,7 +9,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,14 +42,12 @@ public abstract class Attachment implements IAttachment {
     private ContentState state;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "poi", nullable = true)
-//    @JsonBackReference
     private POI poi;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "itinerary", nullable = true)
-//    @JsonBackReference
     private Itinerary itinerary;
     @OneToMany(mappedBy = "attachment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reports = new ArrayList<>();
+    private List<Report> reports;
     public Attachment() {
     }
     public Attachment

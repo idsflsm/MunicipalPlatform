@@ -1,6 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContestResult;
@@ -15,10 +16,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContributionDto {
-    private UUID id;
+    private UUID id = UUID.randomUUID();
+    @JsonBackReference
     private Contest contest;
+    @JsonBackReference
     private POI poi;
+    @JsonBackReference
     private Itinerary itinerary;
-    private ContentState state;
-    private ContestResult result;
+    private ContentState state = ContentState.VALIDABLE;
+    private ContestResult result = ContestResult.LOSER;
 }

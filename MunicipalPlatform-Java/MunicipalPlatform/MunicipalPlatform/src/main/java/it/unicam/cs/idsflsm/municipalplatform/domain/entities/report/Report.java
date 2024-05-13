@@ -1,8 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.report;
 
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +19,6 @@ public class Report implements IReport {
     private String motivation;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "attachment", nullable = true)
-//    @JsonBackReference
     private Attachment attachment;
     public Report() {
     }

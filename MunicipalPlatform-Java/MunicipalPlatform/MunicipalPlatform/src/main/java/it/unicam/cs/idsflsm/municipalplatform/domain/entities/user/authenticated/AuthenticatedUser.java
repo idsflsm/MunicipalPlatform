@@ -1,7 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.POI;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

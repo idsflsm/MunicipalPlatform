@@ -9,5 +9,5 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class AnonymousUserDto {
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 }
