@@ -1,5 +1,7 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.report;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +15,7 @@ import java.util.UUID;
 public class ReportDto {
     private UUID id = UUID.randomUUID();
     private String motivation;
+    @JsonIgnore
     @JsonBackReference
-    private Attachment attachment;
+    private AttachmentDto attachment;
 }

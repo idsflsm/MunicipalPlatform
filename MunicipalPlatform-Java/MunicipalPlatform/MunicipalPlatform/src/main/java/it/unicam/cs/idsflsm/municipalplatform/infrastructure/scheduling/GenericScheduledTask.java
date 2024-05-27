@@ -27,10 +27,8 @@ public abstract class GenericScheduledTask<T> {
     private void deleteEntities(String methodName) {
         try {
             Date now = Date.toDate(LocalDate.now());
-//            Method method = _genericRepository.getClass().getMethod(methodName, Date.class);
-//            Iterable<T> entities = (Iterable<T>) method.invoke(_genericRepository, now);
             Method method = _genericRepository.getClass().getDeclaredMethod(methodName, Date.class);
-            method.setAccessible(true); // Ensure private method can be invoked
+            method.setAccessible(true);
             @SuppressWarnings("unchecked")
             Iterable<T> entities = (Iterable<T>) method.invoke(_genericRepository, now);
             _genericRepository.deleteAll(entities);

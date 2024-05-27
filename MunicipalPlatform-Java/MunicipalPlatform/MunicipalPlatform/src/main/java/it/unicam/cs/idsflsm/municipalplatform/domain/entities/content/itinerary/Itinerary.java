@@ -4,7 +4,7 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachm
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -22,26 +22,28 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "itinerary_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "itinerary")
 public abstract class Itinerary extends Content implements IItinerary {
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "itinerary_pois",
             joinColumns = @JoinColumn(name = "itinerary_id"),
             inverseJoinColumns = @JoinColumn(name = "poi_id"))
-    private List<POI> itineraryPois = new ArrayList<>();
-    @ManyToMany(mappedBy = "itineraries")
-    private List<AuthenticatedTourist> tourists = new ArrayList<>();
-    @OneToMany(mappedBy = "itinerary", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Attachment> attachments = new ArrayList<>();
-    @OneToMany(mappedBy = "itinerary")
-    private List<Contribution> contributions = new ArrayList<>();
+    private List<POI> itineraryPois = new ArrayList<POI>();
+    @ManyToMany(mappedBy = "itineraries", fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    private List<AuthenticatedUser> users = new ArrayList<AuthenticatedUser>();
+    @OneToMany(mappedBy = "itinerary", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private List<Attachment> attachments = new ArrayList<Attachment>();
+    @OneToOne(mappedBy = "itinerary", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Contribution contribution;
     public Itinerary() {
     }
     public Itinerary
             (UUID id, String name, Coordinates coordinates, String description,
-             String author, Date creationDate, Date expiryDate, ContentState state, List<POI> itineraryPois, List<AuthenticatedTourist> tourists, List<Attachment> attachments) {
+             String author, Date creationDate, Date expiryDate, ContentState state, List<POI> itineraryPois, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
         super(id, name, coordinates, description, author, creationDate, expiryDate, state);
         this.itineraryPois = itineraryPois;
-        this.tourists = tourists;
+        this.users = users;
         this.attachments = attachments;
+        this.contribution = contribution;
     }
     @Override
     public boolean equals(Object obj) {

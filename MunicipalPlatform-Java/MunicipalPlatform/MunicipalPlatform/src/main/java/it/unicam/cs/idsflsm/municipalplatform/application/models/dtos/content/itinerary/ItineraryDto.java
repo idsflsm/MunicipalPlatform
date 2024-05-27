@@ -1,9 +1,12 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -12,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Getter
@@ -26,11 +30,17 @@ public abstract class ItineraryDto {
     private String author;
     private Date creationDate;
     private Date expiryDate;
-    private ContentState state = ContentState.VALIDABLE;
+    private ContentState state;
+    // @JsonIgnore
     @JsonManagedReference
-    private List<POI> itineraryPois;
+    private List<POIDto> itineraryPois = new ArrayList<POIDto>();
+    @JsonIgnore
     @JsonBackReference
-    private List<AuthenticatedTourist> tourists;
+    private List<AuthenticatedUserDto> users = new ArrayList<AuthenticatedUserDto>();
+    // @JsonIgnore
     @JsonManagedReference
-    private List<Attachment> attachments;
+    private List<AttachmentDto> attachments = new ArrayList<AttachmentDto>();
+    @JsonIgnore
+    @JsonBackReference
+    private ContributionDto contribution;
 }

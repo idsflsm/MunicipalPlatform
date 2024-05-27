@@ -1,4 +1,9 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
@@ -10,9 +15,10 @@ import java.util.List;
 import java.util.UUID;
 public class AuthorizedPOIDto extends POIDto {
     public AuthorizedPOIDto() {
+        this.setState(ContentState.UPLOADABLE);
     }
-    public AuthorizedPOIDto(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedTourist> tourists, List<Attachment> attachments) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments);
-        assert this.getState().equals(ContentState.UPLOADABLE);
+
+    public AuthorizedPOIDto(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
+        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments, contribution);
     }
 }

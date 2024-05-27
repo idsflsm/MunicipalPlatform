@@ -1,26 +1,25 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.user;
 
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 
 import java.util.function.Predicate;
 
-public class AuthenticatedTouristCriteria {
-    public static Predicate<AuthenticatedTourist> hasUsername(String username) {
+public class AuthenticatedUserCriteria {
+    public static Predicate<AuthenticatedUser> hasUsername(String username) {
         if (!username.isBlank()) {
             return authenticatedUser -> authenticatedUser.getUsername().toLowerCase().contains(username.toLowerCase());
         } else {
             return authenticatedUser -> true;
         }
     }
-    public static Predicate<AuthenticatedTourist> hasName(String name) {
+    public static Predicate<AuthenticatedUser> hasName(String name) {
         if (!name.isBlank()) {
             return authenticatedUser -> authenticatedUser.getName().toLowerCase().contains(name.toLowerCase());
         } else {
             return authenticatedUser -> true;
         }
     }
-    public static Predicate<AuthenticatedTourist> hasSurname(String surname) {
+    public static Predicate<AuthenticatedUser> hasSurname(String surname) {
         if (!surname.isBlank()) {
             return authenticatedUser -> authenticatedUser.getSurname().toLowerCase().contains(surname.toLowerCase());
         } else {
@@ -28,11 +27,12 @@ public class AuthenticatedTouristCriteria {
         }
     }
     @SafeVarargs
-    public static Predicate<AuthenticatedTourist> criteriaBuilder(Predicate<AuthenticatedTourist>... predicates) {
-        Predicate<AuthenticatedTourist> result = contest -> true;
-        for (Predicate<AuthenticatedTourist> predicate : predicates) {
+    public static Predicate<AuthenticatedUser> criteriaBuilder(Predicate<AuthenticatedUser>... predicates) {
+        Predicate<AuthenticatedUser> result = user -> true;
+        for (Predicate<AuthenticatedUser> predicate : predicates) {
             result = result.and(predicate);
         }
         return result;
     }
 }
+

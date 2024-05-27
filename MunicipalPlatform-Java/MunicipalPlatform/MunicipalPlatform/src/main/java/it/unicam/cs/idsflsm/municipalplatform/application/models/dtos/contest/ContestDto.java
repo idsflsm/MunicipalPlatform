@@ -1,13 +1,13 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Getter
@@ -23,7 +23,7 @@ public class ContestDto {
     private Date expiryDate;
     private boolean hasWinner = false;
     @JsonManagedReference
-    private List<Contribution> contributions;
+    private List<ContributionDto> contributions = new ArrayList<ContributionDto>();
     @JsonManagedReference
-    private List<AuthenticatedTourist> participatingTourists;
+    private List<AuthenticatedUserDto> participatingUsers = new ArrayList<AuthenticatedUserDto>();
 }

@@ -1,23 +1,31 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.content.itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.attachment.IAttachmentService;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.itinerary.IItineraryService;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.poi.IPOIService;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
+import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.itinerary.ItineraryCriteria;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.AuthorizedAttachmentMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.PendingAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.AuthorizedItineraryMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.PendingItineraryMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.AuthorizedItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.PendingItineraryDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.AuthorizedAttachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.PendingAttachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.AuthorizedItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.PendingItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.itinerary.IItineraryRepository;
-import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.IAuthenticatedUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,47 +42,50 @@ import java.util.stream.Stream;
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class ItineraryService implements IItineraryService {
     private final IItineraryRepository _itineraryRepository;
-    private final IAttachmentService _attachmentService;
+//    private final IPOIService _poiService;
+//    private final IAttachmentService _attachmentService;
+//    private final IUserService _userService;
     @Override
     public void saveInRepository(Itinerary itinerary) {
         _itineraryRepository.save(itinerary);
     }
-    //TODO : CHANGE WITH AUTHENTICATEDUSERSERVICE
-    private final IAuthenticatedUserRepository _authenticatedUserRepository;
-    @Override
     public List<PendingItineraryDto> getAllPendingItineraries(Optional<Predicate<Itinerary>> predicate) {
-        List<PendingItinerary> itineraries = getItineraries(predicate, PendingItinerary.class);
+        List<Itinerary> itineraries = getItineraries(predicate, PendingItinerary.class);
         if (!itineraries.isEmpty()) {
-            return PendingItineraryMapper.toDto(itineraries);
+            return GenericItineraryMapper.toDto(itineraries, true).stream()
+                    .map(itineraryDto -> (PendingItineraryDto) itineraryDto)
+                    .toList();
         } else {
             return null;
         }
     }
     @Override
     public List<AuthorizedItineraryDto> getAllAuthorizedItineraries(Optional<Predicate<Itinerary>> predicate) {
-        List<AuthorizedItinerary> itineraries = getItineraries(predicate, AuthorizedItinerary.class);
+        List<Itinerary> itineraries = getItineraries(predicate, AuthorizedItinerary.class);
         if (!itineraries.isEmpty()) {
-            return AuthorizedItineraryMapper.toDto(itineraries);
+            return GenericItineraryMapper.toDto(itineraries, true).stream()
+                    .map(itineraryDto -> (AuthorizedItineraryDto) itineraryDto)
+                    .toList();
         } else {
             return null;
         }
     }
-    private <T extends Itinerary> List<T> getItineraries(Optional<Predicate<Itinerary>> predicate, Class<T> type) {
+    private List<Itinerary> getItineraries(Optional<Predicate<Itinerary>> predicate, Class<?> type) {
         Stream<Itinerary> itineraries = _itineraryRepository.findAll().stream();
-        return predicate.map(itineraryPredicate -> itineraries.filter(itineraryPredicate.and((type::isInstance)))
-                        .map(type::cast)
+        return predicate.map(itineraryPredicate -> itineraries
+                        .filter(itineraryPredicate.and((type::isInstance)))
                         .collect(Collectors.toList()))
-                .orElseGet(() -> itineraries.filter(type::isInstance)
-                        .map(type::cast)
+                .orElseGet(() -> itineraries
+                        .filter(type::isInstance)
                         .collect(Collectors.toList()));
     }
     @Override
     public PendingItineraryDto getPendingItineraryById(UUID id) {
-        return PendingItineraryMapper.toDto(getItineraryById(id, PendingItinerary.class));
+        return PendingItineraryMapper.toDto(getItineraryById(id, PendingItinerary.class), true);
     }
     @Override
     public AuthorizedItineraryDto getAuthorizedItineraryById(UUID id) {
-        return AuthorizedItineraryMapper.toDto(getItineraryById(id, AuthorizedItinerary.class));
+        return AuthorizedItineraryMapper.toDto(getItineraryById(id, AuthorizedItinerary.class), true);
     }
     private <T extends Itinerary> T getItineraryById(UUID id, Class<T> type) {
         Itinerary itinerary = _itineraryRepository.findById(id).orElse(null);
@@ -85,51 +96,57 @@ public class ItineraryService implements IItineraryService {
         }
     }
     @Override
-    public boolean addPendingItinerary(PendingItineraryDto itineraryDto) {
+    public PendingItineraryDto addPendingItinerary(PendingItineraryDto itineraryDto) {
         if (getItineraryById(itineraryDto.getId(), PendingItinerary.class) == null) {
-            PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto);
-            itinerary.setState(ContentState.VALIDABLE);
+            PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto, true);
+            itinerary.getItineraryPois().forEach(poi -> {
+                poi.getPoiItineraries().add(itinerary);
+                // _poiService.saveInRepository(poi);
+            });
             _itineraryRepository.save(itinerary);
-            return true;
+            return itineraryDto;
         } else {
-            return false;
+            return null;
         }
     }
     @Override
-    public boolean addAuthorizedItinerary(AuthorizedItineraryDto itineraryDto) {
+    public AuthorizedItineraryDto addAuthorizedItinerary(AuthorizedItineraryDto itineraryDto) {
         if (getItineraryById(itineraryDto.getId(), AuthorizedItinerary.class) == null) {
-            AuthorizedItinerary itinerary = AuthorizedItineraryMapper.toEntity(itineraryDto);
-            itinerary.setState(ContentState.UPLOADABLE);
+            AuthorizedItinerary itinerary = AuthorizedItineraryMapper.toEntity(itineraryDto, true);
+            itinerary.getItineraryPois().forEach(poi -> {
+                poi.getPoiItineraries().add(itinerary);
+                // _poiService.saveInRepository(poi);
+            });
             _itineraryRepository.save(itinerary);
-            return true;
+            return itineraryDto;
         } else {
-            return false;
+            return null;
         }
     }
-    @Override
-    public boolean deletePendingItineraryById(UUID id) {
-        PendingItinerary itinerary = getItineraryById(id, PendingItinerary.class);
-        if (itinerary != null) {
-            itinerary.setState(ContentState.REMOVABLE);
-            // _itineraryRepository.deleteById(id);
-            _itineraryRepository.save(itinerary);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    @Override
-    public boolean deleteAuthorizedItineraryById(UUID id) {
-        AuthorizedItinerary itinerary = getItineraryById(id, AuthorizedItinerary.class);
-        if (itinerary != null) {
-            itinerary.setState(ContentState.REMOVABLE);
-            // _itineraryRepository.deleteById(id);
-            _itineraryRepository.save(itinerary);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    @Override
+//    public boolean deletePendingItineraryById(UUID id) {
+//        PendingItinerary itinerary = getItineraryById(id, PendingItinerary.class);
+//        if (itinerary != null) {
+//            itinerary.setState(ContentState.REMOVABLE);
+//            // _itineraryRepository.deleteById(id);
+//            _itineraryRepository.save(itinerary);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//    @Override
+//    public boolean deleteAuthorizedItineraryById(UUID id) {
+//        AuthorizedItinerary itinerary = getItineraryById(id, AuthorizedItinerary.class);
+//        if (itinerary != null) {
+//            itinerary.setState(ContentState.REMOVABLE);
+//            // _itineraryRepository.deleteById(id);
+//            _itineraryRepository.save(itinerary);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 //    @Override
 //    public boolean deletePendingItinerary(PendingItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate) {
 //        if (getItineraries(predicate, PendingItinerary.class).get(0) != null) {
@@ -157,38 +174,35 @@ public class ItineraryService implements IItineraryService {
 //        }
 //    }
     @Override
-    public boolean updatePendingItinerary(PendingItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate) {
-        if (getItineraries(predicate, PendingItinerary.class).get(0) != null) {
-            PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto);
-            assert itinerary != null;
-            _itineraryRepository.save(itinerary);
-            return true;
-        } else {
-            return false;
-        }
+    public PendingItineraryDto updatePendingItinerary(PendingItineraryDto itineraryDto) {
+        PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto, true);
+        itinerary.getItineraryPois().forEach(poi -> {
+            poi.getPoiItineraries().add(itinerary);
+//            _poiService.saveInRepository(poi);
+        });
+        _itineraryRepository.save(itinerary);
+        return itineraryDto;
     }
     @Override
-    public boolean updateAuthorizedItinerary(AuthorizedItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate) {
-        if (getItineraries(predicate, AuthorizedItinerary.class).get(0) != null) {
-            AuthorizedItinerary itinerary = AuthorizedItineraryMapper.toEntity(itineraryDto);
-            assert itinerary != null;
-            _itineraryRepository.save(itinerary);
-            return true;
-        } else {
-            return false;
-        }
+    public AuthorizedItineraryDto updateAuthorizedItinerary(AuthorizedItineraryDto itineraryDto) {
+        AuthorizedItinerary itinerary = AuthorizedItineraryMapper.toEntity(itineraryDto, true);
+        itinerary.getItineraryPois().forEach(poi -> {
+            poi.getPoiItineraries().add(itinerary);
+//            _poiService.saveInRepository(poi);
+        });
+        _itineraryRepository.save(itinerary);
+        return itineraryDto;
     }
     @Override
-    public boolean validatePendingItinerary(PendingItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate, boolean validate) {
-        PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto);
-        assert itinerary != null;
-        if (getItineraries(predicate, PendingItinerary.class).get(0) != null) {
+    public PendingItineraryDto validatePendingItinerary(Optional<Predicate<Itinerary>> predicate, boolean validate) {
+        PendingItinerary itinerary = (PendingItinerary) getItineraries(predicate, PendingItinerary.class).get(0);
+        if (itinerary != null) {
             ContentState newState = (validate) ? ContentState.UPLOADABLE : ContentState.REMOVABLE;
             itinerary.setState(newState);
             _itineraryRepository.save(itinerary);
-            return true;
+            return PendingItineraryMapper.toDto(itinerary, true);
         } else {
-            return false;
+            return null;
         }
     }
 //    @Override
@@ -220,71 +234,99 @@ public class ItineraryService implements IItineraryService {
 //        }
 //    }
     @Override
-    public boolean savePendingItinerary(UUID id, UUID idAuthenticatedTourist) {
-        AuthenticatedTourist authenticatedTourist = (AuthenticatedTourist)(_authenticatedUserRepository.findById(idAuthenticatedTourist).orElse(null));
-        PendingItineraryDto itineraryDto = getPendingItineraryById(id);
-        if (authenticatedTourist != null && itineraryDto != null && itineraryDto.getState().equals(ContentState.UPLOADED)) {
-            PendingItinerary itinerary = PendingItineraryMapper.toEntity(itineraryDto);
-            authenticatedTourist.getItineraries().add(itinerary);
-            itinerary.getTourists().add(authenticatedTourist);
-            _authenticatedUserRepository.save(authenticatedTourist);
+    public PendingItineraryDto savePendingItinerary(UUID id, AuthenticatedUserDto userDto) {
+        AuthenticatedUser authenticatedUser = GenericAuthenticatedUserMapper.toEntity(userDto, true);
+        PendingItinerary itinerary = getItineraryById(id, PendingItinerary.class);
+        if (authenticatedUser != null && itinerary != null && itinerary.getState().equals(ContentState.UPLOADED)) {
+            authenticatedUser.getItineraries().add(itinerary);
+            itinerary.getUsers().add(authenticatedUser);
+//            _userService.saveInRepository(authenticatedUser);
             _itineraryRepository.save(itinerary);
-            return true;
+            return PendingItineraryMapper.toDto(itinerary, true);
         } else {
-            return false;
+            return null;
         }
     }
     @Override
-    public boolean saveAuthorizedItinerary(UUID id, UUID idAuthenticatedTourist) {
-        AuthenticatedTourist authenticatedTourist = (AuthenticatedTourist)(_authenticatedUserRepository.findById(idAuthenticatedTourist).orElse(null));
-        AuthorizedItineraryDto itineraryDto = getAuthorizedItineraryById(id);
-        if (authenticatedTourist != null && itineraryDto != null && itineraryDto.getState().equals(ContentState.UPLOADED)) {
-            AuthorizedItinerary itinerary = AuthorizedItineraryMapper.toEntity(itineraryDto);
-            authenticatedTourist.getItineraries().add(itinerary);
-            itinerary.getTourists().add(authenticatedTourist);
-            _authenticatedUserRepository.save(authenticatedTourist);
+    public AuthorizedItineraryDto saveAuthorizedItinerary(UUID id, AuthenticatedUserDto userDto) {
+        AuthenticatedUser authenticatedUser = GenericAuthenticatedUserMapper.toEntity(userDto, true);
+        AuthorizedItinerary itinerary = getItineraryById(id, AuthorizedItinerary.class);
+        if (authenticatedUser != null && itinerary != null && itinerary.getState().equals(ContentState.UPLOADED)) {
+            authenticatedUser.getItineraries().add(itinerary);
+            itinerary.getUsers().add(authenticatedUser);
+//            _userService.saveInRepository(authenticatedUser);
             _itineraryRepository.save(itinerary);
-            return true;
+            return AuthorizedItineraryMapper.toDto(itinerary, true);
         } else {
-            return false;
+            return null;
         }
     }
     @Override
-    public boolean addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Itinerary>> predicate) {
+    public List<PendingItineraryDto> uploadAllPendingItineraries() {
+        List<Itinerary> itineraries = getItineraries(Optional.of(ItineraryCriteria.criteriaBuilder(ItineraryCriteria.isPendingItinerary(), ItineraryCriteria.isInUploadableState())), PendingItinerary.class);
+        itineraries = itineraries.stream().peek(itinerary -> {
+            itinerary.setState(ContentState.UPLOADED);
+            _itineraryRepository.save(itinerary);
+        }).toList();
+        return GenericItineraryMapper.toDto(itineraries, true).stream().map(itineraryDto -> (PendingItineraryDto) itineraryDto).toList();
+    }
+    @Override
+    public PendingItineraryDto uploadPendingItinerary(UUID id) {
+        PendingItinerary itinerary = getItineraryById(id, PendingItinerary.class);
+        if (itinerary != null && itinerary.getState().equals(ContentState.UPLOADABLE)) {
+            itinerary.setState(ContentState.UPLOADED);
+            _itineraryRepository.save(itinerary);
+            return PendingItineraryMapper.toDto(itinerary, true);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public List<AuthorizedItineraryDto> uploadAllAuthorizedItineraries() {
+        List<Itinerary> itineraries = getItineraries(Optional.of(ItineraryCriteria.criteriaBuilder(ItineraryCriteria.isAuthorizedItinerary(), ItineraryCriteria.isInUploadableState())), AuthorizedItinerary.class);
+        itineraries = itineraries.stream().peek(itinerary -> {
+            itinerary.setState(ContentState.UPLOADED);
+            _itineraryRepository.save(itinerary);
+        }).toList();
+        return GenericItineraryMapper.toDto(itineraries, true).stream().map(itineraryDto -> (AuthorizedItineraryDto) itineraryDto).toList();
+    }
+    @Override
+    public AuthorizedItineraryDto uploadAuthorizedItinerary(UUID id) {
+        AuthorizedItinerary itinerary = getItineraryById(id, AuthorizedItinerary.class);
+        if (itinerary != null && itinerary.getState().equals(ContentState.UPLOADABLE)) {
+            itinerary.setState(ContentState.UPLOADED);
+            _itineraryRepository.save(itinerary);
+            return AuthorizedItineraryMapper.toDto(itinerary, true);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public AttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Itinerary>> predicate) {
         Itinerary itinerary = getItineraries(predicate, Itinerary.class).get(0);
         if (itinerary != null) {
-            boolean result = _attachmentService.addPendingAttachment(attachmentDto);
-            if (result) {
-                PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto);
-                itinerary.getAttachments().add(attachment);
-                attachment.setItinerary(itinerary);
-                _itineraryRepository.save(itinerary);
-                _attachmentService.saveInRepository(attachment);
-                return true;
-            } else {
-                return false;
-            }
+            PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto, true);
+            itinerary.getAttachments().add(attachment);
+            attachment.setItinerary(itinerary);
+            _itineraryRepository.save(itinerary);
+//                _attachmentService.saveInRepository(attachment);
+            return GenericAttachmentMapper.toDto(attachment, true);
         } else {
-            return false;
+            return null;
         }
     }
     @Override
-    public boolean addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Itinerary>> predicate) {
+    public AttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Itinerary>> predicate) {
         Itinerary itinerary = getItineraries(predicate, Itinerary.class).get(0);
         if (itinerary != null) {
-            boolean result = _attachmentService.addAuthorizedAttachment(attachmentDto);
-            if (result) {
-                AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto);
-                itinerary.getAttachments().add(attachment);
-                attachment.setItinerary(itinerary);
-                _itineraryRepository.save(itinerary);
-                _attachmentService.saveInRepository(attachment);
-                return true;
-            } else {
-                return false;
-            }
+            AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto, true);
+            itinerary.getAttachments().add(attachment);
+            attachment.setItinerary(itinerary);
+            _itineraryRepository.save(itinerary);
+//                _attachmentService.saveInRepository(attachment);
+            return GenericAttachmentMapper.toDto(attachment, true);
         } else {
-            return false;
+            return null;
         }
     }
 }

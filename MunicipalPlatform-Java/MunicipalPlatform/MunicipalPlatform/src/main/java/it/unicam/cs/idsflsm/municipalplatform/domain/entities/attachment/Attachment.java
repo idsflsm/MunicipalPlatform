@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +21,9 @@ import java.util.UUID;
 @Table(name = "attachment")
 public abstract class Attachment implements IAttachment {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    // @GeneratedValue(strategy = GenerationType.UUID)
+@Column(updatable = false, nullable = false)
+    private UUID id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Column(name = "description", nullable = true, unique = false)
@@ -40,20 +42,21 @@ public abstract class Attachment implements IAttachment {
     private Date expiryDate;
     @Column(name = "content_state", nullable = false, unique = false)
     private ContentState state;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "poi", nullable = true)
     private POI poi;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "itinerary", nullable = true)
     private Itinerary itinerary;
-    @OneToMany(mappedBy = "attachment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Report> reports;
+    @OneToMany(mappedBy = "attachment", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,
+            fetch = FetchType.EAGER)
+    private List<Report> reports = new ArrayList<Report>();
     public Attachment() {
     }
     public Attachment
             (UUID id, String name, String description, String author,
              Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+        
         this.name = name;
         this.description = description;
         this.author = author;
@@ -63,5 +66,15 @@ public abstract class Attachment implements IAttachment {
         this.poi = poi;
         this.itinerary = itinerary;
         this.reports = reports;
+    }
+    public void setNotNullPoi(POI poi) {
+        if (this.poi != null) {
+            this.setPoi(poi);
+        }
+    }
+    public void setNotNullItinerary(Itinerary itinerary) {
+        if (this.itinerary != null) {
+            this.setItinerary(itinerary);
+        }
     }
 }

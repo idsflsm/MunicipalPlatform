@@ -4,6 +4,8 @@ import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validator
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+
+import java.time.LocalDate;
 public class DateFormatValidator implements ConstraintValidator<ValidDateFormat, String> {
     @Override
     public void initialize(ValidDateFormat constraintAnnotation) {
@@ -15,8 +17,8 @@ public class DateFormatValidator implements ConstraintValidator<ValidDateFormat,
             return false;
         }
         try {
-            Date.fromString(s);
-            return true;
+            Date d = Date.fromString(s);
+            return !d.beforeThan(Date.toDate(LocalDate.now()));
         } catch (InvalidDateFormatException e1) {
             return false;
         }

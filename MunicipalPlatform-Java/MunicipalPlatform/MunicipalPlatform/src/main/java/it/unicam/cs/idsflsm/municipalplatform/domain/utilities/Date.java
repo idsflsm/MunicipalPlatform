@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
 
 import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidDateFormatException;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +17,7 @@ public class Date {
     private int day;
     private int month;
     private int year;
+    public static final Date DATE_MAX = new Date(31, 12, 2070);
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass()) {
@@ -32,14 +32,18 @@ public class Date {
                 && other.getYear() == this.getYear();
     }
     public static Date fromString(String dateString) {
-        String[] parts = dateString.split("/");
-        if (parts.length != 3) {
-            throw new InvalidDateFormatException();
+        if (dateString.isBlank()) {
+            return DATE_MAX;
+        } else {
+            String[] parts = dateString.split("/");
+            if (parts.length != 3) {
+                throw new InvalidDateFormatException();
+            }
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+            return new Date(day, month, year);
         }
-        int day = Integer.parseInt(parts[0]);
-        int month = Integer.parseInt(parts[1]);
-        int year = Integer.parseInt(parts[2]);
-        return new Date(day, month, year);
     }
     @Override
     public String toString() {
@@ -50,5 +54,8 @@ public class Date {
     }
     public static Date toDate(LocalDate localDate) {
         return new Date(localDate.getDayOfMonth(), localDate.getMonthValue(), localDate.getYear());
+    }
+    public boolean beforeThan(Date date) {
+        return this.toLocalDate().isBefore(date.toLocalDate());
     }
 }

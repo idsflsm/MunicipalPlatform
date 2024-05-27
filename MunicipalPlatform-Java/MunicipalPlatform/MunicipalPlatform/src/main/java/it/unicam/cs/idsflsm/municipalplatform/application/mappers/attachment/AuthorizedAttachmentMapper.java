@@ -1,60 +1,57 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.GenericPOIMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.report.ReportMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.AuthorizedAttachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.PendingAttachment;
 
 import java.util.List;
 import java.util.stream.Collectors;
 public class AuthorizedAttachmentMapper {
-    public static AuthorizedAttachmentDto toDto(AuthorizedAttachment attachment) {
-        if (attachment != null) {
-            return new AuthorizedAttachmentDto(
-                    attachment.getId(),
-                    attachment.getName(),
-                    attachment.getDescription(),
-                    attachment.getAuthor(),
-                    attachment.getCreationDate(),
-                    attachment.getExpiryDate(),
-                    attachment.getState(),
-                    attachment.getPoi(),
-                    attachment.getItinerary(),
-                    attachment.getReports()
-            );
-        } else {
+
+    public static AuthorizedAttachmentDto toDto(AuthorizedAttachment attachment, boolean includeRelatedEntities) {
+        if (attachment == null) {
             return null;
         }
+
+        AuthorizedAttachmentDto dto = new AuthorizedAttachmentDto();
+        dto.setId(attachment.getId());
+        dto.setName(attachment.getName());
+        dto.setDescription(attachment.getDescription());
+        dto.setAuthor(attachment.getAuthor());
+        dto.setCreationDate(attachment.getCreationDate());
+        dto.setExpiryDate(attachment.getExpiryDate());
+        dto.setState(attachment.getState());
+
+        if (includeRelatedEntities) {
+            dto.setPoi(GenericPOIMapper.toDto(attachment.getPoi(), false));
+            dto.setItinerary(GenericItineraryMapper.toDto(attachment.getItinerary(), false));
+            dto.setReports(ReportMapper.toDto(attachment.getReports(), false));
+        }
+
+        return dto;
     }
-    public static AuthorizedAttachment toEntity(AuthorizedAttachmentDto attachmentDto) {
-        if (attachmentDto != null) {
-            return new AuthorizedAttachment(
-                    attachmentDto.getId(),
-                    attachmentDto.getName(),
-                    attachmentDto.getDescription(),
-                    attachmentDto.getAuthor(),
-                    attachmentDto.getCreationDate(),
-                    attachmentDto.getExpiryDate(),
-                    attachmentDto.getState(),
-                    attachmentDto.getPoi(),
-                    attachmentDto.getItinerary(),
-                    attachmentDto.getReports()
-            );
-        } else {
+
+    public static AuthorizedAttachment toEntity(AuthorizedAttachmentDto dto, boolean includeRelatedEntities) {
+        if (dto == null) {
             return null;
         }
-    }
-    public static List<AuthorizedAttachmentDto> toDto(List<AuthorizedAttachment> attachments) {
-        if (attachments != null) {
-            return attachments.stream().map(AuthorizedAttachmentMapper::toDto).collect(Collectors.toList());
-        } else {
-            return null;
+
+        AuthorizedAttachment entity = new AuthorizedAttachment();
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setAuthor(dto.getAuthor());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setExpiryDate(dto.getExpiryDate());
+        entity.setState(dto.getState());
+
+        if (includeRelatedEntities) {
+            entity.setPoi(GenericPOIMapper.toEntity(dto.getPoi(), false));
+            entity.setItinerary(GenericItineraryMapper.toEntity(dto.getItinerary(), false));
+            entity.setReports(ReportMapper.toEntity(dto.getReports(), false));
         }
-    }
-    public static List<AuthorizedAttachment> toEntity(List<AuthorizedAttachmentDto> attachmentDtos) {
-        if (attachmentDtos != null) {
-            return attachmentDtos.stream().map(AuthorizedAttachmentMapper::toEntity).collect(Collectors.toList());
-        } else {
-            return null;
-        }
+
+        return entity;
     }
 }

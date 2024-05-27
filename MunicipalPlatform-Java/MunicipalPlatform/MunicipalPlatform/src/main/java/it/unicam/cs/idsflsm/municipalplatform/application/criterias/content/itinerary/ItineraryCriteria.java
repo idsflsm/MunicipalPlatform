@@ -27,7 +27,7 @@ public class ItineraryCriteria {
         return itinerary -> itinerary.getState().equals(ContentState.UPLOADED);
     }
     public static Predicate<Itinerary> hasName(String name) {
-        if (!name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             return itinerary -> itinerary.getName().toLowerCase().contains(name.toLowerCase());
         } else {
             return itinerary -> true;
@@ -41,7 +41,7 @@ public class ItineraryCriteria {
         }
     }
     public static Predicate<Itinerary> hasDescription(String description) {
-        if (!description.isBlank()) {
+        if (description != null && !description.isBlank()) {
             return attachment -> attachment.getDescription().toLowerCase().contains(description.toLowerCase());
         } else {
             // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
@@ -49,7 +49,7 @@ public class ItineraryCriteria {
         }
     }
     public static Predicate<Itinerary> hasAuthor(String author) {
-        if (!author.isBlank()) {
+        if (author != null && !author.isBlank()) {
             return attachment -> attachment.getAuthor().toLowerCase().contains(author.toLowerCase());
         } else {
             // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK

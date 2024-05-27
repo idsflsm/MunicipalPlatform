@@ -14,7 +14,7 @@ public class OnlyLettersStringValidator implements ConstraintValidator<OnlyLette
         if (s == null || s.isEmpty()) {
             return false;
         }
-        return Pattern.compile("[a-zA-Z]+")
+        return Pattern.compile("[a-zA-Z\\s]+")
                 .matcher(s)
                 .matches();
     }

@@ -11,8 +11,9 @@ public interface IReportService {
     void saveInRepository(Report report);
     List<ReportDto> getAllReports(Optional<Predicate<Report>> predicate);
     ReportDto getReportById(UUID id);
-//    boolean addReport(ReportDto reportDto, Attachment attachment);
-    boolean deleteReportById(UUID id);
+//    ReportDto addReport(ReportDto reportDto);
+//    ReportDto deleteReportById(UUID id);
 //    boolean deleteReport(ReportDto report, Optional<Predicate<Report>> predicate);
-    boolean updateReport(ReportDto reportDto, Optional<Predicate<Report>> predicate);
+    ReportDto validateReport(UUID id, boolean validate);
+    Attachment getReportAttachment(UUID idReport);
 }

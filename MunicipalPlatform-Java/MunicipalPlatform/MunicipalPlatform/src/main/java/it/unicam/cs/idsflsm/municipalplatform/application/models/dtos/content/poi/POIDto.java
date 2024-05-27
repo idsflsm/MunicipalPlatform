@@ -1,6 +1,12 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
@@ -12,6 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Getter
@@ -26,11 +33,16 @@ public abstract class POIDto {
     private String author;
     private Date creationDate;
     private Date expiryDate;
-    private ContentState state = ContentState.VALIDABLE;
+    private ContentState state;
+    @JsonIgnore
     @JsonBackReference
-    private List<Itinerary> poiItineraries;
+    private List<ItineraryDto> poiItineraries = new ArrayList<ItineraryDto>();
+    @JsonIgnore
     @JsonBackReference
-    private List<AuthenticatedTourist> tourists;
+    private List<AuthenticatedUserDto> tourists = new ArrayList<AuthenticatedUserDto>();
     @JsonManagedReference
-    private List<Attachment> attachments;
+    private List<AttachmentDto> attachments = new ArrayList<AttachmentDto>();
+    @JsonIgnore
+    @JsonBackReference
+    private ContributionDto contribution;
 }

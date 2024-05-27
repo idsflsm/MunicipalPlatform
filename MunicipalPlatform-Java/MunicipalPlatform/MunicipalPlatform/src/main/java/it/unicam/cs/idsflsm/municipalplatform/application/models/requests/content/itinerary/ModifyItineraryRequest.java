@@ -1,18 +1,27 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.content.itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidDateFormat;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.OnlyLettersString;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidCoordinate;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
+import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class ModifyItineraryRequest {
+//    @NotNull
+//    @NotBlank
+//    @ValidUsername
+//    private String username;
+    @NotNull
+    @ValidUUID
+    private UUID idUser;
+
     @NotNull
     @NotBlank
     @OnlyLettersString
@@ -34,7 +43,8 @@ public abstract class ModifyItineraryRequest {
     @OnlyLettersString
     private String author;
     @NotNull
-    @NotBlank
     @ValidDateFormat
     private String expiryDate;
+    @NotNull
+    private List<UUID> pois;
 }

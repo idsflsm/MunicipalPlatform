@@ -1,7 +1,9 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.attachment;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.attachment.IAttachmentService;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.report.IReportService;
+import it.unicam.cs.idsflsm.municipalplatform.application.criterias.attachment.AttachmentCriteria;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.AuthorizedAttachmentMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.PendingAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.report.ReportMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
@@ -29,45 +31,53 @@ import java.util.stream.Stream;
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class AttachmentService implements IAttachmentService {
     private final IAttachmentRepository _attachmentRepository;
-    private final IReportService _reportService;
+//    private final IReportService _reportService;
     @Override
     public void saveInRepository(Attachment attachment) {
         _attachmentRepository.save(attachment);
     }
     @Override
+    public void deleteFromRepository(Attachment attachment) {
+        _attachmentRepository.delete(attachment);
+    }
+    @Override
     public List<PendingAttachmentDto> getAllPendingAttachments(Optional<Predicate<Attachment>> predicate) {
-        List<PendingAttachment> attachments = getAttachments(predicate, PendingAttachment.class);
+        List<Attachment> attachments = getAttachments(predicate, PendingAttachment.class);
         if (!attachments.isEmpty()) {
-            return PendingAttachmentMapper.toDto(attachments);
+            return GenericAttachmentMapper.toDto(attachments, true).stream()
+                    .map(attachmentDto -> (PendingAttachmentDto) attachmentDto)
+                    .toList();
         } else {
             return null;
         }
     }
     @Override
     public List<AuthorizedAttachmentDto> getAllAuthorizedAttachments(Optional<Predicate<Attachment>> predicate) {
-        List<AuthorizedAttachment> attachments = getAttachments(predicate, AuthorizedAttachment.class);
+        List<Attachment> attachments = getAttachments(predicate, AuthorizedAttachment.class);
         if (!attachments.isEmpty()) {
-            return AuthorizedAttachmentMapper.toDto(attachments);
+            return GenericAttachmentMapper.toDto(attachments, true).stream()
+                    .map(attachmentDto -> (AuthorizedAttachmentDto) attachmentDto)
+                    .toList();
         } else {
             return null;
         }
     }
-    private <T extends Attachment> List<T> getAttachments(Optional<Predicate<Attachment>> predicate, Class<T> type) {
+    private List<Attachment> getAttachments(Optional<Predicate<Attachment>> predicate, Class<?> type) {
         Stream<Attachment> attachments = _attachmentRepository.findAll().stream();
-        return predicate.map(attachmentPredicate -> attachments.filter(attachmentPredicate.and((type::isInstance)))
-                        .map(type::cast)
+        return predicate.map(attachmentPredicate -> attachments
+                        .filter(attachmentPredicate.and((type::isInstance)))
                         .collect(Collectors.toList()))
-                .orElseGet(() -> attachments.filter(type::isInstance)
-                        .map(type::cast)
+                .orElseGet(() -> attachments
+                        .filter(type::isInstance)
                         .collect(Collectors.toList()));
     }
     @Override
     public PendingAttachmentDto getPendingAttachmentById(UUID id) {
-        return PendingAttachmentMapper.toDto(getAttachmentById(id, PendingAttachment.class));
+        return PendingAttachmentMapper.toDto(getAttachmentById(id, PendingAttachment.class), true);
     }
     @Override
     public AuthorizedAttachmentDto getAuthorizedAttachmentById(UUID id) {
-        return AuthorizedAttachmentMapper.toDto(getAttachmentById(id, AuthorizedAttachment.class));
+        return AuthorizedAttachmentMapper.toDto(getAttachmentById(id, AuthorizedAttachment.class), true);
     }
     private <T extends Attachment> T getAttachmentById(UUID id, Class<T> type) {
         Attachment attachment = _attachmentRepository.findById(id).orElse(null);
@@ -77,54 +87,54 @@ public class AttachmentService implements IAttachmentService {
             return null;
         }
     }
-    // TODO : USELESS TO HAVE IT HERE
-    @Override
-    public boolean addPendingAttachment(PendingAttachmentDto attachmentDto) {
-        // TODO : USEFUL CHECK ONLY FOR DUPLICATED IDs (PRETTY USELESS)
-        if (getAttachmentById(attachmentDto.getId(), PendingAttachment.class) == null) {
-            PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto);
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    // TODO : USELESS TO HAVE IT HERE
-    @Override
-    public boolean addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto) {
-        // TODO : USEFUL CHECK ONLY FOR DUPLICATED IDs (PRETTY USELESS)
-        if (getAttachmentById(attachmentDto.getId(), AuthorizedAttachment.class) == null) {
-            AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto);
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    @Override
-    public boolean deletePendingAttachmentById(UUID id) {
-        PendingAttachment attachment = getAttachmentById(id, PendingAttachment.class);
-        if (attachment != null) {
-            attachment.setState(ContentState.REMOVABLE);
-            // _attachmentRepository.deleteById(id);
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    @Override
-    public boolean deleteAuthorizedAttachmentById(UUID id) {
-        AuthorizedAttachment attachment = getAttachmentById(id, AuthorizedAttachment.class);
-        if (attachment != null) {
-            attachment.setState(ContentState.REMOVABLE);
-            // _attachmentRepository.deleteById(id);
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    // TODO : USELESS TO HAVE IT HERE
+//    @Override
+//    public PendingAttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto) {
+//        // TODO : USEFUL CHECK ONLY FOR DUPLICATED IDs (PRETTY USELESS)
+//        if (getAttachmentById(attachmentDto.getId(), PendingAttachment.class) == null) {
+//            PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto, true);
+//            _attachmentRepository.save(attachment);
+//            return attachmentDto;
+//        } else {
+//            return null;
+//        }
+//    }
+//    // TODO : USELESS TO HAVE IT HERE
+//    @Override
+//    public AuthorizedAttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto) {
+//        // TODO : USEFUL CHECK ONLY FOR DUPLICATED IDs (PRETTY USELESS)
+//        if (getAttachmentById(attachmentDto.getId(), AuthorizedAttachment.class) == null) {
+//            AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto, true);
+//            _attachmentRepository.save(attachment);
+//            return attachmentDto;
+//        } else {
+//            return null;
+//        }
+//    }
+//    @Override
+//    public boolean deletePendingAttachmentById(UUID id) {
+//        PendingAttachment attachment = getAttachmentById(id, PendingAttachment.class);
+//        if (attachment != null) {
+//            attachment.setState(ContentState.REMOVABLE);
+//            // _attachmentRepository.deleteById(id);
+//            _attachmentRepository.save(attachment);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+//    @Override
+//    public boolean deleteAuthorizedAttachmentById(UUID id) {
+//        AuthorizedAttachment attachment = getAttachmentById(id, AuthorizedAttachment.class);
+//        if (attachment != null) {
+//            attachment.setState(ContentState.REMOVABLE);
+//            // _attachmentRepository.deleteById(id);
+//            _attachmentRepository.save(attachment);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 //    // TODO : PROBABLY USELESS
 //    @Override
 //    public boolean deletePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate) {
@@ -154,52 +164,87 @@ public class AttachmentService implements IAttachmentService {
 //        }
 //    }
     @Override
-    public boolean updatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate) {
-        if (getAttachments(predicate, PendingAttachment.class).get(0) != null) {
-            PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto);
-            assert attachment != null;
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
+    public PendingAttachmentDto updatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate) {
+        PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto, true);
+        _attachmentRepository.save(attachment);
+        return attachmentDto;
     }
     @Override
-    public boolean updateAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate) {
-        if (getAttachments(predicate, AuthorizedAttachment.class).get(0) != null) {
-            AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto);
-            assert attachment != null;
-            _attachmentRepository.save(attachment);
-            return true;
-        } else {
-            return false;
-        }
+    public AuthorizedAttachmentDto updateAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate) {
+        AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto, true);
+        _attachmentRepository.save(attachment);
+        return attachmentDto;
     }
     @Override
-    public boolean validatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate, boolean validate) {
-        PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto);
-        assert attachment != null;
-        if (getAttachments(predicate, PendingAttachment.class).get(0) != null) {
+    public PendingAttachmentDto validatePendingAttachment(Optional<Predicate<Attachment>> predicate, boolean validate) {
+        PendingAttachment attachment = (PendingAttachment) getAttachments(predicate, PendingAttachment.class).get(0);
+        if (attachment != null) {
             ContentState newState = (validate) ? ContentState.UPLOADABLE : ContentState.REMOVABLE;
             attachment.setState(newState);
             _attachmentRepository.save(attachment);
-            return true;
+            return PendingAttachmentMapper.toDto(attachment, true);
         } else {
-            return false;
+            return null;
         }
     }
     @Override
-    public boolean addReport(ReportDto reportDto, Optional<Predicate<Attachment>> predicate) {
+    public List<PendingAttachmentDto> uploadAllPendingAttachments() {
+        List<Attachment> attachments = getAttachments(Optional.of(AttachmentCriteria.criteriaBuilder(AttachmentCriteria.isPendingAttachment(), AttachmentCriteria.isInUploadableState())), PendingAttachment.class);
+        attachments = attachments.stream().peek(attachment -> {
+            attachment.setState(ContentState.UPLOADED);
+            _attachmentRepository.save(attachment);
+        })
+        .toList();
+        return GenericAttachmentMapper.toDto(attachments, true).stream().map(attachmentDto -> (PendingAttachmentDto) attachmentDto).toList();
+    }
+    @Override
+    public PendingAttachmentDto uploadPendingAttachment(UUID id) {
+        PendingAttachment attachment = getAttachmentById(id, PendingAttachment.class);
+        if (attachment != null && attachment.getState().equals(ContentState.UPLOADABLE)) {
+            attachment.setState(ContentState.UPLOADED);
+            _attachmentRepository.save(attachment);
+            return PendingAttachmentMapper.toDto(attachment, true);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public List<AuthorizedAttachmentDto> uploadAllAuthorizedAttachments() {
+        List<Attachment> attachments = getAttachments(Optional.of(AttachmentCriteria.criteriaBuilder(AttachmentCriteria.isAuthorizedAttachment(), AttachmentCriteria.isInUploadableState())), AuthorizedAttachment.class);
+        attachments = attachments.stream().peek(attachment -> {
+            attachment.setState(ContentState.UPLOADED);
+            _attachmentRepository.save(attachment);
+        }).toList();
+        return GenericAttachmentMapper.toDto(attachments, true).stream().map(attachmentDto -> (AuthorizedAttachmentDto) attachmentDto).toList();
+    }
+    @Override
+    public AuthorizedAttachmentDto uploadAuthorizedAttachment(UUID id) {
+        AuthorizedAttachment attachment = getAttachmentById(id, AuthorizedAttachment.class);
+        if (attachment != null && attachment.getState().equals(ContentState.UPLOADABLE)) {
+            attachment.setState(ContentState.UPLOADED);
+            _attachmentRepository.save(attachment);
+            return AuthorizedAttachmentMapper.toDto(attachment, true);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public ReportDto addReport(ReportDto reportDto, Optional<Predicate<Attachment>> predicate) {
         Attachment attachment = getAttachments(predicate, Attachment.class).get(0);
         if (attachment != null) {
-            Report report = ReportMapper.toEntity(reportDto);
+//            ReportDto result = _reportService.addReport(reportDto);
+//            if (result != null) {
+            Report report = ReportMapper.toEntity(reportDto, true);
             report.setAttachment(attachment);
             attachment.getReports().add(report);
             _attachmentRepository.save(attachment);
-            _reportService.saveInRepository(report);
-            return true;
+//            _reportService.saveInRepository(report);
+            return ReportMapper.toDto(report, true);
+//            } else {
+//                return null;
+//            }
         } else {
-            return false;
+            return null;
         }
     }
 }

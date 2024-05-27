@@ -12,6 +12,7 @@ public class UsernameValidator implements ConstraintValidator<ValidUsername, Str
         if (s == null || s.isEmpty()) {
             return false;
         }
-        return s.matches("^[a-zA-Z0-9_-]{3,16}$");
+        return s.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        );
     }
 }

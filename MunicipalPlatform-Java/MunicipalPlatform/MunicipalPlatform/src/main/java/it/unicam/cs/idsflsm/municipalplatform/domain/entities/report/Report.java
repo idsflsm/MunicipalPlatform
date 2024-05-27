@@ -13,17 +13,18 @@ import java.util.UUID;
 @Table(name = "report")
 public class Report implements IReport {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    // @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
     @Column(name = "motivation", nullable = false, unique = false)
     private String motivation;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.REMOVE*/)
     @JoinColumn(name = "attachment", nullable = true)
     private Attachment attachment;
     public Report() {
     }
     public Report(UUID id, String motivation, Attachment attachment) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+        
         this.motivation = motivation;
         this.attachment = attachment;
     }

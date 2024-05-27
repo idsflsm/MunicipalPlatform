@@ -10,19 +10,22 @@ import java.util.UUID;
 import java.util.function.Predicate;
 public interface IAttachmentService {
     void saveInRepository(Attachment attachment);
+    void deleteFromRepository(Attachment attachment);
     List<PendingAttachmentDto> getAllPendingAttachments(Optional<Predicate<Attachment>> predicate);
     List<AuthorizedAttachmentDto> getAllAuthorizedAttachments(Optional<Predicate<Attachment>> predicate);
     PendingAttachmentDto getPendingAttachmentById(UUID id);
     AuthorizedAttachmentDto getAuthorizedAttachmentById(UUID id);
-    boolean addPendingAttachment(PendingAttachmentDto attachmentDto);
-    boolean addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto);
-    boolean deletePendingAttachmentById(UUID id);
-    boolean deleteAuthorizedAttachmentById(UUID id);
-//    boolean deletePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
-//    boolean deleteAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
-    boolean updatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
-    boolean updateAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
-    boolean validatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate, boolean validate);
+//    PendingAttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto);
+//    AuthorizedAttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto);
+//    boolean deletePendingAttachmentById(UUID id);
+//    boolean deleteAuthorizedAttachmentById(UUID id);
+    PendingAttachmentDto updatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
+    AuthorizedAttachmentDto updateAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
+    PendingAttachmentDto validatePendingAttachment(Optional<Predicate<Attachment>> predicate, boolean validate);
+    List<PendingAttachmentDto> uploadAllPendingAttachments();
+    PendingAttachmentDto uploadPendingAttachment(UUID id);
+    List<AuthorizedAttachmentDto> uploadAllAuthorizedAttachments();
+    AuthorizedAttachmentDto uploadAuthorizedAttachment(UUID id);
 
-    boolean addReport(ReportDto reportDto, Optional<Predicate<Attachment>> predicate);
+    ReportDto addReport(ReportDto reportDto, Optional<Predicate<Attachment>> predicate);
 }

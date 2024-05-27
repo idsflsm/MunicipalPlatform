@@ -17,8 +17,9 @@ import java.util.UUID;
 @Setter
 public abstract class Content implements IContent {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    // @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
     @Column(name = "name", nullable = false, unique = true)
     private String name;
     @Embedded
@@ -38,6 +39,7 @@ public abstract class Content implements IContent {
     @AttributeOverride(name = "month", column = @Column(name = "content_expiry_date_month"))
     @AttributeOverride(name = "year", column = @Column(name = "content_expiry_date_year"))
     private Date expiryDate;
+    @Enumerated(EnumType.STRING)
     @Column(name = "content_state", nullable = false, unique = false)
     private ContentState state;
     public Content() {
@@ -45,7 +47,7 @@ public abstract class Content implements IContent {
     public Content
             (UUID id, String name, Coordinates coordinates, String description,
              String author, Date creationDate, Date expiryDate, ContentState state) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.description = description;

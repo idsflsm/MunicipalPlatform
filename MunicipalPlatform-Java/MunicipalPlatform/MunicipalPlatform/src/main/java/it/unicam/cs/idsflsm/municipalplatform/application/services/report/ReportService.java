@@ -33,7 +33,7 @@ public class ReportService implements IReportService {
                         .collect(Collectors.toList()))
                 .orElseGet(_reportRepository::findAll);
         if (!result.isEmpty()) {
-            return ReportMapper.toDto(result);
+            return ReportMapper.toDto(result, true);
         } else {
             return null;
         }
@@ -42,36 +42,34 @@ public class ReportService implements IReportService {
     public ReportDto getReportById(UUID id) {
         Report report = _reportRepository.findById(id).orElse(null);
         if (report != null) {
-            return ReportMapper.toDto(report);
+            return ReportMapper.toDto(report, true);
         } else {
             return null;
         }
     }
 //    @Override
-//    public boolean addReport(ReportDto reportDto, Attachment attachment) {
+//    public ReportDto addReport(ReportDto reportDto) {
 //        if (getReportById(reportDto.getId()) == null) {
-//            Report report = ReportMapper.toEntity(reportDto);
-//            report.setAttachment(attachment);
-//            attachment.getReports().add(report);
+//            Report report = ReportMapper.toEntity(reportDto, true);
 //            _reportRepository.save(report);
-//            return true;
+//            return reportDto;
 //        } else {
-//            return false;
+//            return null;
 //        }
 //    }
-    @Override
-    public boolean deleteReportById(UUID id) {
-        Report report = _reportRepository.findById(id).orElse(null);
-        if (report != null) {
-            Attachment attachment = report.getAttachment();
-            report.setAttachment(null);
-            attachment.getReports().remove(report);
-            _reportRepository.delete(report);
-            return true;
-        } else {
-            return false;
-        }
-    }
+//    @Override
+//    public ReportDto deleteReportById(UUID id) {
+//        Report report = _reportRepository.findById(id).orElse(null);
+//        if (report != null) {
+//            Attachment attachment = report.getAttachment();
+//            report.setAttachment(null);
+//            attachment.getReports().remove(report);
+//            _reportRepository.delete(report);
+//            return ReportMapper.toDto(report, true);
+//        } else {
+//            return null;
+//        }
+//    }
 //    @Override
 //    public boolean deleteReport(ReportDto reportDto, Optional<Predicate<Report>> predicate) {
 //        if (getAllReports(predicate).get(0) != null) {
@@ -84,14 +82,39 @@ public class ReportService implements IReportService {
 //        }
 //    }
     @Override
-    public boolean updateReport(ReportDto reportDto, Optional<Predicate<Report>> predicate) {
-        if (getAllReports(predicate).get(0) != null) {
-            Report report = ReportMapper.toEntity(reportDto);
-            assert report != null;
-            _reportRepository.save(report);
-            return true;
+    public ReportDto validateReport(UUID id, boolean validate) {
+        Report report = _reportRepository.findById(id).orElse(null);
+        if (report != null) {
+            if (!validate) {
+                report.getAttachment().getReports().remove(report);
+                report.setAttachment(null);
+                _reportRepository.delete(report);
+            } else {
+                Attachment attachment = report.getAttachment();
+                if (attachment.getPoi() != null) {
+                    attachment.getPoi().getAttachments().remove(attachment);
+                }
+                if (attachment.getItinerary() != null) {
+                    attachment.getItinerary().getAttachments().remove(attachment);
+                }
+                attachment.setNotNullPoi(null);
+                attachment.setNotNullItinerary(null);
+                attachment.getReports().remove(report);
+                report.setAttachment(null);
+                _reportRepository.delete(report);
+            }
+            return ReportMapper.toDto(report, true);
         } else {
-            return false;
+            return null;
+        }
+    }
+    @Override
+    public Attachment getReportAttachment(UUID idReport) {
+        Report report = _reportRepository.findById(idReport).orElse(null);
+        if (report != null) {
+            return report.getAttachment();
+        } else {
+            return null;
         }
     }
 }

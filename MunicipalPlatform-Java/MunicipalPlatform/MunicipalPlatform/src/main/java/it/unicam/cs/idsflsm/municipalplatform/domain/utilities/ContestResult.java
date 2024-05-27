@@ -9,7 +9,6 @@ public enum ContestResult {
     private ContestResult(int value) {
         this.value = value;
     }
-    // Method to convert string to enum
     public static ContestResult fromString(String text) {
         for (ContestResult result : ContestResult.values()) {
             if (result.name().equalsIgnoreCase(text)) {
@@ -18,7 +17,6 @@ public enum ContestResult {
         }
         throw new InvalidContestResultException(text);
     }
-    // Method to convert enum to string
     @Override
     public String toString() {
         return this.name();

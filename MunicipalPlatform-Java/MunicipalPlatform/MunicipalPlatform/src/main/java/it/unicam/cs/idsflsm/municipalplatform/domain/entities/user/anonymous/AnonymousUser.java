@@ -6,16 +6,20 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "anonymous_user")
 public abstract class AnonymousUser implements IAnonymousUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    // @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
+    private UUID id;
     public AnonymousUser() {
     }
     public AnonymousUser(UUID id) {
-        this.id = (id != null) ? id : UUID.randomUUID();
+        this.id = id;
     }
 }
