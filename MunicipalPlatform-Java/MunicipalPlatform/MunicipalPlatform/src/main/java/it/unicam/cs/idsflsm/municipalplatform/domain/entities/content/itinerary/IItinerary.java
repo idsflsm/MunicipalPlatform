@@ -5,6 +5,7 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.IContent;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
+import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IItinerary extends IContent {
     List<POI> getItineraryPois();
     List<AuthenticatedUser> getUsers();
     List<Attachment> getAttachments();
+
+    void detachFromEntities();
 }

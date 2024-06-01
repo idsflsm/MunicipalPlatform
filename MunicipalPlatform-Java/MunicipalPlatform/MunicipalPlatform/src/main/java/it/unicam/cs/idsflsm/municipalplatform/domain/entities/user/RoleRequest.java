@@ -1,5 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user;
 
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import jakarta.persistence.*;
@@ -21,5 +22,16 @@ public class RoleRequest {
     public RoleRequest(String username, UserRole role) {
         this.username = username;
         this.role = role;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        RoleRequest other = (RoleRequest) obj;
+        return other.getUsername().equals(this.getUsername());
     }
 }

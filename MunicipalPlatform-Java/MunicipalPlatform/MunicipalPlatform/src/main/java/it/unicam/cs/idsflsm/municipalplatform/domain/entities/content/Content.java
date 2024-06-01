@@ -45,9 +45,8 @@ public abstract class Content implements IContent {
     public Content() {
     }
     public Content
-            (UUID id, String name, Coordinates coordinates, String description,
+            (String name, Coordinates coordinates, String description,
              String author, Date creationDate, Date expiryDate, ContentState state) {
-        this.id = id;
         this.name = name;
         this.coordinates = coordinates;
         this.description = description;

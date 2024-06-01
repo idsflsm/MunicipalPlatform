@@ -16,7 +16,7 @@ public class PendingAttachment extends Attachment {
     public PendingAttachment() {
         this.setState(ContentState.VALIDABLE);
     }
-    public PendingAttachment(UUID id, String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
-        super(id, name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
+    public PendingAttachment(String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
+        super(name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
     }
 }

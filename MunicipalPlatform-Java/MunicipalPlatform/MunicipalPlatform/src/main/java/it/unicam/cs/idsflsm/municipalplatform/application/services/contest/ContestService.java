@@ -77,24 +77,26 @@ public class ContestService implements IContestService {
     }
     @Override
     public boolean deleteContestById(UUID id) {
-        if (getContestById(id) != null) {
-            _contestRepository.deleteById(id);
+        Contest contest = _contestRepository.findById(id).orElse(null);
+        if (contest != null) {
+            contest.detachFromEntities();
+            _contestRepository.delete(contest);
             return true;
         } else {
             return false;
         }
     }
-//    @Override
-//    public boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate) {
-//        if (getAllContests(predicate).get(0) != null) {
-//            Contest contest = ContestMapper.toEntity(contestDto);
-//            assert contest != null;
-//            _contestRepository.delete(contest);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
+    @Override
+    public boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate) {
+        if (getAllContests(predicate).get(0) != null) {
+            Contest contest = ContestMapper.toEntity(contestDto, true);
+            assert contest != null;
+            _contestRepository.delete(contest);
+            return true;
+        } else {
+            return false;
+        }
+    }
     @Override
     public List<ContributionDto> getAllContributions(Optional<Predicate<Contribution>> predicate) {
         List<Contribution> result = predicate.map(contributionPredicate -> _contributionRepository.findAll()
@@ -123,6 +125,7 @@ public class ContestService implements IContestService {
                 contribution.setState(ContentState.VALIDABLE);
                 contribution.setContest(contest);
                 contest.getContributions().add(contribution);
+                _contributionRepository.save(contribution);
                 _contestRepository.save(contest);
                 return ContributionMapper.toDto(contribution, true);
             }
@@ -133,8 +136,10 @@ public class ContestService implements IContestService {
     public boolean deleteContributionById(UUID id) {
         Contribution contribution = _contributionRepository.findById(id).orElse(null);
         if (contribution != null) {
-            contribution.setState(ContentState.REMOVABLE);
-            _contributionRepository.save(contribution);
+//            contribution.setState(ContentState.REMOVABLE);
+//            _contributionRepository.save(contribution);
+            contribution.detachFromEntities(false);
+            _contributionRepository.delete(contribution);
             return true;
         } else {
             return false;
@@ -197,10 +202,11 @@ public class ContestService implements IContestService {
         Contribution contribution = _contributionRepository.findById(idContribution).orElse(null);
         ContributionDto result = ContributionMapper.toDto(contribution, true);
         if (contribution != null && contribution.getResult().equals(ContestResult.WINNER)) {
-            contribution.setNotNullPoi(null);
-            contribution.setNotNullItinerary(null);
-            contribution.getContest().getContributions().remove(contribution);
-            contribution.setContest(null);
+//            contribution.setNotNullPoi(null);
+//            contribution.setNotNullItinerary(null);
+//            contribution.getContest().getContributions().remove(contribution);
+//            contribution.setContest(null);
+            contribution.detachFromEntities(true);
             _contributionRepository.delete(contribution);
             return result;
         } else {

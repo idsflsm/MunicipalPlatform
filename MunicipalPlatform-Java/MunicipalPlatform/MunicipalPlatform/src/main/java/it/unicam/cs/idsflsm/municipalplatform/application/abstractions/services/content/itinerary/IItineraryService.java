@@ -22,7 +22,7 @@ public interface IItineraryService {
     PendingItineraryDto addPendingItinerary(PendingItineraryDto itineraryDto);
     AuthorizedItineraryDto addAuthorizedItinerary(AuthorizedItineraryDto itineraryDto);
 //    boolean deletePendingItineraryById(UUID id);
-//    boolean deleteAuthorizedItineraryById(UUID id);
+    boolean deleteAuthorizedItineraryById(UUID id);
 //    boolean deletePendingItinerary(PendingItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate);
 //    boolean deleteAuthorizedItinerary(AuthorizedItineraryDto itineraryDto, Optional<Predicate<Itinerary>> predicate);
     PendingItineraryDto updatePendingItinerary(PendingItineraryDto itineraryDto);

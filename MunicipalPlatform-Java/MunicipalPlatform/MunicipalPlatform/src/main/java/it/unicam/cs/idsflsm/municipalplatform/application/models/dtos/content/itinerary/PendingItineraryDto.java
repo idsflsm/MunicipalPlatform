@@ -17,8 +17,7 @@ public class PendingItineraryDto extends ItineraryDto {
     public PendingItineraryDto() {
         this.setState(ContentState.VALIDABLE);
     }
-
-    public PendingItineraryDto(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<POIDto> itineraryPois, List<AuthenticatedUserDto> users, List<AttachmentDto> attachments, ContributionDto contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, itineraryPois, users, attachments, contribution);
+    public PendingItineraryDto(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<POIDto> itineraryPois, List<AuthenticatedUserDto> users, List<AttachmentDto> attachments, ContributionDto contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, itineraryPois, users, attachments, contribution);
     }
 }

@@ -23,9 +23,25 @@ public class Report implements IReport {
     private Attachment attachment;
     public Report() {
     }
-    public Report(UUID id, String motivation, Attachment attachment) {
-        
+    public Report(String motivation, Attachment attachment) {
         this.motivation = motivation;
         this.attachment = attachment;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        Report other = (Report) obj;
+        return other.getId().equals(this.getId())
+                || other.getMotivation().equalsIgnoreCase(this.getMotivation());
+    }
+    @Override
+    public void detachFromEntities() {
+        this.attachment.getReports().remove(this);
+        this.attachment = null;
     }
 }

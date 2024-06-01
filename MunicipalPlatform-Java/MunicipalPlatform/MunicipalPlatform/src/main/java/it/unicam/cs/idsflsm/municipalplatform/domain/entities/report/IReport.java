@@ -7,4 +7,6 @@ public interface IReport {
     void setId(UUID id);
     String getMotivation();
     void setMotivation(String motivation);
+
+    void detachFromEntities();
 }

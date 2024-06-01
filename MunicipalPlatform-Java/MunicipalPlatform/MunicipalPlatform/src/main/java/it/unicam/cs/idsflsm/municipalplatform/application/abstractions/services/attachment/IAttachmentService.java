@@ -18,7 +18,7 @@ public interface IAttachmentService {
 //    PendingAttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto);
 //    AuthorizedAttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto);
 //    boolean deletePendingAttachmentById(UUID id);
-//    boolean deleteAuthorizedAttachmentById(UUID id);
+    boolean deleteAuthorizedAttachmentById(UUID id);
     PendingAttachmentDto updatePendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
     AuthorizedAttachmentDto updateAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<Attachment>> predicate);
     PendingAttachmentDto validatePendingAttachment(Optional<Predicate<Attachment>> predicate, boolean validate);

@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class POIDto {
     private UUID id = UUID.randomUUID();
     private String name;
@@ -45,4 +43,27 @@ public abstract class POIDto {
     @JsonIgnore
     @JsonBackReference
     private ContributionDto contribution;
+    public POIDto() {
+    }
+    public POIDto(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
+        this.name = name;
+        this.coordinates = coordinates;
+        this.description = description;
+        this.author = author;
+        this.creationDate = creationDate;
+        this.expiryDate = expiryDate;
+        this.state = state;
+        this.poiItineraries = poiItineraries;
+        this.tourists = tourists;
+        this.attachments = attachments;
+        this.contribution = contribution;
+    }
+    public POIDto allWithState(ContentState state) {
+        if (this.state == state) {
+            this.setAttachments(this.attachments.stream().filter(attachmentDto -> attachmentDto.getState().equals(ContentState.UPLOADED)).toList());
+            return this;
+        } else {
+            return null;
+        }
+    }
 }

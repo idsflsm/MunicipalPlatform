@@ -5,14 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.report.ReportDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -20,8 +15,6 @@ import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class AttachmentDto {
     private UUID id = UUID.randomUUID();
     private String name;
@@ -38,4 +31,27 @@ public abstract class AttachmentDto {
     private ItineraryDto itinerary;
     @JsonManagedReference
     private List<ReportDto> reports = new ArrayList<ReportDto>();
+    public AttachmentDto() {
+    }
+    public AttachmentDto(String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POIDto poi, ItineraryDto itinerary, List<ReportDto> reports) {
+        this.name = name;
+        this.description = description;
+        this.author = author;
+        this.creationDate = creationDate;
+        this.expiryDate = expiryDate;
+        this.state = state;
+        this.poi = poi;
+        this.itinerary = itinerary;
+        this.reports = reports;
+    }
+    public AttachmentDto allWithState(ContentState state) {
+        if (this.state == state) {
+            if (state.equals(ContentState.UPLOADED)) {
+                this.setReports(new ArrayList<ReportDto>());
+            }
+            return this;
+        } else {
+            return null;
+        }
+    }
 }

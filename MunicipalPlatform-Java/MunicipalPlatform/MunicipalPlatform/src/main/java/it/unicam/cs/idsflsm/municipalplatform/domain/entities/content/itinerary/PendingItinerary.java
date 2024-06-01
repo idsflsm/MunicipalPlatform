@@ -19,8 +19,7 @@ public class PendingItinerary extends Itinerary {
     public PendingItinerary() {
         this.setState(ContentState.VALIDABLE);
     }
-
-    public PendingItinerary(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<POI> itineraryPois, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, itineraryPois, users, attachments, contribution);
+    public PendingItinerary(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<POI> itineraryPois, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, itineraryPois, users, attachments, contribution);
     }
 }

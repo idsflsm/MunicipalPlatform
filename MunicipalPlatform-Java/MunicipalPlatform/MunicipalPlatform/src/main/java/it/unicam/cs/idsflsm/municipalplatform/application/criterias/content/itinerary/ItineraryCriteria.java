@@ -1,4 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.itinerary;
+import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi.POICriteria;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.AuthorizedItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.PendingItinerary;
@@ -6,6 +7,7 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
+import java.util.UUID;
 import java.util.function.Predicate;
 public class ItineraryCriteria {
     public static Predicate<Itinerary> isPendingItinerary() {
@@ -25,6 +27,13 @@ public class ItineraryCriteria {
     }
     public static Predicate<Itinerary> isInUploadedState() {
         return itinerary -> itinerary.getState().equals(ContentState.UPLOADED);
+    }
+    public static Predicate<Itinerary> hasId(UUID id) {
+        if (id != null) {
+            return itinerary -> itinerary.getId().equals(id);
+        } else {
+            return itinerary -> true;
+        }
     }
     public static Predicate<Itinerary> hasName(String name) {
         if (name != null && !name.isBlank()) {

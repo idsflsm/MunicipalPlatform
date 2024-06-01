@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class AuthenticatedUserDto {
     private UUID id = UUID.randomUUID();
     private String username;
@@ -36,6 +34,18 @@ public abstract class AuthenticatedUserDto {
     @JsonBackReference
     private List<ContestDto> participatedContests = new ArrayList<ContestDto>();
     private UserRole role = UserRole.AUTHENTICATED_TOURIST;
+    public AuthenticatedUserDto() {
+    }
+    public AuthenticatedUserDto(String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.pois = pois;
+        this.itineraries = itineraries;
+        this.participatedContests = participatedContests;
+        this.role = role;
+    }
     @Override
     public boolean equals(Object obj) {
         if (obj == null || obj.getClass() != this.getClass()) {

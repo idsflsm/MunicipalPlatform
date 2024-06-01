@@ -83,7 +83,7 @@ public class UserController {
         if (_userService.appropriateUser(idAdmin, UserPermission.ADMINISTRATOR_USER_ROLE_UPDATE)) {
             AuthenticatedUserDto result = _userService.updateUserRole(idUser, request.isAccept());
             if (result != null) {
-                return new ResponseEntity<>(request.isAccept(),HttpStatus.OK);
+                return new ResponseEntity<>("Successful role update.",HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }

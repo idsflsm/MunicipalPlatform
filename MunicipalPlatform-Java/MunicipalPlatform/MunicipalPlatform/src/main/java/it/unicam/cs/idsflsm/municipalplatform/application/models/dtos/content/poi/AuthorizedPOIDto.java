@@ -17,8 +17,7 @@ public class AuthorizedPOIDto extends POIDto {
     public AuthorizedPOIDto() {
         this.setState(ContentState.UPLOADABLE);
     }
-
-    public AuthorizedPOIDto(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments, contribution);
+    public AuthorizedPOIDto(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments, contribution);
     }
 }

@@ -1,6 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.configurations;
 
-import it.unicam.cs.idsflsm.municipalplatform.application.factories.AuthenticatedUserFactory;
+import it.unicam.cs.idsflsm.municipalplatform.application.factories.user.AuthenticatedUserBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.authenticated.IAuthenticatedUserRepository;
 import lombok.AllArgsConstructor;
@@ -16,13 +16,15 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final PasswordEncoder _passwordEncoder;
     @Override
     public void run(String... args) throws Exception {
-        var user = AuthenticatedUserFactory.createUser(UserRole.ADMINISTRATOR);
+        AuthenticatedUserBuilderFactory factory = new AuthenticatedUserBuilderFactory();
+        var builder = factory.createAuthenticatedUserBuilder(UserRole.ADMINISTRATOR);
+        builder.setUsername("administrator");
+        builder.setPassword(_passwordEncoder.encodePassword("MunPlatform01!"));
+        builder.setName("admin");
+        builder.setSurname("istrator");
+        builder.setRole(UserRole.ADMINISTRATOR);
+        var user = builder.build();
         user.setId(UUID.randomUUID());
-        user.setUsername("administrator");
-        user.setPassword(_passwordEncoder.encodePassword("MunPlatform01!"));
-        user.setName("admin");
-        user.setSurname("istrator");
-        user.setRole(UserRole.ADMINISTRATOR);
         _authenticatedUserRepository.save(user);
         // TODO : (NOT TODO) : FOR DEBUGGING PURPOSES ONLY
         System.out.println("\n\nAdministrator ID: " + user.getId() + "\n\n");

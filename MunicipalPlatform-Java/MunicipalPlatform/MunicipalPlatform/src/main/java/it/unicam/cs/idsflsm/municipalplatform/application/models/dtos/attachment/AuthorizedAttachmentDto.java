@@ -14,7 +14,7 @@ public class AuthorizedAttachmentDto extends AttachmentDto {
     public AuthorizedAttachmentDto() {
         this.setState(ContentState.UPLOADABLE);
     }
-    public AuthorizedAttachmentDto(UUID id, String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POIDto poi, ItineraryDto itinerary, List<ReportDto> reports) {
-        super(id, name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
+    public AuthorizedAttachmentDto(String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POIDto poi, ItineraryDto itinerary, List<ReportDto> reports) {
+        super(name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
     }
 }

@@ -1,4 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -36,10 +37,10 @@ public class Contest implements IContest {
     private Date expiryDate;
     @Column(name = "has_winner", nullable = false, unique = false)
     private boolean hasWinner = false;
-    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL, orphanRemoval = true,
+    @OneToMany(mappedBy = "contest", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
             fetch = FetchType.EAGER)
     private List<Contribution> contributions = new ArrayList<Contribution>();
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @JoinTable(
             name = "contest_participants",
             joinColumns = @JoinColumn(name = "contest_id"),
@@ -48,8 +49,7 @@ public class Contest implements IContest {
     private List<AuthenticatedUser> participatingUsers = new ArrayList<AuthenticatedUser>();
     public Contest() {
     }
-    public Contest(UUID id, String name, String author, String description, Date creationDate, Date expiryDate, boolean hasWinner, List<Contribution> contributions, List<AuthenticatedUser> participatingUsers) {
-        
+    public Contest(String name, String author, String description, Date creationDate, Date expiryDate, boolean hasWinner, List<Contribution> contributions, List<AuthenticatedUser> participatingUsers) {
         this.name = name;
         this.author = author;
         this.description = description;
@@ -58,5 +58,22 @@ public class Contest implements IContest {
         this.hasWinner = hasWinner;
         this.contributions = contributions;
         this.participatingUsers = participatingUsers;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        Contest other = (Contest) obj;
+        return other.getId().equals(this.getId())
+                || other.getName().equalsIgnoreCase(this.getName());
+    }
+    @Override
+    public void detachFromEntities() {
+        this.participatingUsers.forEach(authenticatedUser -> authenticatedUser.getParticipatedContests().remove(this));
+        setParticipatingUsers(new ArrayList<AuthenticatedUser>());
     }
 }

@@ -20,8 +20,6 @@ import java.util.List;
 import java.util.UUID;
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class ItineraryDto {
     private UUID id = UUID.randomUUID();
     private String name;
@@ -43,4 +41,28 @@ public abstract class ItineraryDto {
     @JsonIgnore
     @JsonBackReference
     private ContributionDto contribution;
+    public ItineraryDto() {
+    }
+    public ItineraryDto(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<POIDto> itineraryPois, List<AuthenticatedUserDto> users, List<AttachmentDto> attachments, ContributionDto contribution) {
+        this.name = name;
+        this.coordinates = coordinates;
+        this.description = description;
+        this.author = author;
+        this.creationDate = creationDate;
+        this.expiryDate = expiryDate;
+        this.state = state;
+        this.itineraryPois = itineraryPois;
+        this.users = users;
+        this.attachments = attachments;
+        this.contribution = contribution;
+    }
+    public ItineraryDto allWithState(ContentState state) {
+        if (this.state == state) {
+            this.setItineraryPois(this.itineraryPois.stream().filter(poiDto -> poiDto.getState().equals(ContentState.UPLOADED)).toList());
+            this.setAttachments(this.attachments.stream().filter(attachmentDto -> attachmentDto.getState().equals(ContentState.UPLOADED)).toList());
+            return this;
+        } else {
+            return null;
+        }
+    }
 }

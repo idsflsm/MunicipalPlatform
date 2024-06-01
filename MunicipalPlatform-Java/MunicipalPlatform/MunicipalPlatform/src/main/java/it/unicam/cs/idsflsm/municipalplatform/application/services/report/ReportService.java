@@ -91,16 +91,18 @@ public class ReportService implements IReportService {
                 _reportRepository.delete(report);
             } else {
                 Attachment attachment = report.getAttachment();
-                if (attachment.getPoi() != null) {
-                    attachment.getPoi().getAttachments().remove(attachment);
-                }
-                if (attachment.getItinerary() != null) {
-                    attachment.getItinerary().getAttachments().remove(attachment);
-                }
-                attachment.setNotNullPoi(null);
-                attachment.setNotNullItinerary(null);
-                attachment.getReports().remove(report);
-                report.setAttachment(null);
+//                if (attachment.getPoi() != null) {
+//                    attachment.getPoi().getAttachments().remove(attachment);
+//                }
+//                if (attachment.getItinerary() != null) {
+//                    attachment.getItinerary().getAttachments().remove(attachment);
+//                }
+//                attachment.setNotNullPoi(null);
+//                attachment.setNotNullItinerary(null);
+//                attachment.getReports().remove(report);
+//                report.setAttachment(null);
+                attachment.detachFromEntities();
+                report.detachFromEntities();
                 _reportRepository.delete(report);
             }
             return ReportMapper.toDto(report, true);

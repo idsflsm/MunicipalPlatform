@@ -1,5 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous;
 
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,5 +22,16 @@ public abstract class AnonymousUser implements IAnonymousUser {
     }
     public AnonymousUser(UUID id) {
         this.id = id;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        AnonymousUser other = (AnonymousUser) obj;
+        return other.getId().equals(this.getId());
     }
 }

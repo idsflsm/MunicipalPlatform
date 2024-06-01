@@ -1,5 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.poi;
 
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.AuthorizedPOIDto;
@@ -41,6 +42,6 @@ public interface IPOIService {
     List<AuthorizedPOIDto> uploadAllAuthorizedPOIs();
     AuthorizedPOIDto uploadAuthorizedPOI(UUID id);
 
-    PendingAttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate);
-    AuthorizedAttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate);
+    AttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate);
+    AttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate);
 }

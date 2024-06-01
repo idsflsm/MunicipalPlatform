@@ -108,15 +108,15 @@ public class ContestController {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<?> deleteContest(@PathVariable("id") UUID id) {
-//        boolean result = _contestService.deleteContestById(id);
-//        if (result) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteContest(@PathVariable("id") UUID id) {
+        boolean result = _contestService.deleteContestById(id);
+        if (result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("/contributions/contests/{idContest}")
     public ResponseEntity<?> getAllContributions(@PathVariable(value = "idContest", required = false) UUID idContest, @RequestParam UUID idUser) {
         if (_userService.appropriateUser(idUser, UserPermission.ANIMATOR_CONTRIBUTION_READ)) {

@@ -7,6 +7,8 @@ import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.poi.IPOIService;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.itinerary.ItineraryCriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi.POICriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.factories.content.itinerary.ItineraryBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.AuthorizedPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.GenericPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
@@ -62,8 +64,12 @@ public class ItineraryController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = ItineraryCriteria.isPendingItinerary().and(getAllCriterias(name, latitude, longitude, description, author, creationDate, expiryDate, state));
             List<PendingItineraryDto> pendingItineraryDtos = _itineraryService.getAllPendingItineraries(Optional.of(criterias));
+            pendingItineraryDtos.forEach(pendingItineraryDto -> {
+                pendingItineraryDto = (PendingItineraryDto) pendingItineraryDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!pendingItineraryDtos.isEmpty()) {
                 return new ResponseEntity<>(pendingItineraryDtos, HttpStatus.OK);
             } else {
@@ -89,8 +95,12 @@ public class ItineraryController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = ItineraryCriteria.isAuthorizedItinerary().and(getAllCriterias(name, latitude, longitude, description, author, creationDate, expiryDate, state));
             List<AuthorizedItineraryDto> authorizedItineraryDtos = _itineraryService.getAllAuthorizedItineraries(Optional.of(criterias));
+            authorizedItineraryDtos.forEach(authorizedItineraryDto -> {
+                authorizedItineraryDto = (AuthorizedItineraryDto) authorizedItineraryDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!authorizedItineraryDtos.isEmpty()) {
                 return new ResponseEntity<>(authorizedItineraryDtos, HttpStatus.OK);
             } else {
@@ -121,6 +131,7 @@ public class ItineraryController {
         PendingItineraryDto pendingItineraryDto = _itineraryService.getPendingItineraryById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded =  pendingItineraryDto.getState().equals(ContentState.UPLOADED);
+            pendingItineraryDto = (PendingItineraryDto) pendingItineraryDto.allWithState(ContentState.UPLOADED);
         }
         if (pendingItineraryDto != null && uploaded) {
             return new ResponseEntity<>(pendingItineraryDto, HttpStatus.OK);
@@ -134,6 +145,7 @@ public class ItineraryController {
         AuthorizedItineraryDto authorizedItineraryDto = _itineraryService.getAuthorizedItineraryById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded =  authorizedItineraryDto.getState().equals(ContentState.UPLOADED);
+            authorizedItineraryDto = (AuthorizedItineraryDto) authorizedItineraryDto.allWithState(ContentState.UPLOADED);
         }
         if (authorizedItineraryDto != null && uploaded) {
             return new ResponseEntity<>(authorizedItineraryDto, HttpStatus.OK);
@@ -358,7 +370,7 @@ public class ItineraryController {
     public ResponseEntity<?> addPendingAttachment(@PathVariable("id") UUID id, @RequestBody AddAttachmentRequest request) {
         if (_userService.appropriateUser(request.getIdUser(), UserPermission.AUTHTOURIST_ATTACHMENT_CREATE)) {
             try {
-                Optional<Predicate<Itinerary>> predicate = Optional.of(itinerary -> itinerary.getId().equals(id));
+                Optional<Predicate<Itinerary>> predicate = Optional.of(itinerary -> itinerary.getId().equals(id) && itinerary.getState().equals(ContentState.UPLOADED));
                 PendingAttachmentDto attachmentDto = new PendingAttachmentDto();
                 AttachmentDto result = _itineraryService.addPendingAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
                 if (result != null) {
@@ -377,7 +389,7 @@ public class ItineraryController {
     public ResponseEntity<?> addAuthorizedAttachment(@PathVariable("id") UUID id, @RequestBody AddAttachmentRequest request) {
         if (_userService.appropriateUser(request.getIdUser(), UserPermission.AUTHCONTRIBUTOR_ATTACHMENT_CREATE_AUTHORIZED)) {
             try {
-                Optional<Predicate<Itinerary>> predicate = Optional.of(itinerary -> itinerary.getId().equals(id));
+                Optional<Predicate<Itinerary>> predicate = Optional.of(itinerary -> itinerary.getId().equals(id) && itinerary.getState().equals(ContentState.UPLOADED));
                 AuthorizedAttachmentDto attachmentDto = new AuthorizedAttachmentDto();
                 AttachmentDto result = _itineraryService.addAuthorizedAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
                 if (result != null) {

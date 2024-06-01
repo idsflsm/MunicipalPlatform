@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ContributorDto extends AuthenticatedUserDto {
     public ContributorDto() {
     }
-    public ContributorDto(UUID id, String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
-        super(id, username, password, name, surname, pois, itineraries, participatedContests, role);
+    public ContributorDto(String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
+        super(username, password, name, surname, pois, itineraries, participatedContests, role);
     }
 }

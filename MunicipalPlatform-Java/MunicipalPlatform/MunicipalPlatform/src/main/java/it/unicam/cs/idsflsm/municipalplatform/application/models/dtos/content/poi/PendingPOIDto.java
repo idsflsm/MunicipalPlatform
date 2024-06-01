@@ -17,8 +17,7 @@ public class PendingPOIDto extends POIDto {
     public PendingPOIDto() {
         this.setState(ContentState.VALIDABLE);
     }
-
-    public PendingPOIDto(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments, contribution);
+    public PendingPOIDto(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<ItineraryDto> poiItineraries, List<AuthenticatedUserDto> tourists, List<AttachmentDto> attachments, ContributionDto contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, tourists, attachments, contribution);
     }
 }

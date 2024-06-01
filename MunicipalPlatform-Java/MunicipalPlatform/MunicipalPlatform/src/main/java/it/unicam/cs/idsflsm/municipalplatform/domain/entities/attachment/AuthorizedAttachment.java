@@ -16,7 +16,7 @@ public class AuthorizedAttachment extends Attachment {
     public AuthorizedAttachment() {
         this.setState(ContentState.UPLOADABLE);
     }
-    public AuthorizedAttachment(UUID id, String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
-        super(id, name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
+    public AuthorizedAttachment(String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POI poi, Itinerary itinerary, List<Report> reports) {
+        super(name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
     }
 }

@@ -1,28 +1,35 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.content.poi;
 
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.attachment.IAttachmentService;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.poi.IPOIService;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi.POICriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.factories.attachment.AttachmentBuilderFactory;
+import it.unicam.cs.idsflsm.municipalplatform.application.factories.content.poi.POIBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.AuthorizedAttachmentMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.PendingAttachmentMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.AuthorizedPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.GenericPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.PendingPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.AuthorizedPOIDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.PendingPOIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.AuthorizedAttachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.PendingAttachment;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.AuthorizedPOI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.PendingPOI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
+import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserPermission;
+import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.itinerary.IItineraryRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.poi.IPOIRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -40,6 +47,9 @@ import java.util.stream.Stream;
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class POIService implements IPOIService {
     private final IPOIRepository _poiRepository;
+    private final IItineraryRepository _itineraryRepository;
+    private final POIBuilderFactory _poiBuilderFactory;
+    private final AttachmentBuilderFactory _attachmentBuilderFactory;
 //    private final IAttachmentService _attachmentService;
 //    private final IUserService _userService;
     @Override
@@ -106,7 +116,7 @@ public class POIService implements IPOIService {
     @Override
     public PendingPOIDto addPendingPOI(PendingPOIDto poiDto) {
         if (getPOIById(poiDto.getId(), PendingPOI.class) == null) {
-            PendingPOI poi = PendingPOIMapper.toEntity(poiDto, true);
+            var poi = modifyPOI(poiDto, UserPermission.CONTRIBUTOR_CONTENT_CREATE_PENDING);
             _poiRepository.save(poi);
             return poiDto;
         } else {
@@ -116,12 +126,26 @@ public class POIService implements IPOIService {
     @Override
     public AuthorizedPOIDto addAuthorizedPOI(AuthorizedPOIDto poiDto) {
         if (getPOIById(poiDto.getId(), AuthorizedPOI.class) == null) {
-            AuthorizedPOI poi = AuthorizedPOIMapper.toEntity(poiDto, true);
+            var poi = modifyPOI(poiDto, UserPermission.AUTHCONTRIBUTOR_CONTENT_CREATE_AUTHORIZED);
             _poiRepository.save(poi);
             return poiDto;
         } else {
             return null;
         }
+    }
+    private POI modifyPOI(POIDto poiDto, UserPermission permission) {
+        var builder = _poiBuilderFactory.createPOIBuilder(permission);
+        builder.setName(poiDto.getName());
+        builder.setCoordinates(poiDto.getCoordinates());
+        builder.setDescription(poiDto.getDescription());
+        builder.setAuthor(poiDto.getAuthor());
+        builder.setCreationDate(poiDto.getCreationDate());
+        builder.setExpiryDate(poiDto.getExpiryDate());
+        builder.setContentState(poiDto.getState());
+        builder.setPoiItineraries(GenericItineraryMapper.toEntity(poiDto.getPoiItineraries(), true));
+        var poi = builder.build();
+        poi.setId(poiDto.getId());
+        return poi;
     }
     @Override
     public boolean deletePendingPOIById(UUID id) {
@@ -139,9 +163,18 @@ public class POIService implements IPOIService {
     public boolean deleteAuthorizedPOIById(UUID id) {
         AuthorizedPOI poi = getPOIById(id, AuthorizedPOI.class);
         if (poi != null) {
-            poi.setState(ContentState.REMOVABLE);
-            // _poiRepository.deleteById(id);
-            _poiRepository.save(poi);
+            List<Itinerary> poiItineraries = poi.getPoiItineraries();
+//            poi.setState(ContentState.REMOVABLE);
+//            // _poiRepository.deleteById(id);
+//            _poiRepository.save(poi);
+            poi.detachFromEntities();
+            _poiRepository.delete(poi);
+            poiItineraries.forEach(itinerary -> {
+                if (itinerary.getItineraryPois().size() < 2) {
+                    itinerary.detachFromEntities();
+                    _itineraryRepository.delete(itinerary);
+                }
+            });
             return true;
         } else {
             return false;
@@ -175,7 +208,7 @@ public class POIService implements IPOIService {
 //    }
     @Override
     public PendingPOIDto updatePendingPOI(PendingPOIDto poiDto) {
-        PendingPOI poi = PendingPOIMapper.toEntity(poiDto, true);
+        var poi = modifyPOI(poiDto, UserPermission.CONTRIBUTOR_CONTENT_CREATE_PENDING);
         poi.getPoiItineraries().forEach(itinerary -> {
             itinerary.getItineraryPois().add(poi);
         });
@@ -184,7 +217,7 @@ public class POIService implements IPOIService {
     }
     @Override
     public AuthorizedPOIDto updateAuthorizedPOI(AuthorizedPOIDto poiDto) {
-        AuthorizedPOI poi = AuthorizedPOIMapper.toEntity(poiDto, true);
+        var poi = modifyPOI(poiDto, UserPermission.AUTHCONTRIBUTOR_CONTENT_CREATE_AUTHORIZED);
         poi.getPoiItineraries().forEach(itinerary -> {
             itinerary.getItineraryPois().add(poi);
         });
@@ -304,32 +337,44 @@ public class POIService implements IPOIService {
         }
     }
     @Override
-    public PendingAttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate) {
+    public AttachmentDto addPendingAttachment(PendingAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate) {
         POI poi = getPOIs(predicate, POI.class).get(0);
         if (poi != null) {
-            PendingAttachment attachment = PendingAttachmentMapper.toEntity(attachmentDto, true);
+            var attachment = addAttachment(attachmentDto, UserPermission.AUTHTOURIST_ATTACHMENT_CREATE);
             poi.getAttachments().add(attachment);
             attachment.setPoi(poi);
             _poiRepository.save(poi);
 //            _attachmentService.saveInRepository(attachment);
-            return PendingAttachmentMapper.toDto(attachment, true);
+            return GenericAttachmentMapper.toDto(attachment, true);
         } else {
             return null;
         }
     }
     @Override
-    public AuthorizedAttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate) {
+    public AttachmentDto addAuthorizedAttachment(AuthorizedAttachmentDto attachmentDto, Optional<Predicate<POI>> predicate) {
         POI poi = getPOIs(predicate, POI.class).get(0);
         if (poi != null) {
-            AuthorizedAttachment attachment = AuthorizedAttachmentMapper.toEntity(attachmentDto, true);
+            var attachment = addAttachment(attachmentDto, UserPermission.AUTHCONTRIBUTOR_ATTACHMENT_CREATE_AUTHORIZED);
             poi.getAttachments().add(attachment);
             attachment.setPoi(poi);
             _poiRepository.save(poi);
 //                _attachmentService.saveInRepository(attachment);
-            return AuthorizedAttachmentMapper.toDto(attachment, true);
+            return GenericAttachmentMapper.toDto(attachment, true);
         } else {
             return null;
         }
+    }
+    private Attachment addAttachment(AttachmentDto attachmentDto, UserPermission permission) {
+        var builder = _attachmentBuilderFactory.createAttachmentBuilder(permission);
+        builder.setName(attachmentDto.getName());
+        builder.setDescription(attachmentDto.getDescription());
+        builder.setAuthor(attachmentDto.getAuthor());
+        builder.setCreationDate(attachmentDto.getCreationDate());
+        builder.setExpiryDate(attachmentDto.getExpiryDate());
+        builder.setState(attachmentDto.getState());
+        var attachment = builder.build();
+        attachment.setId(attachmentDto.getId());
+        return attachment;
     }
 }
 

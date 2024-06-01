@@ -1,4 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
@@ -13,17 +14,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @Table(name = "contribution")
-public class Contribution {
+public class Contribution implements IContribution {
     @Id
     // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     @ManyToOne(fetch = FetchType.EAGER)
     private Contest contest;
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST,  CascadeType.REMOVE })
     @JoinColumn(name = "poi_id")
     private POI poi;
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,  CascadeType.REMOVE })
     @JoinColumn(name = "itinerary_id")
     private Itinerary itinerary;
     @Enumerated(EnumType.STRING)
@@ -34,14 +35,25 @@ public class Contribution {
     private ContestResult result = ContestResult.LOSER;
     public Contribution() {
     }
-    public Contribution(UUID id, Contest contest, POI poi, Itinerary itinerary, ContentState state, ContestResult result) {
-        
+    public Contribution(Contest contest, POI poi, Itinerary itinerary, ContentState state, ContestResult result) {
         this.contest = contest;
         this.poi = poi;
         this.itinerary = itinerary;
         this.state = state;
         this.result = result;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        Contribution other = (Contribution) obj;
+        return other.getId().equals(this.getId());
+    }
+    @Override
     public Content getContent() {
         if (this.poi != null && this.itinerary == null) {
             return poi;
@@ -49,6 +61,7 @@ public class Contribution {
             return itinerary;
         }
     }
+    @Override
     public void setContent(Content content) {
         var activeContent = getContent();
         if (content != null) {
@@ -64,14 +77,31 @@ public class Contribution {
             this.itinerary = null;
         }
     }
+    @Override
     public void setNotNullPoi(POI poi) {
         if (this.poi != null) {
             this.setPoi(poi);
         }
     }
+    @Override
     public void setNotNullItinerary(Itinerary itinerary) {
         if (this.itinerary != null) {
             this.setItinerary(itinerary);
+        }
+    }
+    @Override
+    public void detachFromEntities(boolean contributionValidation) {
+        this.contest.getContributions().remove(this);
+        this.contest = null;
+        if (contributionValidation) {
+            if (this.poi != null) {
+                this.poi.setContribution(null);
+                this.poi = null;
+            }
+            if (this.itinerary != null) {
+                this.itinerary.setContribution(null);
+                this.itinerary = null;
+            }
         }
     }
 }

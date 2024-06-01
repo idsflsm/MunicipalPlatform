@@ -19,8 +19,7 @@ public class PendingPOI extends POI {
     public PendingPOI() {
         this.setState(ContentState.VALIDABLE);
     }
-
-    public PendingPOI(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, users, attachments, contribution);
+    public PendingPOI(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, users, attachments, contribution);
     }
 }

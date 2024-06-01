@@ -19,8 +19,7 @@ public class AuthorizedPOI extends POI {
     public AuthorizedPOI() {
         this.setState(ContentState.UPLOADABLE);
     }
-
-    public AuthorizedPOI(UUID id, String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
-        super(id, name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, users, attachments, contribution);
+    public AuthorizedPOI(String name, Coordinates coordinates, String description, String author, Date creationDate, Date expiryDate, ContentState state, List<Itinerary> poiItineraries, List<AuthenticatedUser> users, List<Attachment> attachments, Contribution contribution) {
+        super(name, coordinates, description, author, creationDate, expiryDate, state, poiItineraries, users, attachments, contribution);
     }
 }

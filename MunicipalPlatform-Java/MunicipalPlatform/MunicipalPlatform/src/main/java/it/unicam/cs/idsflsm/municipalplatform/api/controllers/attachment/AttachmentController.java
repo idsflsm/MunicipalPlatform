@@ -46,10 +46,14 @@ public class AttachmentController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = AttachmentCriteria.isPendingAttachment()
                     .and(getAllCriterias(name, description, author, creationDate, expiryDate, state));
             List<PendingAttachmentDto> pendingAttachmentDtos =
                     _attachmentService.getAllPendingAttachments(Optional.of(criterias));
+            pendingAttachmentDtos.forEach(pendingAttachmentDto -> {
+                pendingAttachmentDto = (PendingAttachmentDto) pendingAttachmentDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!pendingAttachmentDtos.isEmpty()) {
                 return new ResponseEntity<>(pendingAttachmentDtos, HttpStatus.OK);
             } else {
@@ -73,10 +77,14 @@ public class AttachmentController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = AttachmentCriteria.isAuthorizedAttachment()
                     .and(getAllCriterias(name, description, author, creationDate, expiryDate, state));
             List<AuthorizedAttachmentDto> authorizedAttachmentDtos =
                     _attachmentService.getAllAuthorizedAttachments(Optional.of(criterias));
+            authorizedAttachmentDtos.forEach(attachmentDto -> {
+                attachmentDto = (AuthorizedAttachmentDto) attachmentDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!authorizedAttachmentDtos.isEmpty()) {
                 return new ResponseEntity<>(authorizedAttachmentDtos, HttpStatus.OK);
             } else {
@@ -105,6 +113,7 @@ public class AttachmentController {
         PendingAttachmentDto pendingAttachmentDto = _attachmentService.getPendingAttachmentById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded = pendingAttachmentDto.getState().equals(ContentState.UPLOADED);
+            pendingAttachmentDto = (PendingAttachmentDto) pendingAttachmentDto.allWithState(ContentState.UPLOADED);
         }
         if (pendingAttachmentDto != null && uploaded) {
             return new ResponseEntity<>(pendingAttachmentDto, HttpStatus.OK);
@@ -118,6 +127,7 @@ public class AttachmentController {
         AuthorizedAttachmentDto authorizedAttachmentDto = _attachmentService.getAuthorizedAttachmentById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded = authorizedAttachmentDto.getState().equals(ContentState.UPLOADED);
+            authorizedAttachmentDto = (AuthorizedAttachmentDto) authorizedAttachmentDto.allWithState(ContentState.UPLOADED);
         }
         if (authorizedAttachmentDto != null && uploaded) {
             return new ResponseEntity<>(authorizedAttachmentDto, HttpStatus.OK);
@@ -134,15 +144,15 @@ public class AttachmentController {
 //            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //        }
 //    }
-//    @DeleteMapping("/authorized/{id}")
-//    public ResponseEntity<?> deleteAuthorizedAttachment(@PathVariable("id") UUID id) {
-//        boolean result = _attachmentService.deleteAuthorizedAttachmentById(id);
-//        if (result) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
+    @DeleteMapping("/authorized/{id}")
+    public ResponseEntity<?> deleteAuthorizedAttachment(@PathVariable("id") UUID id) {
+        boolean result = _attachmentService.deleteAuthorizedAttachmentById(id);
+        if (result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
     @PutMapping("/pending/{id}")
     public ResponseEntity<?> updatePendingAttachment(@PathVariable("id") UUID id, @RequestBody UpdateAttachmentRequest request) {
         try {
@@ -170,7 +180,8 @@ public class AttachmentController {
     public ResponseEntity<?> updateAuthorizedAttachment(@PathVariable("id") UUID id, @RequestBody UpdateAttachmentRequest request) {
         try {
             if (_userService.appropriateUser(request.getIdUser(), UserPermission.CURATOR_ATTACHMENT_UPDATE)) {
-                AuthorizedAttachmentDto existingAuthorizedAttachment = _attachmentService.getAuthorizedAttachmentById(id);
+                Predicate<Attachment> predicate = AttachmentCriteria.isInUploadedState().and(attachment -> attachment.getId().equals(id));
+                AuthorizedAttachmentDto existingAuthorizedAttachment = _attachmentService.getAllAuthorizedAttachments(Optional.of(predicate)).get(0);
                 if (existingAuthorizedAttachment != null) {
                     AuthorizedAttachmentDto result = _attachmentService.updateAuthorizedAttachment(modifyAttachmentConfiguration(existingAuthorizedAttachment, request), Optional.empty());
                     if (result != null) {

@@ -18,7 +18,7 @@ import java.util.UUID;
 public class AuthenticatedTourist extends AuthenticatedUser {
     public AuthenticatedTourist() {
     }
-    public AuthenticatedTourist(UUID id, String username, String password, String name, String surname, List<POI> pois, List<Itinerary> itineraries, UserRole role, List<Contest> participatedContests) {
-        super(id, username, password, name, surname, pois, itineraries, role);
+    public AuthenticatedTourist(String username, String password, String name, String surname, List<POI> pois, List<Itinerary> itineraries, List<Contest> participatedContests, UserRole role) {
+        super(username, password, name, surname, pois, itineraries, participatedContests, role);
     }
 }

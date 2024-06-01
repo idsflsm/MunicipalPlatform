@@ -14,7 +14,7 @@ public class PendingAttachmentDto extends AttachmentDto {
     public PendingAttachmentDto() {
         this.setState(ContentState.VALIDABLE);
     }
-    public PendingAttachmentDto(UUID id, String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POIDto poi, ItineraryDto itinerary, List<ReportDto> reports) {
-        super(id, name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
+    public PendingAttachmentDto(String name, String description, String author, Date creationDate, Date expiryDate, ContentState state, POIDto poi, ItineraryDto itinerary, List<ReportDto> reports) {
+        super(name, description, author, creationDate, expiryDate, state, poi, itinerary, reports);
     }
 }

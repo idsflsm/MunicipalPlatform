@@ -20,7 +20,7 @@ public interface IContestService {
     ContestDto getContestById(UUID id);
     ContestDto addContest(ContestDto contestDto);
     boolean deleteContestById(UUID id);
-//    boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate);
+    boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate);
 
     List<ContributionDto> getAllContributions(Optional<Predicate<Contribution>> predicate);
     ContributionDto getContributionById(UUID id);

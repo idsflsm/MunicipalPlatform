@@ -9,7 +9,7 @@ import java.util.UUID;
 public class AdministratorDto extends AuthenticatedUserDto {
     public AdministratorDto() {
     }
-    public AdministratorDto(UUID id, String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
-        super(id, username, password, name, surname, pois, itineraries, participatedContests, role);
+    public AdministratorDto(String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
+        super(username, password, name, surname, pois, itineraries, participatedContests, role);
     }
 }

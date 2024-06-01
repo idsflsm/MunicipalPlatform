@@ -1,7 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.user;
+import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.IRoleCommand;
+import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.RemoveRoleCommand;
+import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.UpdateRoleCommand;
 import it.unicam.cs.idsflsm.municipalplatform.application.configurations.PasswordEncoder;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
-import it.unicam.cs.idsflsm.municipalplatform.application.factories.AuthenticatedUserFactory;
+import it.unicam.cs.idsflsm.municipalplatform.application.factories.user.AuthenticatedUserBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.RoleRequestMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.anonymous.TouristMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
@@ -43,15 +46,17 @@ public class UserService implements IUserService {
     public AuthenticatedUserDto register(RegisterRequest request) {
         var existingUser = findByUsername(request.getEmail());
         if (existingUser == null) {
-            // var user = UserFactory.createUser(UserRole.AUTHENTICATED_TOURIST);
-            var user = AuthenticatedUserFactory.createUser(UserRole.CURATOR);
+            // TODO : DO NOT FORGET
+            AuthenticatedUserBuilderFactory factory = new AuthenticatedUserBuilderFactory();
+            var builder = factory.createAuthenticatedUserBuilder(UserRole.ANIMATOR);
+            builder.setUsername(request.getEmail());
+            builder.setPassword(_passwordEncoder.encodePassword(request.getPassword()));
+            builder.setName(request.getName());
+            builder.setSurname(request.getSurname());
+            builder.setRole(UserRole.ANIMATOR);
+//            user.setRole(UserRole.AUTHENTICATED_TOURIST);
+            var user = builder.build();
             user.setId(UUID.randomUUID());
-            user.setUsername(request.getEmail());
-            user.setPassword(_passwordEncoder.encodePassword(request.getPassword()));
-            user.setName(request.getName());
-            user.setSurname(request.getSurname());
-            user.setRole(UserRole.CURATOR);
-            // user.setRole(UserRole.AUTHENTICATED_TOURIST);
             user = _authenticatedUserRepository.save(user);
             return GenericAuthenticatedUserMapper.toDto(user, true);
         } else {
@@ -91,7 +96,8 @@ public class UserService implements IUserService {
         RoleRequest roleRequest = (authenticatedUser != null) ? _requestRoleRepository.findById(authenticatedUser.getUsername()).orElse(null) : null;
         if (authenticatedUser != null && roleRequest != null) {
             if (accept) {
-                var newUser = swapRoles(authenticatedUser, roleRequest.getRole());
+                // authenticatedUser.setCommand(new UpdateRoleCommand(authenticatedUser, roleRequest.getRole()));
+                var newUser = swapRoles(authenticatedUser, roleRequest);
                 _authenticatedUserRepository.delete(authenticatedUser);
                 _authenticatedUserRepository.save(newUser);
             }
@@ -101,23 +107,35 @@ public class UserService implements IUserService {
             return null;
         }
     }
-    private AuthenticatedUser swapRoles(AuthenticatedUser authenticatedUser, UserRole role) {
-        var newUser = AuthenticatedUserFactory.createUser(role);
-        newUser.setId(authenticatedUser.getId());
-        newUser.setUsername(authenticatedUser.getUsername());
-        newUser.setPassword(authenticatedUser.getPassword());
-        newUser.setName(authenticatedUser.getName());
-        newUser.setSurname(authenticatedUser.getSurname());
-        newUser.setPois(authenticatedUser.getPois());
-        newUser.setItineraries(authenticatedUser.getItineraries());
-        newUser.setRole(role);
-        return newUser;
+    private AuthenticatedUser swapRoles(AuthenticatedUser authenticatedUser, RoleRequest roleRequest) {
+        AuthenticatedUserBuilderFactory factory = new AuthenticatedUserBuilderFactory();
+        var builder = (roleRequest != null)
+                ? factory.createAuthenticatedUserBuilder(roleRequest.getRole())
+                : factory.createAuthenticatedUserBuilder(UserRole.AUTHENTICATED_TOURIST);
+        builder.setUsername(authenticatedUser.getUsername());
+        builder.setPassword(authenticatedUser.getPassword());
+        builder.setName(authenticatedUser.getName());
+        builder.setSurname(authenticatedUser.getSurname());
+        builder.setPois(authenticatedUser.getPois());
+        builder.setItineraries(authenticatedUser.getItineraries());
+//         TODO : CHEATED HERE!
+        // builder.setRole(authenticatedUser.getRole());
+        var user = builder.build();
+        user.setId(authenticatedUser.getId());
+        if (roleRequest != null) {
+            user.setCommand(new UpdateRoleCommand(user, roleRequest.getRole()));
+        } else {
+            user.setCommand(new RemoveRoleCommand(user));
+        }
+        user.executeCommand();
+        return user;
     }
     @Override
     public AuthenticatedUserDto removeUserRole(UUID idUser) {
         AuthenticatedUser authenticatedUser = _authenticatedUserRepository.findById(idUser).orElse(null);
         if (authenticatedUser != null) {
-            var newUser = swapRoles(authenticatedUser, UserRole.AUTHENTICATED_TOURIST);
+            authenticatedUser.setCommand(new RemoveRoleCommand(authenticatedUser));
+            var newUser = swapRoles(authenticatedUser, null);
             _authenticatedUserRepository.delete(authenticatedUser);
             _authenticatedUserRepository.save(newUser);
             return GenericAuthenticatedUserMapper.toDto(newUser, true);
@@ -151,8 +169,13 @@ public class UserService implements IUserService {
     }
     @Override
     public boolean appropriateUser(UUID idUser, UserPermission permission) {
-        var user = this.findById(idUser);
-        return user != null && user.getRole().getPermissions().contains(permission);
+        var authenticatedUser = this.findById(idUser);
+        if (authenticatedUser != null) {
+            return authenticatedUser.getRole().getPermissions().contains(permission);
+        } else {
+            var anonymousUser = _anonymousUserRepository.findById(idUser).orElse(null);
+            return anonymousUser != null;
+        }
     }
 
     @Override

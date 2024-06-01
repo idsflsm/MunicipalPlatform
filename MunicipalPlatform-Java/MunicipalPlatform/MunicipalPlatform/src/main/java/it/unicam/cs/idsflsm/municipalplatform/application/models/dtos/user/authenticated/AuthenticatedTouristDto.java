@@ -19,7 +19,7 @@ import java.util.UUID;
 public class AuthenticatedTouristDto extends AuthenticatedUserDto {
     public AuthenticatedTouristDto() {
     }
-    public AuthenticatedTouristDto(UUID id, String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
-        super(id, username, password, name, surname, pois, itineraries, participatedContests, role);
+    public AuthenticatedTouristDto(String username, String password, String name, String surname, List<POIDto> pois, List<ItineraryDto> itineraries, List<ContestDto> participatedContests, UserRole role) {
+        super(username, password, name, surname, pois, itineraries, participatedContests, role);
     }
 }

@@ -12,4 +12,7 @@ public interface IPOI extends IContent {
     List<Itinerary> getPoiItineraries();
     List<AuthenticatedUser> getUsers();
     List<Attachment> getAttachments();
+
+    void detachFromEntities();
+//    void checkItinerariesSize();
 }

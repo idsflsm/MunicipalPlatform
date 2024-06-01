@@ -7,6 +7,7 @@ import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUUID;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi.POICriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
@@ -62,8 +63,12 @@ public class POIController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = POICriteria.isPendingPoi().and(getAllCriterias(name, latitude, longitude, description, author, creationDate, expiryDate, state));
             List<PendingPOIDto> pendingPOIDtos = _poiService.getAllPendingPOIs(Optional.of(criterias));
+            pendingPOIDtos.forEach(pendingPOIDto -> {
+                pendingPOIDto = (PendingPOIDto) pendingPOIDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!pendingPOIDtos.isEmpty()) {
                 return new ResponseEntity<>(pendingPOIDtos, HttpStatus.OK);
             } else {
@@ -90,8 +95,12 @@ public class POIController {
             if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
                 state = "UPLOADED";
             }
+            String finalState = state;
             criterias = POICriteria.isAuthorizedPoi().and(getAllCriterias(name, latitude, longitude, description, author, creationDate, expiryDate, state));
             List<AuthorizedPOIDto> authorizedPOIDtos = _poiService.getAllAuthorizedPOIs(Optional.of(criterias));
+            authorizedPOIDtos.forEach(authorizedPOIDto -> {
+                authorizedPOIDto = (AuthorizedPOIDto) authorizedPOIDto.allWithState(ContentState.fromString(finalState));
+            });
             if (!authorizedPOIDtos.isEmpty()) {
                 return new ResponseEntity<>(authorizedPOIDtos, HttpStatus.OK);
             } else {
@@ -122,6 +131,7 @@ public class POIController {
         PendingPOIDto pendingPOIDto = _poiService.getPendingPOIById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded =  pendingPOIDto.getState().equals(ContentState.UPLOADED);
+            pendingPOIDto = (PendingPOIDto) pendingPOIDto.allWithState(ContentState.UPLOADED);
         }
         if (pendingPOIDto != null && uploaded) {
             return new ResponseEntity<>(pendingPOIDto, HttpStatus.OK);
@@ -135,6 +145,7 @@ public class POIController {
         AuthorizedPOIDto authorizedPOIDto = _poiService.getAuthorizedPOIById(id);
         if (_userService.appropriateUser(idUser, UserPermission.TOURIST_CONTENT_READ)) {
             uploaded =  authorizedPOIDto.getState().equals(ContentState.UPLOADED);
+            authorizedPOIDto = (AuthorizedPOIDto) authorizedPOIDto.allWithState(ContentState.UPLOADED);
         }
         if (authorizedPOIDto != null && uploaded) {
             return new ResponseEntity<>(authorizedPOIDto, HttpStatus.OK);
@@ -187,15 +198,15 @@ public class POIController {
 //            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 //        }
 //    }
-//    @DeleteMapping("/authorized/{id}")
-//    public ResponseEntity<?> deleteAuthorizedPoi(@PathVariable("id") UUID id) {
-//        boolean result = _poiService.deleteAuthorizedPOIById(id);
-//        if (result) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @DeleteMapping("/authorized/{id}")
+    public ResponseEntity<?> deleteAuthorizedPoi(@PathVariable("id") UUID id) {
+        boolean result = _poiService.deleteAuthorizedPOIById(id);
+        if (result) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
     @PutMapping("/pending/{id}")
     public ResponseEntity<?> updatePendingPoi(@PathVariable("id") UUID id, @RequestBody UpdatePOIRequest request) {
         try {
@@ -352,10 +363,10 @@ public class POIController {
     public ResponseEntity<?> addPendingAttachment(@PathVariable("id") UUID id, @RequestBody AddAttachmentRequest request) {
         if (_userService.appropriateUser(request.getIdUser(), UserPermission.AUTHTOURIST_ATTACHMENT_CREATE)) {
             try {
-                Optional<Predicate<POI>> predicate = Optional.of(poi -> poi.getId().equals(id));
+                Optional<Predicate<POI>> predicate = Optional.of(poi -> poi.getId().equals(id) && poi.getState().equals(ContentState.UPLOADED));
                 PendingAttachmentDto attachmentDto = new PendingAttachmentDto();
                 attachmentDto.setState(ContentState.VALIDABLE);
-                PendingAttachmentDto result = _poiService.addPendingAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
+                AttachmentDto result = _poiService.addPendingAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
                 if (result != null) {
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
@@ -372,9 +383,9 @@ public class POIController {
     public ResponseEntity<?> addAuthorizedAttachment(@PathVariable("id") UUID id, @RequestBody AddAttachmentRequest request) {
         if (_userService.appropriateUser(request.getIdUser(), UserPermission.AUTHCONTRIBUTOR_ATTACHMENT_CREATE_AUTHORIZED)) {
             try {
-                Optional<Predicate<POI>> predicate = Optional.of(poi -> poi.getId().equals(id));
+                Optional<Predicate<POI>> predicate = Optional.of(poi -> poi.getId().equals(id) && poi.getState().equals(ContentState.UPLOADED));
                 AuthorizedAttachmentDto attachmentDto = new AuthorizedAttachmentDto();
-                AuthorizedAttachmentDto result = _poiService.addAuthorizedAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
+                AttachmentDto result = _poiService.addAuthorizedAttachment(modifyAttachmentConfiguration(attachmentDto, request), predicate);
                 if (result != null) {
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
@@ -394,5 +405,10 @@ public class POIController {
         attachmentDto.setCreationDate(Date.toDate(LocalDate.now()));
         attachmentDto.setExpiryDate(Date.fromString(request.getExpiryDate()));
         return attachmentDto;
+    }
+
+    @GetMapping("/poiitineraries/{id}")
+    public ResponseEntity<?> getPoiitineraries(@PathVariable("id") UUID id) {
+        return new ResponseEntity<>(GenericItineraryMapper.toDto(_poiService.getPOIById(id).getPoiItineraries(), true), HttpStatus.OK);
     }
 }
