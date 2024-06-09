@@ -1,9 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.content.poi;
 
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidDateFormat;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.OnlyLettersString;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidCoordinate;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUUID;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -27,11 +24,11 @@ public abstract class ModifyPOIRequest {
     private String name;
     @NotNull
     @NotBlank
-    @ValidCoordinate
+    @ValidLatitude
     private String latitude;
     @NotNull
     @NotBlank
-    @ValidCoordinate
+    @ValidLongitude
     private String longitude;
     @NotNull
     @NotBlank

@@ -7,6 +7,7 @@ import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.po
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContestResult;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
+/**
+ * Represents a DTO related to the entity Contribution.
+ * It contains all fields with simple types
+ * and the DTOs of entity fields
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -32,4 +38,15 @@ public class ContributionDto {
     private ItineraryDto itinerary;
     private ContentState state = ContentState.VALIDABLE;
     private ContestResult result = ContestResult.LOSER;
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        ContributionDto other = (ContributionDto) obj;
+        return other.getId().equals(this.getId());
+    }
 }

@@ -14,7 +14,4 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 @Repository
 public interface IContestRepository extends GenericRepository<Contest, UUID> {
-    default List<Contest> findByExpiryDate(LocalDate expiryDate) {
-        return findByPredicate(ContestCriteria.hasExpiryDate(Date.toDate(expiryDate)));
-    }
 }

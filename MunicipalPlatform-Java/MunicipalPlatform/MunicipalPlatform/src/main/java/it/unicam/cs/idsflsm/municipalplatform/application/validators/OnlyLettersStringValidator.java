@@ -4,6 +4,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.regex.Pattern;
+/**
+ * Represents a JSON validator for strings, such as name, description, author etc.
+ */
 public class OnlyLettersStringValidator implements ConstraintValidator<OnlyLettersString, String> {
     @Override
     public void initialize(OnlyLettersString constraintAnnotation) {

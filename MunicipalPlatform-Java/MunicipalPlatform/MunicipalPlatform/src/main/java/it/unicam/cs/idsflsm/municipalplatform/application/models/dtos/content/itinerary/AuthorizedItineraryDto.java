@@ -13,6 +13,11 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents a DTO related to the entity AuthorizedItinerary.
+ * It contains all fields with simple types
+ * and the DTOs of entity fields
+ */
 public class AuthorizedItineraryDto extends ItineraryDto {
     public AuthorizedItineraryDto() {
         this.setState(ContentState.UPLOADABLE);

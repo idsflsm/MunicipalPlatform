@@ -5,47 +5,58 @@ import it.unicam.cs.idsflsm.municipalplatform.application.mappers.report.ReportM
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.report.ReportDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
+import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.attachment.IAttachmentRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.report.IReportRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+/**
+ * Service class for the ReportRepository. It provides methods to manipulate persistent
+ * reports in the database
+ */
 @Service
 @Transactional
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class ReportService implements IReportService {
+    /**
+     * The repository for Report entity
+     */
     private final IReportRepository _reportRepository;
+    /**
+     * The repository for Attachment entity
+     */
+    private final IAttachmentRepository _attachmentRepository;
     @Override
     public void saveInRepository(Report report) {
         _reportRepository.save(report);
     }
     @Override
-    public List<ReportDto> getAllReports(Optional<Predicate<Report>> predicate) {
-        List<Report> result = predicate.map(poiPredicate -> _reportRepository.findAll()
+    public List<ReportDto> getReports(Optional<Predicate<Report>> predicate) {
+        List<Report> result = predicate.map(reportPredicate -> _reportRepository.findAll()
                         .stream()
-                        .filter(poiPredicate)
-                        .collect(Collectors.toList()))
+                        .filter(reportPredicate)
+                        .toList())
                 .orElseGet(_reportRepository::findAll);
         if (!result.isEmpty()) {
             return ReportMapper.toDto(result, true);
-        } else {
-            return null;
         }
+        return new ArrayList<>();
     }
     @Override
     public ReportDto getReportById(UUID id) {
         Report report = _reportRepository.findById(id).orElse(null);
         if (report != null) {
             return ReportMapper.toDto(report, true);
-        } else {
-            return null;
         }
+        return null;
     }
 //    @Override
 //    public ReportDto addReport(ReportDto reportDto) {
@@ -86,37 +97,26 @@ public class ReportService implements IReportService {
         Report report = _reportRepository.findById(id).orElse(null);
         if (report != null) {
             if (!validate) {
-                report.getAttachment().getReports().remove(report);
-                report.setAttachment(null);
+                report.detachFromEntities();
                 _reportRepository.delete(report);
             } else {
                 Attachment attachment = report.getAttachment();
-//                if (attachment.getPoi() != null) {
-//                    attachment.getPoi().getAttachments().remove(attachment);
-//                }
-//                if (attachment.getItinerary() != null) {
-//                    attachment.getItinerary().getAttachments().remove(attachment);
-//                }
-//                attachment.setNotNullPoi(null);
-//                attachment.setNotNullItinerary(null);
-//                attachment.getReports().remove(report);
-//                report.setAttachment(null);
                 attachment.detachFromEntities();
                 report.detachFromEntities();
+                _attachmentRepository.delete(attachment);
                 _reportRepository.delete(report);
             }
             return ReportMapper.toDto(report, true);
-        } else {
-            return null;
         }
+        return null;
     }
-    @Override
-    public Attachment getReportAttachment(UUID idReport) {
-        Report report = _reportRepository.findById(idReport).orElse(null);
-        if (report != null) {
-            return report.getAttachment();
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public Attachment getReportAttachment(UUID idReport) {
+//        Report report = _reportRepository.findById(idReport).orElse(null);
+//        if (report != null) {
+//            return report.getAttachment();
+//        } else {
+//            return null;
+//        }
+//    }
 }

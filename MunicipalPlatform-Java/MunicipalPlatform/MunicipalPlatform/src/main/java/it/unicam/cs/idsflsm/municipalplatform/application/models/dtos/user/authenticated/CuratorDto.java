@@ -8,6 +8,11 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents a DTO related to the entity Curator.
+ * It contains all fields with simple types
+ * and the DTOs of entity fields
+ */
 public class CuratorDto extends AuthenticatedUserDto {
     public CuratorDto() {
     }

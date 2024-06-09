@@ -6,6 +6,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.time.LocalDate;
+/**
+ * Represents a JSON validator for date field
+ */
 public class DateFormatValidator implements ConstraintValidator<ValidDateFormat, String> {
     @Override
     public void initialize(ValidDateFormat constraintAnnotation) {

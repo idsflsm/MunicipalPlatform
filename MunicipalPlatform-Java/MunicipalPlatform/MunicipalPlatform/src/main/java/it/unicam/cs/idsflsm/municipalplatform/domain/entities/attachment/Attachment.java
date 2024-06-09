@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents an attachment, associated to a content on the platform. It contains general information,
+ * including name, description, author and the list of active reports
+ */
 @Entity
 @Getter
 @Setter
@@ -20,35 +24,65 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "attachment_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "attachment")
 public abstract class Attachment implements IAttachment {
+    /**
+     * The unique identifier of the attachment
+     */
     @Id
     // @GeneratedValue(strategy = GenerationType.UUID)
-@Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private UUID id;
+    /**
+     * The name of the attachment
+     */
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+    /**
+     * The description of the attachment
+     */
     @Column(name = "description", nullable = true, unique = false)
     private String description;
+    /**
+     * The author of the attachment
+     */
     @Column(name = "author", nullable = false, unique = false)
     private String author;
+    /**
+     * The creation date of the attachment
+     */
     @Embedded
     @AttributeOverride(name = "day", column = @Column(name = "attachment_creation_date_day"))
     @AttributeOverride(name = "month", column = @Column(name = "attachment_creation_date_month"))
     @AttributeOverride(name = "year", column = @Column(name = "attachment_creation_date_year"))
     private Date creationDate;
+    /**
+     * The expiry date of the attachment
+     */
     @Embedded
     @AttributeOverride(name = "day", column = @Column(name = "attachment_expiry_date_day"))
     @AttributeOverride(name = "month", column = @Column(name = "attachment_expiry_date_month"))
     @AttributeOverride(name = "year", column = @Column(name = "attachment_expiry_date_year"))
     private Date expiryDate;
+    /**
+     * The state of the attachment
+     */
     @Enumerated(value = EnumType.STRING)
     @Column(name = "content_state", nullable = false, unique = false)
     private ContentState state;
+    /**
+     * The POI associated to the attachment (if exists)
+     */
     @ManyToOne(fetch = FetchType.EAGER /*, cascade = CascadeType.REMOVE */)
     @JoinColumn(name = "poi", nullable = true)
     private POI poi;
+    /**
+     * The Itinerary associated to the attachment (if exists)
+     */
     @ManyToOne(fetch = FetchType.EAGER /*, cascade = CascadeType.REMOVE */)
     @JoinColumn(name = "itinerary", nullable = true)
     private Itinerary itinerary;
+    /**
+     * The list of active reports of the attachment
+     */
     @OneToMany(mappedBy = "attachment", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
             fetch = FetchType.EAGER)
     private List<Report> reports = new ArrayList<Report>();

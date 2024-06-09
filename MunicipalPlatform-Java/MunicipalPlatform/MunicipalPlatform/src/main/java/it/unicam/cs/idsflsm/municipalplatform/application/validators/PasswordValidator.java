@@ -2,6 +2,9 @@ package it.unicam.cs.idsflsm.municipalplatform.application.validators;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidPassword;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+/**
+ * Represents a JSON validator for password field
+ */
 public class PasswordValidator implements ConstraintValidator<ValidPassword, String> {
     @Override
     public void initialize(ValidPassword constraintAnnotation) {

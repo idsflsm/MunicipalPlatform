@@ -7,6 +7,9 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.List;
+/**
+ * Interface for building Attachment instances
+ */
 public interface IAttachmentBuilder {
     void setName(String name);
     void setDescription(String description);
@@ -17,5 +20,9 @@ public interface IAttachmentBuilder {
     void setPoi(POI poi);
     void setItinerary(Itinerary itinerary);
     void setReports(List<Report> reports);
+    /**
+     * Builds and returns an Attachment instance based on the stored information
+     * @return the built Attachment instance
+     */
     Attachment build();
 }

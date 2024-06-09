@@ -9,6 +9,9 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an authenticated user on the platform, acting as contributor
+ */
 @Entity
 @DiscriminatorValue("contributor")
 public class Contributor extends AuthenticatedUser {

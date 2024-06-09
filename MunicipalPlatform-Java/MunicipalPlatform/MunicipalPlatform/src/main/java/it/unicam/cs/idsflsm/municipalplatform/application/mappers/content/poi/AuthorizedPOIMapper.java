@@ -5,13 +5,20 @@ import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authentic
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.AuthorizedPOIDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.AuthorizedPOI;
+/**
+ * Utility class for mapping between AuthorizedPOI and AuthorizedPOIDto
+ */
 public class AuthorizedPOIMapper {
-
-    public static AuthorizedPOIDto toDto(AuthorizedPOI poi, boolean includeRelatedEntities) {
+    /**
+     * Converts an AuthorizedPOI entity to an AuthorizedPOI DTO
+     * @param poi the POI entity to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-entities
+     * @return the corresponding AuthorizedPOIDto if the poi parameter is not null, null otherwise
+     */
+    public static AuthorizedPOIDto toDto(AuthorizedPOI poi, boolean includeRelativeEntities) {
         if (poi == null) {
             return null;
         }
-
         AuthorizedPOIDto dto = new AuthorizedPOIDto();
         dto.setId(poi.getId());
         dto.setName(poi.getName());
@@ -21,37 +28,37 @@ public class AuthorizedPOIMapper {
         dto.setCreationDate(poi.getCreationDate());
         dto.setExpiryDate(poi.getExpiryDate());
         dto.setState(poi.getState());
-
-        if (includeRelatedEntities) {
+        if (includeRelativeEntities) {
             dto.setPoiItineraries(GenericItineraryMapper.toDto(poi.getPoiItineraries(), false));
             dto.setTourists(GenericAuthenticatedUserMapper.toDto(poi.getUsers(), false));
             dto.setAttachments(GenericAttachmentMapper.toDto(poi.getAttachments(), false));
         }
-
         return dto;
     }
-
-    public static AuthorizedPOI toEntity(AuthorizedPOIDto poiDto, boolean includeRelatedEntities) {
-        if (poiDto == null) {
+    /**
+     * Converts an AuthorizedPOI DTO to an AuthorizedPOI entity
+     * @param dto the POI DTO to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
+     * @return the corresponding AuthorizedPOI entity if the dto parameter is not null, null otherwise
+     */
+    public static AuthorizedPOI toEntity(AuthorizedPOIDto dto, boolean includeRelativeEntities) {
+        if (dto == null) {
             return null;
         }
-
         AuthorizedPOI entity = new AuthorizedPOI();
-        entity.setId(poiDto.getId());
-        entity.setName(poiDto.getName());
-        entity.setCoordinates(poiDto.getCoordinates());
-        entity.setDescription(poiDto.getDescription());
-        entity.setAuthor(poiDto.getAuthor());
-        entity.setCreationDate(poiDto.getCreationDate());
-        entity.setExpiryDate(poiDto.getExpiryDate());
-        entity.setState(poiDto.getState());
-
-        if (includeRelatedEntities) {
-            entity.setPoiItineraries(GenericItineraryMapper.toEntity(poiDto.getPoiItineraries(), false));
-            entity.setUsers(GenericAuthenticatedUserMapper.toEntity(poiDto.getTourists(), false));
-            entity.setAttachments(GenericAttachmentMapper.toEntity(poiDto.getAttachments(), false));
+        entity.setId(dto.getId());
+        entity.setName(dto.getName());
+        entity.setCoordinates(dto.getCoordinates());
+        entity.setDescription(dto.getDescription());
+        entity.setAuthor(dto.getAuthor());
+        entity.setCreationDate(dto.getCreationDate());
+        entity.setExpiryDate(dto.getExpiryDate());
+        entity.setState(dto.getState());
+        if (includeRelativeEntities) {
+            entity.setPoiItineraries(GenericItineraryMapper.toEntity(dto.getPoiItineraries(), false));
+            entity.setUsers(GenericAuthenticatedUserMapper.toEntity(dto.getTourists(), false));
+            entity.setAttachments(GenericAttachmentMapper.toEntity(dto.getAttachments(), false));
         }
-
         return entity;
     }
 }

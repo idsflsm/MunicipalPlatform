@@ -13,6 +13,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.*;
+
+/**
+ * Represents a Point Of Interest on the platform. It contains information such as
+ * the list of its attachments and the associated contest contribution if exists
+ */
 @Entity
 @Getter
 @Setter
@@ -20,6 +25,9 @@ import java.util.*;
 @DiscriminatorColumn(name = "poi_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "poi")
 public abstract class POI extends Content implements IPOI {
+    /**
+     * The list of itineraries that contain the poi
+     */
 //    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "itineraryPois", cascade = {CascadeType.PERSIST, /* CascadeType.MERGE */})
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST/*, /* CascadeType.MERGE */})
     @JoinTable(
@@ -27,6 +35,9 @@ public abstract class POI extends Content implements IPOI {
         joinColumns = @JoinColumn(name = "poi_id", unique = false),
         inverseJoinColumns = @JoinColumn(name = "itinerary_id", unique = false))
     private List<Itinerary> poiItineraries = new ArrayList<Itinerary>();
+    /**
+     * The list of authenticated users that saved the poi
+     */
 //    @ManyToMany(mappedBy = "pois", fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
@@ -35,9 +46,15 @@ public abstract class POI extends Content implements IPOI {
         inverseJoinColumns = @JoinColumn(name = "user_id", unique = false)
     )
     private List<AuthenticatedUser> users = new ArrayList<AuthenticatedUser>();
+    /**
+     * The list of attachments associated to the poi
+     */
     @OneToMany(mappedBy = "poi", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true,
             fetch = FetchType.EAGER)
     private List<Attachment> attachments = new ArrayList<Attachment>();
+    /**
+     * The corresponding contest contribution (if exists)
+     */
     @OneToOne(mappedBy = "poi", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE /*, orphanRemoval = true */)
     private Contribution contribution;
     public POI() {

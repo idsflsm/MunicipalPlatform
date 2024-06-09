@@ -13,6 +13,10 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * Represents an itinerary on the platform, acting as PendingItinerary
+ */
 @Entity
 @DiscriminatorValue("pending_itinerary")
 public class PendingItinerary extends Itinerary {

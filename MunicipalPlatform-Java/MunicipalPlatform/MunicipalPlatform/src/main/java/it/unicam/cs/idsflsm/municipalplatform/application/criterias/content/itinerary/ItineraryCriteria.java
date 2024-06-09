@@ -9,6 +9,10 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.UUID;
 import java.util.function.Predicate;
+/**
+ * Utility class providing various predicates for filtering Itinerary objects based on different criteria.
+ * In general, predicates on entity fields are optional filters
+ */
 public class ItineraryCriteria {
     public static Predicate<Itinerary> isPendingItinerary() {
         return itinerary -> itinerary.getClass() == PendingItinerary.class;
@@ -53,7 +57,6 @@ public class ItineraryCriteria {
         if (description != null && !description.isBlank()) {
             return attachment -> attachment.getDescription().toLowerCase().contains(description.toLowerCase());
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -61,7 +64,6 @@ public class ItineraryCriteria {
         if (author != null && !author.isBlank()) {
             return attachment -> attachment.getAuthor().toLowerCase().contains(author.toLowerCase());
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -69,7 +71,6 @@ public class ItineraryCriteria {
         if (creationDate != null) {
             return attachment -> attachment.getCreationDate().equals(creationDate);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -77,7 +78,6 @@ public class ItineraryCriteria {
         if (expiryDate != null) {
             return attachment -> attachment.getExpiryDate().equals(expiryDate);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -85,7 +85,6 @@ public class ItineraryCriteria {
         if (state != null) {
             return attachment -> attachment.getState().equals(state);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }

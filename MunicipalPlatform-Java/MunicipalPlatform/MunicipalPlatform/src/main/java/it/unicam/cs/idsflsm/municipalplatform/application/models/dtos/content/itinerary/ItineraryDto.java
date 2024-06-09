@@ -7,6 +7,7 @@ import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.po
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -18,6 +19,11 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents a DTO related to the entity Itinerary.
+ * It contains all fields with simple types
+ * and the DTOs of entity fields
+ */
 @Getter
 @Setter
 public abstract class ItineraryDto {
@@ -56,6 +62,26 @@ public abstract class ItineraryDto {
         this.attachments = attachments;
         this.contribution = contribution;
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+        if (this == obj) {
+            return true;
+        }
+        ItineraryDto other = (ItineraryDto) obj;
+        return other.getId().equals(this.getId())
+                || other.getName().equalsIgnoreCase(this.getName());
+    }
+    /**
+     * Method to get the invoking object, if it has the same state of the
+     * one in parameter, and all its sub-entities, filtering them all by the state
+     * in parameter
+     * @param state the ContentState value that acts as a filter
+     * @return the invoking object if it has same state of the one in
+     * parameter, null otherwise
+     */
     public ItineraryDto allWithState(ContentState state) {
         if (this.state == state) {
             this.setItineraryPois(this.itineraryPois.stream().filter(poiDto -> poiDto.getState().equals(ContentState.UPLOADED)).toList());

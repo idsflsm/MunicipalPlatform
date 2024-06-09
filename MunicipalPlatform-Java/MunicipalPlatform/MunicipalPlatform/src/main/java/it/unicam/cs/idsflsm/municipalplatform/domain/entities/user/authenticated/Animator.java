@@ -9,6 +9,9 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an authenticated user on the platform, acting as animator
+ */
 @Entity
 @DiscriminatorValue("animator")
 public class Animator extends AuthenticatedUser {

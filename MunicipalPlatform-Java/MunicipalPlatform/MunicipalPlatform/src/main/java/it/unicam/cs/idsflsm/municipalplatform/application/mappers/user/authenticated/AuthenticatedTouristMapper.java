@@ -7,7 +7,16 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 
 import java.util.List;
 import java.util.stream.Collectors;
+/**
+ * Utility class for mapping between AuthenticatedTourist and AuthenticatedTouristDto
+ */
 public class AuthenticatedTouristMapper {
+    /**
+     * Converts an AuthenticatedTourist entity to an AuthenticatedTourist DTO
+     * @param authenticatedTourist the authenticatedTourist entity to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-entities
+     * @return the corresponding AuthenticatedTouristDto if the authenticatedTourist parameter is not null, null otherwise
+     */
     public static AuthenticatedTouristDto toDto(AuthenticatedTourist authenticatedTourist, boolean includeRelativeEntities) {
         if (authenticatedTourist != null) {
             AuthenticatedTouristDto dto = new AuthenticatedTouristDto();
@@ -23,41 +32,45 @@ public class AuthenticatedTouristMapper {
                 dto.setParticipatedContests(ContestMapper.toDto(authenticatedTourist.getParticipatedContests(), false));
             }
             return dto;
-        } else {
-            return null;
         }
+        return null;
     }
-    public static AuthenticatedTourist toEntity(AuthenticatedTouristDto authenticatedTouristDto, boolean includeRelativeEntities) {
-        if (authenticatedTouristDto != null) {
+    /**
+     * Converts an AuthenticatedTourist DTO to an AuthenticatedTourist entity
+     * @param dto the AuthenticatedTourist DTO to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
+     * @return the corresponding AuthenticatedTourist entity if the dto parameter is not null, null otherwise
+     */
+    public static AuthenticatedTourist toEntity(AuthenticatedTouristDto dto, boolean includeRelativeEntities) {
+        if (dto != null) {
             AuthenticatedTourist entity = new AuthenticatedTourist();
-            entity.setId(authenticatedTouristDto.getId());
-            entity.setUsername(authenticatedTouristDto.getUsername());
-            entity.setPassword(authenticatedTouristDto.getPassword());
-            entity.setName(authenticatedTouristDto.getName());
-            entity.setSurname(authenticatedTouristDto.getSurname());
-            entity.setRole(authenticatedTouristDto.getRole());
+            entity.setId(dto.getId());
+            entity.setUsername(dto.getUsername());
+            entity.setPassword(dto.getPassword());
+            entity.setName(dto.getName());
+            entity.setSurname(dto.getSurname());
+            entity.setRole(dto.getRole());
             if (includeRelativeEntities) {
-                entity.setPois( GenericPOIMapper.toEntity(authenticatedTouristDto.getPois(), false));
-                entity.setItineraries(GenericItineraryMapper.toEntity(authenticatedTouristDto.getItineraries(), false));
-                entity.setParticipatedContests(ContestMapper.toEntity(authenticatedTouristDto.getParticipatedContests(), false));
+                entity.setPois( GenericPOIMapper.toEntity(dto.getPois(), false));
+                entity.setItineraries(GenericItineraryMapper.toEntity(dto.getItineraries(), false));
+                entity.setParticipatedContests(ContestMapper.toEntity(dto.getParticipatedContests(), false));
             }
             return entity;
-        } else {
-            return null;
         }
+        return null;
     }
-    public static List<AuthenticatedTouristDto> toDto(List<AuthenticatedTourist> authenticatedTourists, boolean includeRelativeEntities) {
-        if (authenticatedTourists != null) {
-            return authenticatedTourists.stream().map(authenticatedTourist -> AuthenticatedTouristMapper.toDto(authenticatedTourist, includeRelativeEntities)).collect(Collectors.toList());
-        } else {
-            return null;
-        }
-    }
-    public static List<AuthenticatedTourist> toEntity(List<AuthenticatedTouristDto> authenticatedTouristDtos, boolean includeRelativeEntities) {
-        if (authenticatedTouristDtos != null) {
-            return authenticatedTouristDtos.stream().map(authenticatedTouristDto -> AuthenticatedTouristMapper.toEntity(authenticatedTouristDto, includeRelativeEntities)).collect(Collectors.toList());
-        } else {
-            return null;
-        }
-    }
+//    public static List<AuthenticatedTouristDto> toDto(List<AuthenticatedTourist> authenticatedTourists, boolean includeRelativeEntities) {
+//        if (authenticatedTourists != null) {
+//            return authenticatedTourists.stream().map(authenticatedTourist -> AuthenticatedTouristMapper.toDto(authenticatedTourist, includeRelativeEntities)).collect(Collectors.toList());
+//        } else {
+//            return null;
+//        }
+//    }
+//    public static List<AuthenticatedTourist> toEntity(List<AuthenticatedTouristDto> authenticatedTouristDtos, boolean includeRelativeEntities) {
+//        if (authenticatedTouristDtos != null) {
+//            return authenticatedTouristDtos.stream().map(authenticatedTouristDto -> AuthenticatedTouristMapper.toEntity(authenticatedTouristDto, includeRelativeEntities)).collect(Collectors.toList());
+//        } else {
+//            return null;
+//        }
+//    }
 }

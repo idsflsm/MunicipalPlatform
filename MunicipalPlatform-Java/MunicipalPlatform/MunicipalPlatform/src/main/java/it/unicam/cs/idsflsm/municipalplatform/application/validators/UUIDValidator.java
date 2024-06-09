@@ -4,6 +4,9 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.UUID;
+/**
+ * Represents a JSON validator for identifier field
+ */
 public class UUIDValidator implements ConstraintValidator<ValidUUID, String> {
     @Override
     public void initialize(ValidUUID constraintAnnotation) {

@@ -7,6 +7,10 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.UUID;
 import java.util.function.Predicate;
+/**
+ * Utility class providing various predicates for filtering Attachment objects based on different criteria.
+ * In general, predicates on entity fields are optional filters
+ */
 public class AttachmentCriteria {
     public static Predicate<Attachment> isPendingAttachment() {
         return attachment -> attachment.getClass() == PendingAttachment.class;
@@ -34,26 +38,23 @@ public class AttachmentCriteria {
         }
     }
     public static Predicate<Attachment> hasName(String name) {
-        if (!name.isBlank()) {
+        if (name != null && !name.isBlank()) {
             return attachment -> attachment.getName().toLowerCase().contains(name.toLowerCase());
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
     public static Predicate<Attachment> hasDescription(String description) {
-        if (!description.isBlank()) {
+        if (description != null && !description.isBlank()) {
             return attachment -> attachment.getDescription().toLowerCase().contains(description.toLowerCase());
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
     public static Predicate<Attachment> hasAuthor(String author) {
-        if (!author.isBlank()) {
+        if (author != null && !author.isBlank()) {
             return attachment -> attachment.getAuthor().toLowerCase().contains(author.toLowerCase());
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -61,7 +62,6 @@ public class AttachmentCriteria {
         if (creationDate != null) {
             return attachment -> attachment.getCreationDate().equals(creationDate);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -69,7 +69,6 @@ public class AttachmentCriteria {
         if (expiryDate != null) {
             return attachment -> attachment.getExpiryDate().equals(expiryDate);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
@@ -77,13 +76,9 @@ public class AttachmentCriteria {
         if (state != null) {
             return attachment -> attachment.getState().equals(state);
         } else {
-            // TODO : (NOT TODO) NO FILTERING IF NAME ISBLANK
             return attachment -> true;
         }
     }
-
-    // TODO : MAYBE BUILDER DESIGN PATTERN
-
     @SafeVarargs
     public static Predicate<Attachment> criteriaBuilder(Predicate<Attachment>... predicates) {
         Predicate<Attachment> result = attachment -> true;

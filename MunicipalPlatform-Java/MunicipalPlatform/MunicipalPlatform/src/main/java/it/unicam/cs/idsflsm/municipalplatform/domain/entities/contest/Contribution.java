@@ -10,26 +10,48 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
+/**
+ * Represents a contribution for a contest. It contains general information about the contribution,
+ * including the corresponding created content and its state
+ */
 @Entity
 @Getter
 @Setter
 @Table(name = "contribution")
 public class Contribution implements IContribution {
+    /**
+     * The unique identifier of the contribution
+     */
     @Id
     // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
+    /**
+     * The contest associated to the contribution
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     private Contest contest;
+    /**
+     * The POI corresponding to the contribution
+     */
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST,  CascadeType.REMOVE })
     @JoinColumn(name = "poi_id")
     private POI poi;
+    /**
+     * The itinerary corresponding to the contribution
+     */
     @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,  CascadeType.REMOVE })
     @JoinColumn(name = "itinerary_id")
     private Itinerary itinerary;
+    /**
+     * The state of the contribution (and the corresponding content)
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "content_state", nullable = false, unique = false)
     private ContentState state = ContentState.VALIDABLE;
+    /**
+     * The result of the contribution
+     */
     @Enumerated(EnumType.STRING)
     @Column(name = "contest_result", nullable = false, unique = false)
     private ContestResult result = ContestResult.LOSER;
@@ -77,18 +99,18 @@ public class Contribution implements IContribution {
             this.itinerary = null;
         }
     }
-    @Override
-    public void setNotNullPoi(POI poi) {
-        if (this.poi != null) {
-            this.setPoi(poi);
-        }
-    }
-    @Override
-    public void setNotNullItinerary(Itinerary itinerary) {
-        if (this.itinerary != null) {
-            this.setItinerary(itinerary);
-        }
-    }
+//    @Override
+//    public void setNotNullPoi(POI poi) {
+//        if (this.poi != null) {
+//            this.setPoi(poi);
+//        }
+//    }
+//    @Override
+//    public void setNotNullItinerary(Itinerary itinerary) {
+//        if (this.itinerary != null) {
+//            this.setItinerary(itinerary);
+//        }
+//    }
     @Override
     public void detachFromEntities(boolean contributionValidation) {
         this.contest.getContributions().remove(this);

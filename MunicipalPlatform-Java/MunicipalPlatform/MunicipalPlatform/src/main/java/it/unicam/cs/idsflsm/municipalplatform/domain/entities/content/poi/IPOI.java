@@ -8,11 +8,14 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 
 import java.util.List;
 
+/**
+ * Represents a Point Of Interest on the platform. Provides method to detach poi entity
+ * from relationships with other entities, in order to manage entity persistence
+ */
 public interface IPOI extends IContent {
-    List<Itinerary> getPoiItineraries();
-    List<AuthenticatedUser> getUsers();
-    List<Attachment> getAttachments();
-
+    /**
+     * Method for detachment of poi entity
+     * from relationships with other entities
+     */
     void detachFromEntities();
-//    void checkItinerariesSize();
 }

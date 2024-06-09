@@ -5,11 +5,14 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 
 import java.util.function.Predicate;
-
+/**
+ * Utility class providing various predicates for filtering RoleRequest objects based on different criteria.
+ * In general, predicates on entity fields are optional filters
+ */
 public class RoleRequestCriteria {
     public static Predicate<RoleRequest> hasUsername(String username) {
-        if (!username.isBlank()) {
-            return roleRequest -> roleRequest.getUsername().toLowerCase().contains(username.toLowerCase());
+        if (username != null && !username.isBlank()) {
+            return roleRequest -> roleRequest.getUsername().contains(username);
         } else {
             return roleRequest -> true;
         }

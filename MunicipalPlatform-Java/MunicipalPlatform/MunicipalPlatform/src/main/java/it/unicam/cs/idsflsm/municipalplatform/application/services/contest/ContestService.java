@@ -1,22 +1,23 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.contest;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.contest.IContestService;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.contest.ContributionCriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.criterias.user.authenticated.AuthenticatedUserCriteria;
+import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.GenericPOIMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.contest.ContestMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.contest.ContributionMapper;
-import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.AuthenticatedTouristMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContestDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContestResult;
+import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.itinerary.IItineraryRepository;
+import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.poi.IPOIRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.contest.IContestRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.contest.IContributionRepository;
 import jakarta.transaction.Transactional;
@@ -24,17 +25,36 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+/**
+ * Service class for both the ContestRepository and the ContributionRepository.
+ * It provides methods to manipulate persistent contests and contributions in the database
+ */
 @Service
 @Transactional
 @AllArgsConstructor(onConstructor_ = @Autowired)
 public class ContestService implements IContestService {
+    /**
+     * The repository for Contest entity
+     */
     private final IContestRepository _contestRepository;
+    /**
+     * The repository for Contribution entity
+     */
     private final IContributionRepository _contributionRepository;
+    /**
+     * The repository for Itinerary entity
+     */
+    private final IItineraryRepository _itineraryRepository;
+    /**
+     * The repository for POI entity
+     */
+    private final IPOIRepository _poiRepository;
     @Override
     public void saveInRepository(Contest contest) {
         _contestRepository.save(contest);
@@ -48,7 +68,7 @@ public class ContestService implements IContestService {
 //        _contributionRepository.delete(contribution);
 //    }
     @Override
-    public List<ContestDto> getAllContests(Optional<Predicate<Contest>> predicate) {
+    public List<ContestDto> getContests(Optional<Predicate<Contest>> predicate) {
         List<Contest> result = predicate.map(contestPredicate -> _contestRepository.findAll()
                     .stream()
                     .filter(contestPredicate)
@@ -56,14 +76,16 @@ public class ContestService implements IContestService {
                 .orElseGet(_contestRepository::findAll);
         if (!result.isEmpty()) {
             return ContestMapper.toDto(result, true);
-        } else {
-            return null;
         }
+        return new ArrayList<>();
     }
     @Override
     public ContestDto getContestById(UUID id) {
-        Optional<Contest> contest = _contestRepository.findById(id);
-        return contest.map(c -> ContestMapper.toDto(c, true)).orElse(null);
+        Contest contest = _contestRepository.findById(id).orElse(null);
+        if (contest != null) {
+            return ContestMapper.toDto(contest, true);
+        }
+        return null;
     }
     @Override
     public ContestDto addContest(ContestDto contestDto) {
@@ -71,34 +93,32 @@ public class ContestService implements IContestService {
             Contest contest = ContestMapper.toEntity(contestDto, true);
             _contestRepository.save(contest);
             return contestDto;
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
-    public boolean deleteContestById(UUID id) {
+    public ContestDto deleteContestById(UUID id) {
         Contest contest = _contestRepository.findById(id).orElse(null);
         if (contest != null) {
             contest.detachFromEntities();
             _contestRepository.delete(contest);
-            return true;
-        } else {
-            return false;
+            return ContestMapper.toDto(contest, true);
         }
+        return null;
     }
     @Override
     public boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate) {
-        if (getAllContests(predicate).get(0) != null) {
+        List<ContestDto> contests = getContests(predicate);
+        if (!contests.isEmpty()) {
             Contest contest = ContestMapper.toEntity(contestDto, true);
             assert contest != null;
             _contestRepository.delete(contest);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
     @Override
-    public List<ContributionDto> getAllContributions(Optional<Predicate<Contribution>> predicate) {
+    public List<ContributionDto> getContributions(Optional<Predicate<Contribution>> predicate) {
         List<Contribution> result = predicate.map(contributionPredicate -> _contributionRepository.findAll()
                     .stream()
                     .filter(contributionPredicate)
@@ -106,25 +126,32 @@ public class ContestService implements IContestService {
                 .orElseGet(_contributionRepository::findAll);
         if (!result.isEmpty()) {
             return ContributionMapper.toDto(result, true);
-        } else {
-            return null;
         }
+        return new ArrayList<>();
     }
     @Override
     public ContributionDto getContributionById(UUID id) {
-        Optional<Contribution> contribution = _contributionRepository.findById(id);
-        return contribution.map(contribution1 -> ContributionMapper.toDto(contribution1, true)).orElse(null);
+        Contribution contribution = _contributionRepository.findById(id).orElse(null);
+        if (contribution != null) {
+            return ContributionMapper.toDto(contribution, true);
+        }
+        return null;
     }
     @Override
     public ContributionDto addContribution(UUID idContest, UUID idParticipant, ContributionDto contributionDto) {
         Contest contest = _contestRepository.findById(idContest).orElse(null);
         if (contest != null) {
             var participants = contest.getParticipatingUsers();
-            if (participants.stream().anyMatch(authenticatedUser -> authenticatedUser.getId().equals(idParticipant))) {
+            if (participants.stream().anyMatch(AuthenticatedUserCriteria.hasId(idParticipant))) {
                 Contribution contribution = ContributionMapper.toEntity(contributionDto, true);
                 contribution.setState(ContentState.VALIDABLE);
                 contribution.setContest(contest);
                 contest.getContributions().add(contribution);
+                if (contribution.getContent() instanceof Itinerary) {
+                    contributionDto.getItinerary().getItineraryPois().forEach(poiDto -> {
+                        contribution.getItinerary().getItineraryPois().add(GenericPOIMapper.toEntity(poiDto, true));
+                    });
+                }
                 _contributionRepository.save(contribution);
                 _contestRepository.save(contest);
                 return ContributionMapper.toDto(contribution, true);
@@ -133,17 +160,16 @@ public class ContestService implements IContestService {
         return null;
     }
     @Override
-    public boolean deleteContributionById(UUID id) {
+    public ContributionDto deleteContributionById(UUID id) {
         Contribution contribution = _contributionRepository.findById(id).orElse(null);
         if (contribution != null) {
 //            contribution.setState(ContentState.REMOVABLE);
 //            _contributionRepository.save(contribution);
             contribution.detachFromEntities(false);
             _contributionRepository.delete(contribution);
-            return true;
-        } else {
-            return false;
+            return ContributionMapper.toDto(contribution, true);
         }
+        return null;
     }
 //    @Override
 //    public boolean deleteContribution(ContributionDto contributionDto, Optional<Predicate<Contribution>> predicate) {
@@ -167,51 +193,58 @@ public class ContestService implements IContestService {
             contribution.getContent().setState(newState);
             _contributionRepository.save(contribution);
             return ContributionMapper.toDto(contribution, true);
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
     public ContributionDto getWinnerContribution(UUID idContest) {
         Contest contest = _contestRepository.findById(idContest).orElse(null);
         if (contest != null) {
-            Contribution result = contest.getContributions()
+            List<Contribution> contributions = contest.getContributions()
                     .stream()
                     .filter(ContributionCriteria.isWinner())
-                    .toList()
-                    .get(0);
-            return ContributionMapper.toDto(result, true);
-        } else {
-            return null;
+                    .toList();
+            if (!contributions.isEmpty()) {
+                Contribution result = contributions.get(0);
+                return ContributionMapper.toDto(result, true);
+            }
         }
+        return null;
     }
     @Override
     public ContributionDto setWinnerContribution(UUID idContribution) {
         Contribution contribution = _contributionRepository.findById(idContribution).orElse(null);
-        if (contribution != null && contribution.getState().equals(ContentState.UPLOADABLE) && contribution.getResult().equals(ContestResult.LOSER)) {
+        if (contribution != null
+                && contribution.getState().equals(ContentState.UPLOADABLE)
+                && contribution.getResult().equals(ContestResult.LOSER)) {
             contribution.setResult(ContestResult.WINNER);
             contribution.getContest().setHasWinner(true);
             _contributionRepository.save(contribution);
             return ContributionMapper.toDto(contribution, true);
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
     public ContributionDto uploadContribution(UUID idContribution) {
         Contribution contribution = _contributionRepository.findById(idContribution).orElse(null);
-        ContributionDto result = ContributionMapper.toDto(contribution, true);
         if (contribution != null && contribution.getResult().equals(ContestResult.WINNER)) {
 //            contribution.setNotNullPoi(null);
 //            contribution.setNotNullItinerary(null);
 //            contribution.getContest().getContributions().remove(contribution);
 //            contribution.setContest(null);
+            if (contribution.getContent() instanceof Itinerary itinerary) {
+                itinerary.setState(ContentState.UPLOADED);
+                _itineraryRepository.save(itinerary);
+            } else if (contribution.getContent() instanceof POI poi) {
+                poi.setState(ContentState.UPLOADED);
+                _poiRepository.save(poi);
+            }
+            ContributionDto result = ContributionMapper.toDto(contribution, true);
             contribution.detachFromEntities(true);
             _contributionRepository.delete(contribution);
             return result;
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
     public boolean deleteAllLoserContributions(Optional<UUID> idContest) {
@@ -232,12 +265,11 @@ public class ContestService implements IContestService {
             }));
             _contestRepository.saveAll(result);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
     @Override
-    public List<AuthenticatedUserDto> getAllParticipants(UUID idContest, Optional<Predicate<AuthenticatedUser>> predicate) {
+    public List<AuthenticatedUserDto> getParticipants(UUID idContest, Optional<Predicate<AuthenticatedUser>> predicate) {
         Contest contest = _contestRepository.findById(idContest).orElse(null);
         if (contest != null) {
             List<AuthenticatedUser> result = predicate.map(authenticatedTouristPredicate ->
@@ -245,26 +277,22 @@ public class ContestService implements IContestService {
             ).orElseGet(contest::getParticipatingUsers);
             if (!result.isEmpty()) {
                 return GenericAuthenticatedUserMapper.toDto(result, true);
-            } else {
-                return null;
             }
-        } else {
-            return null;
         }
+        return new ArrayList<>();
     }
     @Override
-    public AuthenticatedUserDto getParticipantById(UUID idContest, UUID idAuthenticatedUser) {
+    public AuthenticatedUserDto getParticipantById(UUID idContest, UUID idParticipant) {
         Contest contest = _contestRepository.findById(idContest).orElse(null);
         if (contest != null) {
             AuthenticatedUser authenticatedUser = contest.getParticipatingUsers()
                     .stream()
-                    .filter(p -> p.getId().equals(idAuthenticatedUser))
+                    .filter(AuthenticatedUserCriteria.hasId(idParticipant))
                     .findFirst()
                     .orElse(null);
             return GenericAuthenticatedUserMapper.toDto(authenticatedUser, true);
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
     public AuthenticatedUserDto addParticipant(UUID idContest, AuthenticatedUserDto userDto) {
@@ -275,9 +303,8 @@ public class ContestService implements IContestService {
             authenticatedUser.getParticipatedContests().add(contest);
             _contestRepository.save(contest);
             return GenericAuthenticatedUserMapper.toDto(authenticatedUser, true);
-        } else {
-            return null;
         }
+        return null;
     }
     @Override
     public AuthenticatedUserDto deleteParticipant(UUID idContest, AuthenticatedUserDto userDto) {
@@ -288,8 +315,7 @@ public class ContestService implements IContestService {
             authenticatedUser.getParticipatedContests().remove(contest);
             _contestRepository.save(contest);
             return GenericAuthenticatedUserMapper.toDto(authenticatedUser, true);
-        } else {
-            return null;
         }
+        return null;
     }
 }

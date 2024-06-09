@@ -16,6 +16,12 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * Represents an itinerary on the platform. It contains information such as
+ * the list of its Points Of Interest, the list of its attachments
+ * and the associated contest contribution if exists
+ */
 @Entity
 @Getter
 @Setter
@@ -23,11 +29,17 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "itinerary_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "itinerary")
 public abstract class Itinerary extends Content implements IItinerary {
+    /**
+     * The list of POIs associated to the itinerary
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST/*, /* CascadeType.MERGE */})
     @JoinTable(name = "itinerary_pois",
             joinColumns = @JoinColumn(name = "itinerary_id", unique = false),
             inverseJoinColumns = @JoinColumn(name = "poi_id", unique = false))
     private List<POI> itineraryPois = new ArrayList<POI>();
+    /**
+     * The list of authenticated users that saved the itinerary
+     */
 //    @ManyToMany(mappedBy = "itineraries", fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
@@ -36,9 +48,15 @@ public abstract class Itinerary extends Content implements IItinerary {
             inverseJoinColumns = @JoinColumn(name = "user_id", unique = false)
     )
     private List<AuthenticatedUser> users = new ArrayList<AuthenticatedUser>();
+    /**
+     * The list of attachments associated to the itinerary
+     */
     @OneToMany(mappedBy = "itinerary", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
             fetch = FetchType.EAGER)
     private List<Attachment> attachments = new ArrayList<Attachment>();
+    /**
+     * The corresponding contest contribution (if exists)
+     */
     @OneToOne(mappedBy = "itinerary", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE /*, orphanRemoval = true */)
     private Contribution contribution;
     public Itinerary() {

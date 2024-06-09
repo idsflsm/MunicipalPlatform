@@ -10,6 +10,9 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an attachment on the platform, acting as PendingAttachment
+ */
 @Entity
 @DiscriminatorValue("pending_attachment")
 public class PendingAttachment extends Attachment {

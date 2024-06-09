@@ -8,6 +8,9 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents generic content on the platform. It provides methods for manipulating its data
+ */
 public interface IContent {
     UUID getId();
     void setId(UUID id);

@@ -14,25 +14,20 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class ModifyItineraryRequest {
-//    @NotNull
-//    @NotBlank
-//    @ValidUsername
-//    private String username;
     @NotNull
     @ValidUUID
     private UUID idUser;
-
     @NotNull
     @NotBlank
     @OnlyLettersString
     private String name;
     @NotNull
     @NotBlank
-    @ValidCoordinate
+    @ValidLatitude
     private String latitude;
     @NotNull
     @NotBlank
-    @ValidCoordinate
+    @ValidLongitude
     private String longitude;
     @NotNull
     @NotBlank

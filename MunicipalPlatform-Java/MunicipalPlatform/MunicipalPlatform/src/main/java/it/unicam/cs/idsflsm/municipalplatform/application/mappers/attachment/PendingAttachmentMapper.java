@@ -7,13 +7,20 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Pending
 
 import java.util.List;
 import java.util.stream.Collectors;
+/**
+ * Utility class for mapping between PendingAttachment and PendingAttachmentDto
+ */
 public class PendingAttachmentMapper {
-
-    public static PendingAttachmentDto toDto(PendingAttachment attachment, boolean includeRelatedEntities) {
+    /**
+     * Converts a PendingAttachment entity to a PendingAttachment DTO
+     * @param attachment the attachment entity to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-entities
+     * @return the corresponding PendingAttachmentDto if the attachment parameter is not null, null otherwise
+     */
+    public static PendingAttachmentDto toDto(PendingAttachment attachment, boolean includeRelativeEntities) {
         if (attachment == null) {
             return null;
         }
-
         PendingAttachmentDto dto = new PendingAttachmentDto();
         dto.setId(attachment.getId());
         dto.setName(attachment.getName());
@@ -22,21 +29,23 @@ public class PendingAttachmentMapper {
         dto.setCreationDate(attachment.getCreationDate());
         dto.setExpiryDate(attachment.getExpiryDate());
         dto.setState(attachment.getState());
-
-        if (includeRelatedEntities) {
+        if (includeRelativeEntities) {
             dto.setPoi(GenericPOIMapper.toDto(attachment.getPoi(), false));
             dto.setItinerary(GenericItineraryMapper.toDto(attachment.getItinerary(), false));
             dto.setReports(ReportMapper.toDto(attachment.getReports(), false));
         }
-
         return dto;
     }
-
-    public static PendingAttachment toEntity(PendingAttachmentDto dto, boolean includeRelatedEntities) {
+    /**
+     * Converts a PendingAttachment DTO to a PendingAttachment entity
+     * @param dto the attachment DTO to be converted
+     * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
+     * @return the corresponding PendingAttachment entity if the dto parameter is not null, null otherwise
+     */
+    public static PendingAttachment toEntity(PendingAttachmentDto dto, boolean includeRelativeEntities) {
         if (dto == null) {
             return null;
         }
-
         PendingAttachment entity = new PendingAttachment();
         entity.setId(dto.getId());
         entity.setName(dto.getName());
@@ -45,13 +54,11 @@ public class PendingAttachmentMapper {
         entity.setCreationDate(dto.getCreationDate());
         entity.setExpiryDate(dto.getExpiryDate());
         entity.setState(dto.getState());
-
-        if (includeRelatedEntities) {
+        if (includeRelativeEntities) {
             entity.setPoi(GenericPOIMapper.toEntity(dto.getPoi(), false));
             entity.setItinerary(GenericItineraryMapper.toEntity(dto.getItinerary(), false));
             entity.setReports(ReportMapper.toEntity(dto.getReports(), false));
         }
-
         return entity;
     }
 }

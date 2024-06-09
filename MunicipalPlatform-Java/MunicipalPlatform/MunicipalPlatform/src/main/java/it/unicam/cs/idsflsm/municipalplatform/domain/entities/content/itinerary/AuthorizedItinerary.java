@@ -13,6 +13,9 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an itinerary on the platform, acting as AuthorizedItinerary
+ */
 @Entity
 @DiscriminatorValue("authorized_itinerary")
 public class AuthorizedItinerary extends Itinerary {

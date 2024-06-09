@@ -10,6 +10,9 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an attachment on the platform, acting as AuthorizedAttachment
+ */
 @Entity
 @DiscriminatorValue("authorized_attachment")
 public class AuthorizedAttachment extends Attachment {

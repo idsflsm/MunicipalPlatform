@@ -11,9 +11,10 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+/**
+ * Represents an authenticated user on the platform, acting as authenticated tourist
+ */
 @Entity
-@Getter
-@Setter
 @DiscriminatorValue("authenticated_tourist")
 public class AuthenticatedTourist extends AuthenticatedUser {
     public AuthenticatedTourist() {

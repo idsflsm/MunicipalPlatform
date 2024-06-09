@@ -8,6 +8,10 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.UUID;
 import java.util.function.Predicate;
+/**
+ * Utility class providing various predicates for filtering Contribution objects based on different criteria.
+ * In general, predicates on entity fields are optional filters
+ */
 public class ContributionCriteria {
     public static Predicate<Contribution> isWinner() {
         return contribution -> contribution.getResult().equals(ContestResult.WINNER);

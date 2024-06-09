@@ -15,6 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Specific builder class for the building of PendingPOI instances
+ */
 @Component
 @Getter
 @Setter

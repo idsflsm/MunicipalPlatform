@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated;
 
-import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.IRoleCommand;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
+import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.authenticated.IRoleCommand;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
@@ -14,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Represents an authenticated user on the platform. It contains general information about the user
+ */
 @Entity
 @Getter
 @Setter
@@ -21,20 +23,41 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "authenticated_user")
 public abstract class AuthenticatedUser implements IAuthenticatedUser {
+    /**
+     * The unique identifier of the authenticated user
+     */
     @Id
     // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
+    /**
+     * The username of the authenticated user
+     */
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+    /**
+     * The password of the authenticated user
+     */
     @Column(name = "password", nullable = false, unique = false)
     private String password;
+    /**
+     * The name of the authenticated user
+     */
     @Column(name = "name", nullable = false, unique = false)
     private String name;
+    /**
+     * The surname of the authenticated user
+     */
     @Column(name = "surname", nullable = false, unique = false)
     private String surname;
+    /**
+     * The role of the authenticated user
+     */
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    /**
+     * The list of saved POIs
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @JoinTable(
             name = "user_poi",
@@ -42,6 +65,9 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
             inverseJoinColumns = @JoinColumn(name = "poi_id")
     )
     private List<POI> pois = new ArrayList<POI>();
+    /**
+     * The list of saved itineraries
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @JoinTable(
             name = "user_itinerary",
@@ -50,6 +76,9 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
     )
     private List<Itinerary> itineraries = new ArrayList<Itinerary>();
     // @ManyToMany(mappedBy = "participatingUsers", fetch = FetchType.EAGER)
+    /**
+     * The list of contests to which the user participates
+     */
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST})
     @JoinTable(
             name = "contest_participants",
@@ -57,6 +86,10 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
             inverseJoinColumns = @JoinColumn(name = "contest_id")
     )
     private List<Contest> participatedContests = new ArrayList<Contest>();
+    /**
+     * The command to execute the modification or elimination
+     * of the user's own role
+     */
     @Transient
     private IRoleCommand command;
     public AuthenticatedUser() {

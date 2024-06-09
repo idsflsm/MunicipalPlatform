@@ -7,17 +7,30 @@ import lombok.Setter;
 
 import java.util.UUID;
 
+/**
+ * Represents a report on an attachment already loaded on the platform.
+ * It contains the motivation of the report and its associated attachment
+ */
 @Entity
 @Getter
 @Setter
 @Table(name = "report")
 public class Report implements IReport {
+    /**
+     * The unique identifier of the report
+     */
     @Id
     // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
+    /**
+     * The motivation of the report
+     */
     @Column(name = "motivation", nullable = false, unique = false)
     private String motivation;
+    /**
+     * The attachment associated to the report
+     */
     @ManyToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.REMOVE*/)
     @JoinColumn(name = "attachment", nullable = true)
     private Attachment attachment;

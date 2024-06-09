@@ -13,6 +13,10 @@ import jakarta.persistence.Entity;
 
 import java.util.List;
 import java.util.UUID;
+
+/**
+ * Represents a Point Of Interest on the platform, acting as PendingPOI
+ */
 @Entity
 @DiscriminatorValue("pending_poi")
 public class PendingPOI extends POI {

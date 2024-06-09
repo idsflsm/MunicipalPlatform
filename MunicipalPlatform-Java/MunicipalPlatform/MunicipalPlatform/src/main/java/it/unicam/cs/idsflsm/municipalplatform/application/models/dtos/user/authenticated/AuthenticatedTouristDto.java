@@ -14,8 +14,11 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-@Getter
-@Setter
+/**
+ * Represents a DTO related to the entity AuthenticatedTourist.
+ * It contains all fields with simple types
+ * and the DTOs of entity fields
+ */
 public class AuthenticatedTouristDto extends AuthenticatedUserDto {
     public AuthenticatedTouristDto() {
     }

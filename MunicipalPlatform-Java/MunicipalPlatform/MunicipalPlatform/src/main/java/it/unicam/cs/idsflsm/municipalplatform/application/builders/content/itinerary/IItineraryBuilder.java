@@ -9,6 +9,9 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.List;
+/**
+ * Interface for building Itinerary instances
+ */
 public interface IItineraryBuilder {
     void setName(String name);
     void setCoordinates(Coordinates coordinates);
@@ -21,5 +24,9 @@ public interface IItineraryBuilder {
     void setUsers(List<AuthenticatedUser> users);
     void setAttachments(List<Attachment> attachments);
     void setContribution(Contribution contribution);
+    /**
+     * Builds and returns an Itinerary instance based on the stored information
+     * @return the built Itinerary instance
+     */
     Itinerary build();
 }
