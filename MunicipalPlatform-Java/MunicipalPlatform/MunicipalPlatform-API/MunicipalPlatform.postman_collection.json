@@ -1,0 +1,1341 @@
+{
+	"info": {
+		"_postman_id": "b0470157-36c8-426b-a2f6-9b098741b191",
+		"name": "MunicipalPlatform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30661434"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John\",\r\n  \"surname\": \"Doe\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"password\": \"Mypassword123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/users/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.doe@example.com\",\r\n  \"password\": \"Mypassword123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "sendRoleRequest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john.doe@example.com\",\r\n  \"role\": \"contributor\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/users/deae94cc-81df-450c-8569-0d174c80816d/role/request"
+					},
+					"response": []
+				},
+				{
+					"name": "getRoleRequests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/users/role/request?idUser=c7310c30-31a4-4a4b-85d8-4564bf3ccca8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"users",
+								"role",
+								"request"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "c7310c30-31a4-4a4b-85d8-4564bf3ccca8"
+								},
+								{
+									"key": "username",
+									"value": "john.doe@example.com",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUserRole",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\" : \"john.doe@example.com\",\r\n  \"accept\" : true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5100/api/users/deae94cc-81df-450c-8569-0d174c80816d/role/request?idAdmin=c7310c30-31a4-4a4b-85d8-4564bf3ccca8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"users",
+								"deae94cc-81df-450c-8569-0d174c80816d",
+								"role",
+								"request"
+							],
+							"query": [
+								{
+									"key": "idAdmin",
+									"value": "c7310c30-31a4-4a4b-85d8-4564bf3ccca8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "removeUserRole",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/users/54f17cfc-60ff-4667-baf1-7a80ae9e00d5/role?idAdmin=732870bd-8369-44e1-8b72-c51d663a6d4e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"users",
+								"54f17cfc-60ff-4667-baf1-7a80ae9e00d5",
+								"role"
+							],
+							"query": [
+								{
+									"key": "idAdmin",
+									"value": "732870bd-8369-44e1-8b72-c51d663a6d4e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "openAnonymousSession",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "http://localhost:5100/api/users/anonymous"
+					},
+					"response": []
+				},
+				{
+					"name": "closeAnonymousSession",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5100/api/users/anonymous/ed8e5d20-9f55-464e-9420-f90a4dd1c92c"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "getReports",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/reports?idUser=78fab1b8-59d0-43a5-9342-813e1f0bc9dd",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"reports"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "78fab1b8-59d0-43a5-9342-813e1f0bc9dd"
+								},
+								{
+									"key": "motivation",
+									"value": "hello",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getReportById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/reports/fcb417a3-95f6-4ff0-88ea-0e13ed241704?idUser=641e644c-e995-4f4f-a5ba-e6b606e4d76a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"reports",
+								"fcb417a3-95f6-4ff0-88ea-0e13ed241704"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "641e644c-e995-4f4f-a5ba-e6b606e4d76a"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "validateReport",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\" : \"9b0942a5-c0b9-4892-98ee-34b0c5372f77\",\r\n    \"validate\" : true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/reports/59f16c5b-4cc1-450a-a73a-ff6d45bc19bb/validate"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contests",
+			"item": [
+				{
+					"name": "getContests",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "creationDate",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "expiryDate",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "hasWinner",
+									"value": "true",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContestById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "locahost:5100/api/contests/f8559da6-3edf-4b83-9bbe-fe0fcccf2212"
+					},
+					"response": []
+				},
+				{
+					"name": "addContest",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": \"01e3457d-bf85-4d19-be31-5fe47ccba9d2\",\r\n    \"name\": \"Sample Name\",\r\n    \"author\": \"John Doe\",\r\n    \"description\": \"Sample Description\",\r\n    \"expiryDate\": \"31/12/2025\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteContest",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "locahost:5100/api/contests/2bd2cf42-3679-476e-a6b3-6150d2a41802"
+					},
+					"response": []
+				},
+				{
+					"name": "getContributions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/2bd2cf42-3679-476e-a6b3-6150d2a41802/contributions?idUser=aff837e0-14d2-4a42-b9fb-704382028052",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"2bd2cf42-3679-476e-a6b3-6150d2a41802",
+								"contributions"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "aff837e0-14d2-4a42-b9fb-704382028052"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getContributionById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/contributions/07e0cae8-7719-45f8-8f9c-efbdad27d5c4?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"contributions",
+								"07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPOIAsContribution",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"84fc9150-d1b9-48ac-bfb0-475c3e68eb82\",\r\n  \"name\": \"John Doe\",\r\n  \"latitude\": \"41.9028\",\r\n  \"longitude\": \"12.4964\",\r\n  \"description\": \"DescriptionText\",\r\n  \"author\": \"JaneSmith\",\r\n  \"expiryDate\": \"\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests/a487b786-7389-4ce7-ba1c-3a08007fd777/contributions/poi"
+					},
+					"response": []
+				},
+				{
+					"name": "addItineraryAsContribution",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"ccee94b6-264d-436b-ba94-fa3b02da9e36\",\r\n  \"name\": \"Eiffel Tower\",\r\n  \"latitude\": \"48.8584\",\r\n  \"longitude\": \"2.2945\",\r\n  \"description\": \"The Eiffel Tower is a wroughtiron lattice tower built in\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2024\",\r\n  \"pois\": [\r\n    \"21162d27-6a08-46d6-87fb-e06ded16ffcf\",\r\n    \"8f3e4f36-93c3-49cb-b053-fdc6d8531a30\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests/755b2363-4ad0-4984-870d-8764f25637dc/contributions/itinerary"
+					},
+					"response": []
+				},
+				{
+					"name": "validateContribution",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\" : \"01e3457d-bf85-4d19-be31-5fe47ccba9d2\",\r\n  \"validate\" : true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests/contributions/6d77a711-f85d-41d5-a09a-569acc10c92c/validate"
+					},
+					"response": []
+				},
+				{
+					"name": "uploadContribution",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/contributions/6d77a711-f85d-41d5-a09a-569acc10c92c/upload?idUser=01e3457d-bf85-4d19-be31-5fe47ccba9d2",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"contributions",
+								"6d77a711-f85d-41d5-a09a-569acc10c92c",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "01e3457d-bf85-4d19-be31-5fe47ccba9d2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getWinnerContribution",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/0ff9fe47-a629-4370-9031-9cf0f8375750/contributions/win?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"0ff9fe47-a629-4370-9031-9cf0f8375750",
+								"contributions",
+								"win"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "setWinnerContribution",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/contributions/6d77a711-f85d-41d5-a09a-569acc10c92c/win?idUser=01e3457d-bf85-4d19-be31-5fe47ccba9d2",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"contributions",
+								"6d77a711-f85d-41d5-a09a-569acc10c92c",
+								"win"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "01e3457d-bf85-4d19-be31-5fe47ccba9d2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteLoserContributions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/0ff9fe47-a629-4370-9031-9cf0f8375750/contributions/lose?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"0ff9fe47-a629-4370-9031-9cf0f8375750",
+								"contributions",
+								"lose"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getParticipants",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/0ff9fe47-a629-4370-9031-9cf0f8375750/participants?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"0ff9fe47-a629-4370-9031-9cf0f8375750",
+								"participants"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								},
+								{
+									"key": "username",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "surname",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getParticipantById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/contests/10783395-af99-4cf2-9d67-d84f1b34eb5a/participants/05a6769c-84b9-4638-b0ef-d55b3c777d90?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"contests",
+								"10783395-af99-4cf2-9d67-d84f1b34eb5a",
+								"participants",
+								"05a6769c-84b9-4638-b0ef-d55b3c777d90"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addParticipant",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\" : \"john.doe2@example.com\",\r\n  \"name\" : \"John\",\r\n  \"surname\" : \"Doe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests/755b2363-4ad0-4984-870d-8764f25637dc/participants"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteParticipant",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\" : \"05a6769c-84b9-4638-b0ef-d55b3c777d90\",\r\n  \"username\" : \"john.doe1@example.com\",\r\n  \"name\" : \"John\",\r\n  \"surname\" : \"Doe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/contests/0ff9fe47-a629-4370-9031-9cf0f8375750/participants"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteContribution",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "locahost:5100/api/contests/contributions/07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attachments",
+			"item": [
+				{
+					"name": "getAttachments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/attachments?idUser=78fab1b8-59d0-43a5-9342-813e1f0bc9dd",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"attachments"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "78fab1b8-59d0-43a5-9342-813e1f0bc9dd"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "creationDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expiryDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAttachmentById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/attachments/05a6769c-84b9-4638-b0ef-d55b3c777d90?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"attachments",
+								"05a6769c-84b9-4638-b0ef-d55b3c777d90"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAttachmentById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "locahost:5100/api/attachments/05a6769c-84b9-4638-b0ef-d55b3c777d90"
+					},
+					"response": []
+				},
+				{
+					"name": "updateAttachmentById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"13bbc420-1a88-4c62-bd60-83918f0f85ba\",\r\n  \"name\": \"Attacatament 1\",\r\n  \"description\": \"Chis is a sample attachmajajent.\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2025\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/attachments/05a6769c-84b9-4638-b0ef-d55b3c777d90"
+					},
+					"response": []
+				},
+				{
+					"name": "validateAttachment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\" : \"83e43bb7-532f-4df1-b2d9-0c2c194656e9\",\r\n    \"validate\" : true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/attachments/761355d7-0e15-4774-a63f-a9376c7a47e5/validate"
+					},
+					"response": []
+				},
+				{
+					"name": "uploadAttachment",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/attachments/761355d7-0e15-4774-a63f-a9376c7a47e5/upload?idUser=83e43bb7-532f-4df1-b2d9-0c2c194656e9",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"attachments",
+								"761355d7-0e15-4774-a63f-a9376c7a47e5",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "83e43bb7-532f-4df1-b2d9-0c2c194656e9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addReport",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\" : \"ff998fa8-9781-42dc-826b-2918a5aaeb59\",\r\n    \"motivation\" : \"hello\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/attachments/9c81ed35-3688-4308-aab9-a729147b0e4f/reports"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Itineraries",
+			"item": [
+				{
+					"name": "getItineraries",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/itineraries?idUser=ad1ecc52-1cf8-465b-b63c-147dedb78e6a",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"itineraries"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "ad1ecc52-1cf8-465b-b63c-147dedb78e6a"
+								},
+								{
+									"key": "name",
+									"value": "eif",
+									"disabled": true
+								},
+								{
+									"key": "latitude",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "longitude",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "creationDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expiryDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "uploadable",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getItineraryById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/itineraries/07e0cae8-7719-45f8-8f9c-efbdad27d5c4?idUser",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"itineraries",
+								"07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addItinerary",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"ad1ecc52-1cf8-465b-b63c-147dedb78e6a\",\r\n  \"name\": \"Eiffel Tower\",\r\n  \"latitude\": \"48.8584\",\r\n  \"longitude\": \"2.2945\",\r\n  \"description\": \"The Eiffel Tower is a wroughtiron lattice tower built in\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2024\",\r\n  \"pois\": [\r\n    \"22647deb-c478-468b-b6d2-1f35c7fd01a9\",\r\n    \"8de4ea3a-3fd6-4f84-947f-a7c1f00e9a1d\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/itineraries"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteItineraryById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "locahost:5100/api/itineraries/75e4e94c-50e6-4a7c-b03c-d13f2e60b247"
+					},
+					"response": []
+				},
+				{
+					"name": "updateItineraryById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": \"aadd7f1a-ffc9-4b3e-a374-a53df7e2b1fe\",\r\n    \"name\": \"eifele tover\",\r\n    \"latitude\": \"10\",\r\n    \"longitude\": \"10\",\r\n    \"description\": \"eifele tover description\",\r\n    \"author\": \"Luca Falappa\",\r\n    \"expiryDate\": \"25/12/2025\",\r\n    \"pois\": [\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/itineraries/07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+					},
+					"response": []
+				},
+				{
+					"name": "validateItinerary",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"cc6ab3c8-13fb-47cb-b567-d3a2e94905a3\",\r\n  \"validate\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/itineraries/07e0cae8-7719-45f8-8f9c-efbdad27d5c4/validate"
+					},
+					"response": []
+				},
+				{
+					"name": "saveItinerary",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/itineraries/6e8b4e5b-cadb-45c0-b150-c8842a9f6d7c/save?idUser=3a717cdf-7705-4bfd-a6f6-e44a5c536d90",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"itineraries",
+								"6e8b4e5b-cadb-45c0-b150-c8842a9f6d7c",
+								"save"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "3a717cdf-7705-4bfd-a6f6-e44a5c536d90"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadItinerary",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "locahost:5100/api/itineraries/6e8b4e5b-cadb-45c0-b150-c8842a9f6d7c/upload?idUser=83e43bb7-532f-4df1-b2d9-0c2c194656e9",
+							"host": [
+								"locahost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"itineraries",
+								"6e8b4e5b-cadb-45c0-b150-c8842a9f6d7c",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "83e43bb7-532f-4df1-b2d9-0c2c194656e9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addAttachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"ad1ecc52-1cf8-465b-b63c-147dedb78e6a\",\r\n  \"name\": \"Attachment 112\",\r\n  \"description\": \"This is a sample attachment.\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2025\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "locahost:5100/api/itineraries/a9f5d5f9-8692-4f2b-a33d-7ea4e32797b4/attachments"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POIs",
+			"item": [
+				{
+					"name": "getPOIs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/pois?idUser=ff998fa8-9781-42dc-826b-2918a5aaeb59",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"pois"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "ff998fa8-9781-42dc-826b-2918a5aaeb59"
+								},
+								{
+									"key": "name",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "latitude",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "longitude",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "description",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "author",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "creationDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "expiryDate",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "uploaded",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPOIById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/pois/68da299d-37b1-44cb-bfe1-4d62b841ebf7?idUser=9b0942a5-c0b9-4892-98ee-34b0c5372f77",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"pois",
+								"68da299d-37b1-44cb-bfe1-4d62b841ebf7"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "9b0942a5-c0b9-4892-98ee-34b0c5372f77"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPOI",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"ff998fa8-9781-42dc-826b-2918a5aaeb59\",\r\n  \"name\": \"Eiffel Tower\",\r\n  \"latitude\": \"48.8584\",\r\n  \"longitude\": \"2.2945\",\r\n  \"description\": \"The Eiffel Tower is a wroughtiron lattice tower built in\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2024\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/pois"
+					},
+					"response": []
+				},
+				{
+					"name": "deletePOIById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5100/api/pois/07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+					},
+					"response": []
+				},
+				{
+					"name": "updatePOIById",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"idUser\": \"aadd7f1a-ffc9-4b3e-a374-a53df7e2b1fe\",\r\n    \"name\": \"eifele tover\",\r\n    \"latitude\": \"10\",\r\n    \"longitude\": \"10\",\r\n    \"description\": \"eifele tover description\",\r\n    \"author\": \"Luca Falappa\",\r\n    \"expiryDate\": \"25/12/2025\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/pois/07e0cae8-7719-45f8-8f9c-efbdad27d5c4"
+					},
+					"response": []
+				},
+				{
+					"name": "validatePOI",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"cc6ab3c8-13fb-47cb-b567-d3a2e94905a3\",\r\n  \"validate\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/pois/07e0cae8-7719-45f8-8f9c-efbdad27d5c4/validate"
+					},
+					"response": []
+				},
+				{
+					"name": "savePOI",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/pois/7cd6ed3f-4d81-4675-a608-dae7a2e09e5d/save?idUser=3a717cdf-7705-4bfd-a6f6-e44a5c536d90",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"pois",
+								"7cd6ed3f-4d81-4675-a608-dae7a2e09e5d",
+								"save"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "3a717cdf-7705-4bfd-a6f6-e44a5c536d90"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uploadPOI",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5100/api/pois/7cd6ed3f-4d81-4675-a608-dae7a2e09e5d/upload?idUser=83e43bb7-532f-4df1-b2d9-0c2c194656e9",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5100",
+							"path": [
+								"api",
+								"pois",
+								"7cd6ed3f-4d81-4675-a608-dae7a2e09e5d",
+								"upload"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "83e43bb7-532f-4df1-b2d9-0c2c194656e9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addAttachment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUser\": \"ff998fa8-9781-42dc-826b-2918a5aaeb59\",\r\n  \"name\": \"Attachment 112\",\r\n  \"description\": \"This is a sample attachment.\",\r\n  \"author\": \"John Doe\",\r\n  \"expiryDate\": \"31/12/2025\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5100/api/pois/a286e860-0745-4ee8-9042-3b2a29b5c26a/attachments"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
