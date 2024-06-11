@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
@@ -23,7 +22,6 @@ public class Contribution implements IContribution {
      * The unique identifier of the contribution
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**
@@ -34,13 +32,13 @@ public class Contribution implements IContribution {
     /**
      * The POI corresponding to the contribution
      */
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST,  CascadeType.REMOVE })
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "poi_id")
     private POI poi;
     /**
      * The itinerary corresponding to the contribution
      */
-    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE,CascadeType.PERSIST,  CascadeType.REMOVE })
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "itinerary_id")
     private Itinerary itinerary;
     /**
@@ -99,18 +97,6 @@ public class Contribution implements IContribution {
             this.itinerary = null;
         }
     }
-//    @Override
-//    public void setNotNullPoi(POI poi) {
-//        if (this.poi != null) {
-//            this.setPoi(poi);
-//        }
-//    }
-//    @Override
-//    public void setNotNullItinerary(Itinerary itinerary) {
-//        if (this.itinerary != null) {
-//            this.setItinerary(itinerary);
-//        }
-//    }
     @Override
     public void detachFromEntities(boolean contributionValidation) {
         this.contest.getContributions().remove(this);

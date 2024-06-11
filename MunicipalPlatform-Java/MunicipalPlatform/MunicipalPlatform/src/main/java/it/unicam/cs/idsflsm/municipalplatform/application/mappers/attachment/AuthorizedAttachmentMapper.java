@@ -4,16 +4,14 @@ import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.Ge
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.report.ReportMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AuthorizedAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.AuthorizedAttachment;
-
-import java.util.List;
-import java.util.stream.Collectors;
 /**
  * Utility class for mapping between AuthorizedAttachment and AuthorizedAttachmentDto
  */
 public class AuthorizedAttachmentMapper {
     /**
      * Converts an AuthorizedAttachment entity to an AuthorizedAttachment DTO
-     * @param attachment the attachment entity to be converted
+     *
+     * @param attachment              the attachment entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AuthorizedAttachmentDto if the attachment parameter is not null, null otherwise
      */
@@ -38,7 +36,8 @@ public class AuthorizedAttachmentMapper {
     }
     /**
      * Converts an AuthorizedAttachment DTO to an AuthorizedAttachment entity
-     * @param dto the attachment DTO to be converted
+     *
+     * @param dto                     the attachment DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding AuthorizedAttachment entity if the dto parameter is not null, null otherwise
      */

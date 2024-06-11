@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.report;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
 
 import java.util.UUID;

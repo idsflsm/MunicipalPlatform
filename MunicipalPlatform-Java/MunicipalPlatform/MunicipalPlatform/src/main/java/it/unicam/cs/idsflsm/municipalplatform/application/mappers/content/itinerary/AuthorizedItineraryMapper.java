@@ -7,11 +7,11 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.
 /**
  * Utility class for mapping between AuthorizedItinerary and AuthorizedItineraryDto
  */
-
 public class AuthorizedItineraryMapper {
     /**
      * Converts an AuthorizedItinerary entity to an AuthorizedItinerary DTO
-     * @param itinerary the itinerary entity to be converted
+     *
+     * @param itinerary               the itinerary entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AuthorizedItineraryDto if the itinerary parameter is not null, null otherwise
      */
@@ -37,7 +37,8 @@ public class AuthorizedItineraryMapper {
     }
     /**
      * Converts an AuthorizedItinerary DTO to an AuthorizedItinerary entity
-     * @param dto the itinerary DTO to be converted
+     *
+     * @param dto                     the itinerary DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding AuthorizedItinerary entity if the dto parameter is not null, null otherwise
      */

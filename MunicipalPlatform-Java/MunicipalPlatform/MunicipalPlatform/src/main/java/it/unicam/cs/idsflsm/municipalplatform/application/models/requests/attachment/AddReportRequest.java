@@ -17,7 +17,6 @@ public class AddReportRequest {
     @NotNull
     @ValidUUID
     private UUID idUser;
-
     @NotNull
     @NotBlank
     @OnlyLettersString

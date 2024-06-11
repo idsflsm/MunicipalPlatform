@@ -8,10 +8,10 @@ import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.contest.ContestCriteria;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.user.authenticated.AuthenticatedUserCriteria;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContestDto;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.PendingItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.PendingPOIDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContestDto;
+import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.requests.contest.*;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
@@ -32,7 +32,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
-
 @RestController
 @Validated
 @RequestMapping("/api/contests")
@@ -54,25 +53,25 @@ public class ContestController {
      * The helper for POI entity
      */
     private final POIHelper _poiHelper;
-
     /**
      * Method that retrieves a list of Contest DTOs after filtering
-     * @param name the name of desired contests
-     * @param author the author of desired contests
-     * @param description the description of desired contests
+     *
+     * @param name         the name of desired contests
+     * @param author       the author of desired contests
+     * @param description  the description of desired contests
      * @param creationDate the creation date of desired contests
-     * @param expiryDate the expiry date of desired contests
-     * @param hasWinner the flag for desired contests that have a winner
+     * @param expiryDate   the expiry date of desired contests
+     * @param hasWinner    the flag for desired contests that have a winner
      * @return the list of found Contest DTOs, based on params
      */
     @GetMapping
     public ResponseEntity<?> getContests
-            (@RequestParam(required = false) String name,
-             @RequestParam(required = false) String author,
-             @RequestParam(required = false) String description,
-             @RequestParam(required = false) String creationDate,
-             @RequestParam(required = false) String expiryDate,
-             @RequestParam(required = false) boolean hasWinner) {
+    (@RequestParam(required = false) String name,
+     @RequestParam(required = false) String author,
+     @RequestParam(required = false) String description,
+     @RequestParam(required = false) String creationDate,
+     @RequestParam(required = false) String expiryDate,
+     @RequestParam(required = false) boolean hasWinner) {
         try {
             Predicate<Contest> criterias = getContestsCriterias(name, author, description, creationDate, expiryDate, hasWinner);
             List<ContestDto> contestDtos = _contestService.getContests(Optional.of(criterias));
@@ -98,6 +97,7 @@ public class ContestController {
     }
     /**
      * Method that retrieves a Contest DTO by its unique identifier
+     *
      * @param id the UUID of desired contest
      * @return the Contest DTO if exists
      */
@@ -111,6 +111,7 @@ public class ContestController {
     }
     /**
      * Method that adds a Contest entity to the platform
+     *
      * @param request the request for adding a new contest
      * @return the Contest DTO if has been added
      */
@@ -134,6 +135,7 @@ public class ContestController {
     /**
      * Method that deletes a Contest entity by its unique identifier
      * and returns the deleted Contest
+     *
      * @param id the UUID of desired contest
      * @return the Contest DTO if has been deleted
      */
@@ -145,11 +147,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
     /**
      * Method that retrieves a list of Contribution DTOs
+     *
      * @param idContest the UUID of desired contest
-     * @param idUser the UUID of the user performing the operation
+     * @param idUser    the UUID of the user performing the operation
      * @return the list of found Contribution DTOs
      */
     @GetMapping("/{idContest}/contributions")
@@ -168,7 +170,8 @@ public class ContestController {
     }
     /**
      * Method that retrieves a Contribution DTO by its unique identifier
-     * @param id the UUID of desired contribution
+     *
+     * @param id     the UUID of desired contribution
      * @param idUser the UUID of the user performing the operation
      * @return the Contribution DTO if exists
      */
@@ -183,11 +186,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that adds a POI entity as a Contribution entity on the platform
+     *
      * @param idContest the UUID of desired contest
-     * @param request the request for adding a new POI as a contribution
+     * @param request   the request for adding a new POI as a contribution
      * @return the Contribution DTO if has been added
      */
     @PostMapping("/{idContest}/contributions/poi")
@@ -210,8 +213,9 @@ public class ContestController {
     }
     /**
      * Method that adds an Itinerary entity as a Contribution entity on the platform
+     *
      * @param idContest the UUID of desired contest
-     * @param request the request for adding a new Itinerary as a contribution
+     * @param request   the request for adding a new Itinerary as a contribution
      * @return the Contribution DTO if has been added
      */
     @PostMapping("/{idContest}/contributions/itinerary")
@@ -232,20 +236,27 @@ public class ContestController {
             return new ResponseEntity<>(e1.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-//    @DeleteMapping("/contributions/{id}")
-//    public ResponseEntity<?> deleteContribution(@PathVariable("id") UUID id) {
-//        boolean result = _contestService.deleteContributionById(id);
-//        if (result) {
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//    }
-
+//    TODO : FOR TESTING PURPOSES ONLY
+    /**
+     * Method that deletes a Contribution entity by its unique identifier
+     * and returns the deleted Contribution
+     *
+     * @param id the UUID of desired contribution
+     * @return the Contribution DTO if has been deleted
+     */
+    @DeleteMapping("/contributions/{id}")
+    public ResponseEntity<?> deleteContribution(@PathVariable("id") UUID id) {
+        ContributionDto result = _contestService.deleteContributionById(id);
+        if (result != null) {
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
     /**
      * Method that validates a Contribution entity based on a provided
      * unique identifier and a validation flag
-     * @param id the UUID of desired contribution
+     *
+     * @param id      the UUID of desired contribution
      * @param request the request for validating the desired contribution
      * @return the Contribution DTO if has been validated
      */
@@ -262,7 +273,8 @@ public class ContestController {
     }
     /**
      * Method that uploads a Contribution entity by its unique identifier
-     * @param id the UUID of desired contribution
+     *
+     * @param id     the UUID of desired contribution
      * @param idUser the UUID of the user performing the operation
      * @return the Contribution DTO if has been uploaded
      */
@@ -270,14 +282,11 @@ public class ContestController {
     public ResponseEntity<?> uploadContribution(@PathVariable("id") UUID id, @RequestParam UUID idUser) {
         if (_userService.appropriateUser(idUser, UserPermission.ANIMATOR_CONTRIBUTION_UPLOAD)) {
             ContributionDto result = _contestService.uploadContribution(id);
-//            ContributionDto result = _contestService.getContributionById(idContribution);
             if (result != null) {
                 if (result.getPoi() != null && result.getItinerary() == null) {
-//                    _contestService.deleteFromRepository(ContributionMapper.toEntity(result, true));
                     return new ResponseEntity<>(result.getPoi(), HttpStatus.OK);
                 }
                 if (result.getPoi() == null && result.getItinerary() != null) {
-//                    _contestService.deleteFromRepository(ContributionMapper.toEntity(result, true));
                     return new ResponseEntity<>(result.getItinerary(), HttpStatus.OK);
                 }
             }
@@ -285,11 +294,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that retrieves the winning contribution from a specific contest
+     *
      * @param idContest the UUID of desired contest
-     * @param idUser the UUID of the user performing the operation
+     * @param idUser    the UUID of the user performing the operation
      * @return the Contribution DTO if exists
      */
     @GetMapping("/{idContest}/contributions/win")
@@ -303,10 +312,10 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that sets a Contribution entity as the winner of its associated contest
-     * @param id the UUID of desired contribution
+     *
+     * @param id     the UUID of desired contribution
      * @param idUser the UUID of the user performing the operation
      * @return the Contribution DTO if has been set as winner
      */
@@ -321,11 +330,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that deletes all contributions that have been marked as losers
+     *
      * @param idContest the UUID of desired contest (optional)
-     * @param idUser the UUID of the user performing the operation
+     * @param idUser    the UUID of the user performing the operation
      * @return the result of the deletion
      */
     @DeleteMapping("/{idContest}/contributions/lose")
@@ -340,23 +349,23 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that retrieves all participants, of a specific contest, after filtering
+     *
      * @param idContest the UUID of desired contest
-     * @param idUser the UUID of the user performing the operation
-     * @param username the username of desired participants
-     * @param name the name of desired participants
-     * @param surname the surname of desired participants
+     * @param idUser    the UUID of the user performing the operation
+     * @param username  the username of desired participants
+     * @param name      the name of desired participants
+     * @param surname   the surname of desired participants
      * @return the list of found AuthenticatedUser DTOs, based on params
      */
     @GetMapping("/{idContest}/participants")
     public ResponseEntity<?> getParticipants
-            (@PathVariable("idContest") UUID idContest,
-             @RequestParam(required = true) UUID idUser,
-             @RequestParam(required = false) String username,
-             @RequestParam(required = false) String name,
-             @RequestParam(required = false) String surname) {
+    (@PathVariable("idContest") UUID idContest,
+     @RequestParam(required = true) UUID idUser,
+     @RequestParam(required = false) String username,
+     @RequestParam(required = false) String name,
+     @RequestParam(required = false) String surname) {
         if (_userService.appropriateUser(idUser, UserPermission.ANIMATOR_CONTEST_PARTICIPANT_READ)) {
             Predicate<AuthenticatedUser> criterias = getContestsCriterias(username, name, surname);
             List<AuthenticatedUserDto> authenticatedUserDtos = _contestService.getParticipants(idContest, Optional.of(criterias));
@@ -374,12 +383,12 @@ public class ContestController {
                 AuthenticatedUserCriteria.hasSurname(surname)
         );
     }
-
     /**
      * Method that retrieves a participant, from a specific contest, by its unique identifier
-     * @param idContest the UUID of desired contest
+     *
+     * @param idContest     the UUID of desired contest
      * @param idParticipant the UUID of desired participant
-     * @param idUser the UUID of the user performing the operation
+     * @param idUser        the UUID of the user performing the operation
      * @return the AuthenticatedUser DTO if exists
      */
     @GetMapping("/{idContest}/participants/{idUser}")
@@ -393,11 +402,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that adds an AuthenticatedUser entity as a participant for a specific contest
+     *
      * @param idContest the UUID of desired contest
-     * @param request the request for adding a user as participant
+     * @param request   the request for adding a user as participant
      * @return the AuthenticatedUser DTO if has been added as participant
      */
     @PostMapping("/{idContest}/participants")
@@ -412,11 +421,11 @@ public class ContestController {
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
-
     /**
      * Method that removes an AuthenticatedUser entity as a participant for a specific contest
+     *
      * @param idContest the UUID of desired contest
-     * @param request the request for deleting a participant
+     * @param request   the request for deleting a participant
      * @return the AuthenticatedUser DTO if has been deleted as participant
      */
     @DeleteMapping("/{idContest}/participants")

@@ -1,9 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.user;
-
-import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.PendingItineraryMapper;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.PendingItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.RoleRequestDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.PendingItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.RoleRequest;
 
 import java.util.List;
@@ -14,6 +10,7 @@ import java.util.stream.Collectors;
 public class RoleRequestMapper {
     /**
      * Converts a RoleRequest entity to a RoleRequest DTO
+     *
      * @param roleRequest the roleRequest entity to be converted
      * @return the corresponding RoleRequestDto if the roleRequest parameter is not null, null otherwise
      */
@@ -29,6 +26,7 @@ public class RoleRequestMapper {
     }
     /**
      * Converts a RoleRequestDto to a RoleRequest entity
+     *
      * @param dto the RoleRequestDto to be converted
      * @return the corresponding RoleRequest entity if the dto parameter is not null, null otherwise
      */
@@ -44,6 +42,7 @@ public class RoleRequestMapper {
     }
     /**
      * Converts a list of RoleRequest entities to a list of RoleRequest DTOs
+     *
      * @param roleRequests the list of RoleRequest entities to be converted
      * @return the corresponding list of RoleRequestDto if the list in the parameter is not null, null otherwise
      */
@@ -55,6 +54,7 @@ public class RoleRequestMapper {
     }
     /**
      * Converts a list of RoleRequest DTOs to a list of RoleRequest entities
+     *
      * @param roleRequestDtos the list of RoleRequest DTOs to be converted
      * @return the corresponding list of RoleRequest entities if the list in the parameter is not null, null otherwise
      */

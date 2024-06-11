@@ -1,6 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.report;
-
-import java.util.UUID;
 /**
  * Represents a report. Provides method to detach report entity from relationships
  * with other entities, in order to manage entity persistence

@@ -1,12 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.report;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-
 /**
  * Represents a report on an attachment already loaded on the platform.
  * It contains the motivation of the report and its associated attachment
@@ -20,7 +18,6 @@ public class Report implements IReport {
      * The unique identifier of the report
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**
@@ -31,7 +28,7 @@ public class Report implements IReport {
     /**
      * The attachment associated to the report
      */
-    @ManyToOne(fetch = FetchType.EAGER/*, cascade = CascadeType.REMOVE*/)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "attachment", nullable = true)
     private Attachment attachment;
     public Report() {

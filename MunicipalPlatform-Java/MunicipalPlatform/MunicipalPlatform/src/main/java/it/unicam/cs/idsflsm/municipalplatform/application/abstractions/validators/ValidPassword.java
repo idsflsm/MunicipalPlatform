@@ -3,8 +3,13 @@ import it.unicam.cs.idsflsm.municipalplatform.application.validators.PasswordVal
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
-import java.lang.annotation.*;
-@Documented
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+/**
+ * Annotation for JSON validation, used to validate password strings
+ */
 @Constraint(validatedBy = PasswordValidator.class)
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(value = RetentionPolicy.RUNTIME)

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 

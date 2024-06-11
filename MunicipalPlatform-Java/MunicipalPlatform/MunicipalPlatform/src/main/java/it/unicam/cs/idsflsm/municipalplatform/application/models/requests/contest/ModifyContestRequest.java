@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.contest;
-
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidDateFormat;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.OnlyLettersString;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidDateFormat;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUUID;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,7 +18,6 @@ public abstract class ModifyContestRequest {
     @NotNull
     @ValidUUID
     private UUID idUser;
-
     @NotNull
     @NotBlank
     @OnlyLettersString

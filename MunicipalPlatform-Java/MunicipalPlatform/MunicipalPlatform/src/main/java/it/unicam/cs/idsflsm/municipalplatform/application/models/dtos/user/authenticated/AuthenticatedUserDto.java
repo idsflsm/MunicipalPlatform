@@ -5,13 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContestDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;

@@ -5,11 +5,14 @@ import org.springframework.data.repository.NoRepositoryBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
+/**
+ * Generic interface that represents the repository for MunicipalPlatform entities
+ */
 @NoRepositoryBean
 public interface GenericRepository<T, UUID> extends JpaRepository<T, UUID> {
     default List<T> findByPredicate(Predicate<T> predicate) {
         List<T> result = findAll().stream().filter(predicate).toList();
-        if (!result.isEmpty()) return result; else return new ArrayList<>();
+        if (!result.isEmpty()) return result;
+        else return new ArrayList<>();
     }
 }

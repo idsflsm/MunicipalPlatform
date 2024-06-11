@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.content.itinerary;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.itinerary.ItineraryCriteria;
 import it.unicam.cs.idsflsm.municipalplatform.application.criterias.contest.ContestCriteria;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
@@ -16,6 +15,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+/**
+ * Interface that represents the repository for Itinerary entity
+ */
 @Repository
 public interface IItineraryRepository extends GenericRepository<Itinerary, UUID> {
     default List<Itinerary> findByExpiryDate(LocalDate expiryDate) {

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.api.helpers.content.poi;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.requests.content.poi.ModifyPOIRequest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
@@ -15,9 +14,10 @@ import java.time.LocalDate;
 public class POIHelper {
     /**
      * Method for modifying the POI DTO configuration, based on the provided request
-     * @param <T> type of POIDto
-     * @param <S> type of ModifyPOIRequest
-     * @param poiDto the POIDto instance to be modified
+     *
+     * @param <T>     type of POIDto
+     * @param <S>     type of ModifyPOIRequest
+     * @param poiDto  the POIDto instance to be modified
      * @param request the ModifyPOIRequest instance containing the new configuration
      * @return the modified POI DTO
      */

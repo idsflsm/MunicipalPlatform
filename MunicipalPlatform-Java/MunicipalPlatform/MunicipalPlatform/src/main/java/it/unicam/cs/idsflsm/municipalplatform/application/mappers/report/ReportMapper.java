@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 public class ReportMapper {
     /**
      * Converts a Report entity to a Report DTO
-     * @param report the report entity to be converted
+     *
+     * @param report                  the report entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding ReportDto if the report parameter is not null, null otherwise
      */
@@ -29,7 +30,8 @@ public class ReportMapper {
     }
     /**
      * Converts a ReportDto to a Report entity
-     * @param dto the ReportDto to be converted
+     *
+     * @param dto                     the ReportDto to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Report entity if the dto parameter is not null, null otherwise
      */
@@ -47,7 +49,8 @@ public class ReportMapper {
     }
     /**
      * Converts a list of Report entities to a list of Report DTOs
-     * @param reports the list of Report entities to be converted
+     *
+     * @param reports                 the list of Report entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of ReportDto if the list in the parameter is not null, null otherwise
      */
@@ -59,7 +62,8 @@ public class ReportMapper {
     }
     /**
      * Converts a list of Report DTOs to a list of Report entities
-     * @param reportDtos the list of Report DTOs to be converted
+     *
+     * @param reportDtos              the list of Report DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of Report if the list in the parameter is not null, null otherwise
      */

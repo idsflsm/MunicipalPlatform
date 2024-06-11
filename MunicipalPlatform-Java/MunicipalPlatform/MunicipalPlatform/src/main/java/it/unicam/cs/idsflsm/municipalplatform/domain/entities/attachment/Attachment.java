@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
@@ -12,7 +11,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 /**
  * Represents an attachment, associated to a content on the platform. It contains general information,
  * including name, description, author and the list of active reports
@@ -28,7 +26,6 @@ public abstract class Attachment implements IAttachment {
      * The unique identifier of the attachment
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**
@@ -71,19 +68,19 @@ public abstract class Attachment implements IAttachment {
     /**
      * The POI associated to the attachment (if exists)
      */
-    @ManyToOne(fetch = FetchType.EAGER /*, cascade = CascadeType.REMOVE */)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "poi", nullable = true)
     private POI poi;
     /**
      * The Itinerary associated to the attachment (if exists)
      */
-    @ManyToOne(fetch = FetchType.EAGER /*, cascade = CascadeType.REMOVE */)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "itinerary", nullable = true)
     private Itinerary itinerary;
     /**
      * The list of active reports of the attachment
      */
-    @OneToMany(mappedBy = "attachment", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
+    @OneToMany(mappedBy = "attachment", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
     private List<Report> reports = new ArrayList<Report>();
     public Attachment() {

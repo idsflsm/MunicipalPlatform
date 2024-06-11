@@ -20,6 +20,7 @@ public interface IAuthenticatedUserBuilder {
     void setRole(UserRole role);
     /**
      * Builds and returns an AuthenticatedUser instance based on the stored information
+     *
      * @return the built AuthenticatedUser instance
      */
     AuthenticatedUser build();

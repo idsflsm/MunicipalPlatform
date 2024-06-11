@@ -8,14 +8,14 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Pending
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 /**
  * Utility generic class for mapping between Attachment and AttachmentDto
  */
 public class GenericAttachmentMapper {
     /**
      * Converts an Attachment entity to an Attachment DTO
-     * @param attachment the attachment entity to be converted
+     *
+     * @param attachment              the attachment entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AttachmentDto if attachment in the parameter is not null, null otherwise
      */
@@ -31,7 +31,8 @@ public class GenericAttachmentMapper {
     }
     /**
      * Converts an Attachment DTO to an Attachment entity
-     * @param attachmentDto the attachment DTO to be converted
+     *
+     * @param attachmentDto           the attachment DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Attachment if the attachmentDto in the parameter is not null, null otherwise
      */
@@ -47,7 +48,8 @@ public class GenericAttachmentMapper {
     }
     /**
      * Converts a list of Attachment entities to a list of Attachment DTOs
-     * @param attachments the list of Attachment entities to be converted
+     *
+     * @param attachments             the list of Attachment entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of AttachmentDto if the list in the parameter is not null, null otherwise
      */
@@ -62,7 +64,8 @@ public class GenericAttachmentMapper {
     }
     /**
      * Converts a list of Attachment DTOs to a list of Attachment entities
-     * @param attachmentDtos the list of Attachment DTOs to be converted
+     *
+     * @param attachmentDtos          the list of Attachment DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of Attachment if the list in the parameter is not null, null otherwise
      */

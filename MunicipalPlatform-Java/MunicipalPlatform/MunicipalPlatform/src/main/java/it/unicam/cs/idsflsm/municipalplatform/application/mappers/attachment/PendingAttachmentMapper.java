@@ -4,16 +4,14 @@ import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi.Ge
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.report.ReportMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.PendingAttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.PendingAttachment;
-
-import java.util.List;
-import java.util.stream.Collectors;
 /**
  * Utility class for mapping between PendingAttachment and PendingAttachmentDto
  */
 public class PendingAttachmentMapper {
     /**
      * Converts a PendingAttachment entity to a PendingAttachment DTO
-     * @param attachment the attachment entity to be converted
+     *
+     * @param attachment              the attachment entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding PendingAttachmentDto if the attachment parameter is not null, null otherwise
      */
@@ -38,7 +36,8 @@ public class PendingAttachmentMapper {
     }
     /**
      * Converts a PendingAttachment DTO to a PendingAttachment entity
-     * @param dto the attachment DTO to be converted
+     *
+     * @param dto                     the attachment DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding PendingAttachment entity if the dto parameter is not null, null otherwise
      */

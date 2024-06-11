@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.report;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUUID;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

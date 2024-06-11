@@ -10,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 public class CuratorMapper {
     /**
      * Converts a Curator entity to a Curator DTO
-     * @param curator the curator entity to be converted
+     *
+     * @param curator                 the curator entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding CuratorDto if the curator parameter is not null, null otherwise
      */
@@ -34,7 +35,8 @@ public class CuratorMapper {
     }
     /**
      * Converts a Curator DTO to a Curator entity
-     * @param dto the Curator DTO to be converted
+     *
+     * @param dto                     the Curator DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Curator entity if the dto parameter is not null, null otherwise
      */

@@ -25,6 +25,7 @@ public class AuthenticatedUserBuilderFactory {
     ));
     /**
      * Method for creating an AuthenticatedUser builder based on the provided user role
+     *
      * @param role the user role determining the type of builder to be created
      * @return an AuthenticatedUser builder corresponding to the user role
      * @throws IllegalArgumentException if the provided role is not supported

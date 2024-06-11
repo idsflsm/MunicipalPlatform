@@ -1,10 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
 /**
  * Represents the possible permissions that a user can have
  */
+@Getter
 @RequiredArgsConstructor
 public enum UserPermission {
     /**
@@ -15,7 +15,6 @@ public enum UserPermission {
      * Enables the creation of a report related to a specific attachment
      */
     TOURIST_REPORT_CREATE("tourist:report:create"),
-
     /**
      * Enables the creation of an attachment, waiting to be validated
      */
@@ -36,12 +35,10 @@ public enum UserPermission {
      * Enables the sending of a request for role change
      */
     AUTHTOURIST_USER_ROLE_SEND("authtourist:user:role:send"),
-
     /**
      * Enables the creation of a content, waiting to be validated
      */
     CONTRIBUTOR_CONTENT_CREATE_PENDING("contributor:content:create:pending"),
-
     /**
      * Enables the creation of a content, waiting to be uploaded
      */
@@ -58,7 +55,6 @@ public enum UserPermission {
      * Enables the upload of an attachment to the platform
      */
     AUTHCONTRIBUTOR_ATTACHMENT_UPLOAD("authcontributor:attachment:upload"),
-
     /**
      * Enables the creation of a contest
      */
@@ -91,7 +87,6 @@ public enum UserPermission {
      * Enable the elimination of a user as a contest participant
      */
     ANIMATOR_CONTEST_PARTICIPANT_DELETE("animator:contest:participant:delete"),
-
     /**
      * Enables the validation of a content
      */
@@ -120,7 +115,6 @@ public enum UserPermission {
      * Enables the update of an attachment already present on the platform
      */
     CURATOR_ATTACHMENT_UPDATE("curator:attachment:update"),
-
     /**
      * Enables the visualization of users' requested roles
      */
@@ -133,7 +127,5 @@ public enum UserPermission {
      * Enables the elimination of user's role
      */
     ADMINISTRATOR_USER_ROLE_DELETE("administrator:user:role:delete");
-
-    @Getter
     private final String permission;
 }

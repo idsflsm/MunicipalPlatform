@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
@@ -9,14 +8,11 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 /**
  * Represents an itinerary on the platform. It contains information such as
  * the list of its Points Of Interest, the list of its attachments
@@ -32,7 +28,7 @@ public abstract class Itinerary extends Content implements IItinerary {
     /**
      * The list of POIs associated to the itinerary
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST/*, /* CascadeType.MERGE */})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "itinerary_pois",
             joinColumns = @JoinColumn(name = "itinerary_id", unique = false),
             inverseJoinColumns = @JoinColumn(name = "poi_id", unique = false))
@@ -40,7 +36,6 @@ public abstract class Itinerary extends Content implements IItinerary {
     /**
      * The list of authenticated users that saved the itinerary
      */
-//    @ManyToMany(mappedBy = "itineraries", fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "user_itinerary",
@@ -51,13 +46,13 @@ public abstract class Itinerary extends Content implements IItinerary {
     /**
      * The list of attachments associated to the itinerary
      */
-    @OneToMany(mappedBy = "itinerary", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
+    @OneToMany(mappedBy = "itinerary", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
     private List<Attachment> attachments = new ArrayList<Attachment>();
     /**
      * The corresponding contest contribution (if exists)
      */
-    @OneToOne(mappedBy = "itinerary", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE /*, orphanRemoval = true */)
+    @OneToOne(mappedBy = "itinerary", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Contribution contribution;
     public Itinerary() {
     }
@@ -88,9 +83,5 @@ public abstract class Itinerary extends Content implements IItinerary {
         setItineraryPois(new ArrayList<POI>());
         this.users.forEach(authenticatedUser -> authenticatedUser.getItineraries().remove(this));
         setUsers(new ArrayList<AuthenticatedUser>());
-//        this.attachments.forEach(attachment -> attachment.setItinerary(null));
-//        setAttachments(new ArrayList<Attachment>());
-//        this.contribution.setItinerary(null);
-//        this.contribution = null;
     }
 }

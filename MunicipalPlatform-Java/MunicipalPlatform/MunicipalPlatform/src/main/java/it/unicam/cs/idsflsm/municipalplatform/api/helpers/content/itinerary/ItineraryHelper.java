@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.api.helpers.content.itinerary;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.content.poi.IPOIService;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
@@ -25,14 +24,15 @@ public class ItineraryHelper {
     private final IPOIService _poiService;
     /**
      * Method for modifying the Itinerary DTO configuration, based on the provided request
-     * @param <T> type of ItineraryDto
-     * @param <S> type of ModifyItineraryRequest
+     *
+     * @param <T>          type of ItineraryDto
+     * @param <S>          type of ModifyItineraryRequest
      * @param itineraryDto the ItineraryDto instance to be modified
-     * @param request the ModifyItineraryRequest instance containing the new configuration
+     * @param request      the ModifyItineraryRequest instance containing the new configuration
      * @return the modified Itinerary DTO
      */
     public <T extends ItineraryDto, S extends ModifyItineraryRequest> T modifyItineraryConfiguration
-            (T itineraryDto, S request, ContentState state) {
+    (T itineraryDto, S request, ContentState state) {
         itineraryDto.setName(request.getName());
         itineraryDto.setCoordinates(Coordinates.fromStrings(request.getLatitude(), request.getLongitude()));
         itineraryDto.setDescription(request.getDescription());

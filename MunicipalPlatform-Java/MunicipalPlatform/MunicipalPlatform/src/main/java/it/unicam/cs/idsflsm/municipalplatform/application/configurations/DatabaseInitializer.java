@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.configurations;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.factories.user.authenticated.AuthenticatedUserBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.authenticated.IAuthenticatedUserRepository;

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.authenticated.IRoleCommand;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
@@ -12,7 +11,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 /**
  * Represents an authenticated user on the platform. It contains general information about the user
  */
@@ -27,7 +25,6 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
      * The unique identifier of the authenticated user
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**
@@ -58,7 +55,7 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
     /**
      * The list of saved POIs
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "user_poi",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -68,18 +65,17 @@ public abstract class AuthenticatedUser implements IAuthenticatedUser {
     /**
      * The list of saved itineraries
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "user_itinerary",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "itinerary_id")
     )
     private List<Itinerary> itineraries = new ArrayList<Itinerary>();
-    // @ManyToMany(mappedBy = "participatingUsers", fetch = FetchType.EAGER)
     /**
      * The list of contests to which the user participates
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "contest_participants",
             joinColumns = @JoinColumn(name = "user_id"),

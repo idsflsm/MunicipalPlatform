@@ -5,6 +5,7 @@ package it.unicam.cs.idsflsm.municipalplatform.api.exceptions;
 public class InvalidContentStateException extends RuntimeException {
     /**
      * Constructs a new InvalidContentStateException and detailed message
+     *
      * @param text the name of the invalid ContentState value
      */
     public InvalidContentStateException(String text) {

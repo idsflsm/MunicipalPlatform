@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.content.poi;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +16,6 @@ public abstract class ModifyPOIRequest {
     @NotNull
     @ValidUUID
     private UUID idUser;
-
     @NotNull
     @NotBlank
     @OnlyLettersString

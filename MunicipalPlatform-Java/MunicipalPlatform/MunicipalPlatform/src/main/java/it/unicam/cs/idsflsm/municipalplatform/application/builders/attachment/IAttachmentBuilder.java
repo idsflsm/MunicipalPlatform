@@ -22,6 +22,7 @@ public interface IAttachmentBuilder {
     void setReports(List<Report> reports);
     /**
      * Builds and returns an Attachment instance based on the stored information
+     *
      * @return the built Attachment instance
      */
     Attachment build();

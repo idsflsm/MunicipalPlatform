@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
-
 import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidDateFormatException;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-
 /**
  * Represents the creation date/expiry date of a content uploaded to the platform
  */
@@ -50,10 +48,11 @@ public class Date {
     }
     /**
      * Method for converting a string to a Date value
+     *
      * @param dateString string value to be converted
      * @return a new Date object if the parsing of the strings is successful
      * @throws InvalidDateFormatException if dateString does not respect the Date format set,
-     * or if it corresponds to a value prior to the current date
+     *                                    or if it corresponds to a value prior to the current date
      */
     public static Date fromString(String dateString) throws InvalidDateFormatException {
         if (dateString == null || dateString.isBlank()) {
@@ -81,6 +80,7 @@ public class Date {
     }
     /**
      * Method to convert a Date object into a LocalDate one
+     *
      * @return corresponding LocalDate value, based on the data of the object invoking the method
      */
     public LocalDate toLocalDate() {
@@ -88,6 +88,7 @@ public class Date {
     }
     /**
      * Method to convert a LocalDate object into a Date one
+     *
      * @param localDate the value to be converted
      * @return a new Date object, based on localDate data
      */
@@ -97,6 +98,7 @@ public class Date {
     /**
      * Method that checks if the date of the object invoking the method
      * corresponds to a value prior to the date in the parameter
+     *
      * @param date the Date value to be used for comparison
      * @return true if the date of the invoking object is before than one
      * in the parameter, false otherwise

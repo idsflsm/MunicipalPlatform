@@ -1,6 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
@@ -8,10 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
-
 /**
  * Represents generic content on the platform. It contains general information,
  * including name, coordinates, creation/expiry dates and content state
@@ -24,7 +19,6 @@ public abstract class Content implements IContent {
      * The unique identifier of the content
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**

@@ -5,15 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -35,13 +31,11 @@ public abstract class ItineraryDto {
     private Date creationDate;
     private Date expiryDate;
     private ContentState state;
-    // @JsonIgnore
     @JsonManagedReference
     private List<POIDto> itineraryPois = new ArrayList<POIDto>();
     @JsonIgnore
     @JsonBackReference
     private List<AuthenticatedUserDto> users = new ArrayList<AuthenticatedUserDto>();
-    // @JsonIgnore
     @JsonManagedReference
     private List<AttachmentDto> attachments = new ArrayList<AttachmentDto>();
     @JsonIgnore
@@ -78,6 +72,7 @@ public abstract class ItineraryDto {
      * Method to get the invoking object, if it has the same state of the
      * one in parameter, and all its sub-entities, filtering them all by the state
      * in parameter
+     *
      * @param state the ContentState value that acts as a filter
      * @return the invoking object if it has same state of the one in
      * parameter, null otherwise

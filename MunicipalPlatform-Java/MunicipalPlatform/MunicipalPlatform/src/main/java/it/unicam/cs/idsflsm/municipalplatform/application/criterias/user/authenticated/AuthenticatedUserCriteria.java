@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.user.authenticated;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 

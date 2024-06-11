@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.contest;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 

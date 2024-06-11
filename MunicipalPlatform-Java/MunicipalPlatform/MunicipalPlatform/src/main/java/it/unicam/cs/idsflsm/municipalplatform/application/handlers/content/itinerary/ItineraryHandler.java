@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.handlers.content.itinerary;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.handlers.content.itinerary.IItineraryHandler;
 import it.unicam.cs.idsflsm.municipalplatform.application.factories.content.itinerary.ItineraryBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;

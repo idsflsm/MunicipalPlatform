@@ -1,9 +1,9 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.anonymous;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous.AnonymousUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.UUID;
 /**
  * Represents a DTO related to the entity AnonymousUser.

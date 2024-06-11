@@ -1,7 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.validators;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidLatitude;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidLongitude;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 /**

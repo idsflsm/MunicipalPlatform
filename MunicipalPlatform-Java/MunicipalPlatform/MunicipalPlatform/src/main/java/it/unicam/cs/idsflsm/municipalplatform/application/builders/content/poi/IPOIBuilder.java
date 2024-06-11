@@ -26,6 +26,7 @@ public interface IPOIBuilder {
     void setContribution(Contribution contribution);
     /**
      * Builds and returns a POI instance based on the stored information
+     *
      * @return the built POI instance
      */
     POI build();

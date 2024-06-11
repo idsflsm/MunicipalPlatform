@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.handlers.attachment;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.handlers.attachment.IAttachmentHandler;
 import it.unicam.cs.idsflsm.municipalplatform.application.factories.attachment.AttachmentBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
@@ -11,7 +10,6 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserPermission;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 /**
  * Handler class for Attachment modification
  */

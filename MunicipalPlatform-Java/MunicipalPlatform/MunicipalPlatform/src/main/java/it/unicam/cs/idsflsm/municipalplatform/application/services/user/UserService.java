@@ -1,8 +1,8 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.services.user;
+import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.authenticated.RemoveRoleCommand;
 import it.unicam.cs.idsflsm.municipalplatform.application.commands.user.authenticated.UpdateRoleCommand;
 import it.unicam.cs.idsflsm.municipalplatform.application.configurations.PasswordEncoder;
-import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.services.user.IUserService;
 import it.unicam.cs.idsflsm.municipalplatform.application.factories.user.authenticated.AuthenticatedUserBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.RoleRequestMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.anonymous.TouristMapper;
@@ -17,8 +17,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous.Tou
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserPermission;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
-import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.anonymous.IAnonymousUserRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.IRoleRequestRepository;
+import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.anonymous.IAnonymousUserRepository;
 import it.unicam.cs.idsflsm.municipalplatform.infrastructure.repositories.user.authenticated.IAuthenticatedUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

@@ -1,14 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-
 /**
  * Represents the role change request that an authenticated user can make.
  * It contains user’s username and the role he requested
@@ -51,6 +47,6 @@ public class RoleRequest {
         }
         RoleRequest other = (RoleRequest) obj;
         return other.getIdUser().equals(this.getIdUser())
-            || other.getUsername().equals(this.getUsername());
+                || other.getUsername().equals(this.getUsername());
     }
 }

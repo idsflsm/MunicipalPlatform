@@ -1,13 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.UUID;
-
 /**
  * Represents an anonymous user on the platform, it contains only the unique identifier
  * and the associated role
@@ -23,7 +20,6 @@ public abstract class AnonymousUser implements IAnonymousUser {
      * The unique identifier of the anonymous user
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**

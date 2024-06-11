@@ -12,18 +12,33 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.util.UUID;
+/**
+ * Generic abstract class for scheduled task that operates on a generic type T
+ * @param <T> the type of entity this task operates on
+ */
+@RequiredArgsConstructor
 public abstract class GenericScheduledTask<T> {
+    /**
+     * The repository for T entities
+     */
     private final GenericRepository<T, UUID> _genericRepository;
+    /**
+     * The name of repository method to be invoked
+     */
     @Getter
     @Setter
     private String methodName = "";
-    public GenericScheduledTask(GenericRepository<T, UUID> _genericRepository) {
-        this._genericRepository = _genericRepository;
-    }
+    /**
+     * Scheduled task method that deletes entities every 24 hours
+     */
     @Scheduled(fixedRate = 24 * 60 * 60 * 1000)
     public void deleteEntities() {
         deleteEntities(this.methodName);
     }
+    /**
+     * Method that deletes entities based on the specified method name
+     * @param methodName the name of repository method to be invoked
+     */
     private void deleteEntities(String methodName) {
         try {
             Date now = Date.toDate(LocalDate.now());

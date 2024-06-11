@@ -5,6 +5,7 @@ package it.unicam.cs.idsflsm.municipalplatform.api.exceptions;
 public class InvalidDateFormatException extends RuntimeException {
     /**
      * Constructs a new InvalidDateException with a detailed message
+     *
      * @param message the detail message explaining the invalid Date value
      */
     public InvalidDateFormatException(String message) {

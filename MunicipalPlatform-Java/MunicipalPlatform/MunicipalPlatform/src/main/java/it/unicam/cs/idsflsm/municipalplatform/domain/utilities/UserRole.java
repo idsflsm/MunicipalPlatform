@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.Set;
 
 import static it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserPermission.*;
-
 /**
  * Represents the possible roles (and associated permissions)
  * that a user can have
@@ -117,14 +116,14 @@ public enum UserRole {
             ADMINISTRATOR_USER_ROLE_DELETE
     ));
     private final Set<UserPermission> permissions;
-
     /**
      * Method for converting a string to a UserRole value
+     *
      * @param text string value to be converted
      * @return the value of UserRole associated with the string
      * if the latter is not null, null otherwise
      * @throws InvalidContentStateException if string is not null
-     * but cannot be converted to any UserRole value
+     *                                      but cannot be converted to any UserRole value
      */
     public static UserRole fromString(String text) throws InvalidContentStateException {
         if (text != null) {

@@ -1,20 +1,10 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.builders.content.itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.AuthorizedItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 /**
  * Specific builder class for the building of AuthorizedItinerary instances
  */

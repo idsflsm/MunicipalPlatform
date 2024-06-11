@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 public class GenericAuthenticatedUserMapper {
     /**
      * Converts an AuthenticatedUser entity to an AuthenticatedUser DTO
-     * @param authenticatedUser the AuthenticatedUser entity to be converted
+     *
+     * @param authenticatedUser       the AuthenticatedUser entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AuthenticatedUserDto if authenticatedUser in the parameter is not null, null otherwise
      */
@@ -34,7 +35,8 @@ public class GenericAuthenticatedUserMapper {
     }
     /**
      * Converts an AuthenticatedUser DTO to an AuthenticatedUser entity
-     * @param authenticatedUserDto the AuthenticatedUser DTO to be converted
+     *
+     * @param authenticatedUserDto    the AuthenticatedUser DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding AuthenticatedUser entity if the authenticatedUserDto in the parameter is not null, null otherwise
      */
@@ -58,7 +60,8 @@ public class GenericAuthenticatedUserMapper {
     }
     /**
      * Converts a list of AuthenticatedUser entities to a list of AuthenticatedUser DTOs
-     * @param authenticatedUsers the list of AuthenticatedUser entities to be converted
+     *
+     * @param authenticatedUsers      the list of AuthenticatedUser entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of AuthenticatedUserDto if the list in the parameter is not null, null otherwise
      */
@@ -72,7 +75,8 @@ public class GenericAuthenticatedUserMapper {
     }
     /**
      * Converts a list of AuthenticatedUser DTOs to a list of AuthenticatedUser entities
-     * @param authenticatedUserDtos the list of AuthenticatedUser DTOs to be converted
+     *
+     * @param authenticatedUserDtos   the list of AuthenticatedUser DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of AuthenticatedUser entities if the list in the parameter is not null, null otherwise
      */

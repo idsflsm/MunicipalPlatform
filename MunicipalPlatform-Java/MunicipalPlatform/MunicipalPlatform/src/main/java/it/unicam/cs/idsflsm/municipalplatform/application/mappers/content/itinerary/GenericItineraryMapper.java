@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.AuthorizedItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.PendingItineraryDto;
@@ -15,7 +14,8 @@ import java.util.stream.Collectors;
 public class GenericItineraryMapper {
     /**
      * Converts an Itinerary entity to an Itinerary DTO
-     * @param itinerary the itinerary entity to be converted
+     *
+     * @param itinerary               the itinerary entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding ItineraryDto if itinerary in the parameter is not null, null otherwise
      */
@@ -31,7 +31,8 @@ public class GenericItineraryMapper {
     }
     /**
      * Converts an Itinerary DTO to an Itinerary entity
-     * @param itineraryDto the itinerary DTO to be converted
+     *
+     * @param itineraryDto            the itinerary DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Itinerary if the itineraryDto in the parameter is not null, null otherwise
      */
@@ -47,7 +48,8 @@ public class GenericItineraryMapper {
     }
     /**
      * Converts a list of Itinerary entities to a list of Itinerary DTOs
-     * @param itineraries the list of Itinerary entities to be converted
+     *
+     * @param itineraries             the list of Itinerary entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of ItineraryDto if the list in the parameter is not null, null otherwise
      */
@@ -61,7 +63,8 @@ public class GenericItineraryMapper {
     }
     /**
      * Converts a list of Itinerary DTOs to a list of Itinerary entities
-     * @param itineraryDtos the list of Itinerary DTOs to be converted
+     *
+     * @param itineraryDtos           the list of Itinerary DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of Itinerary if the list in the parameter is not null, null otherwise
      */

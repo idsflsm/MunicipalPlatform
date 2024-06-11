@@ -2,7 +2,6 @@ package it.unicam.cs.idsflsm.municipalplatform.application.validators;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidLongitude;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-
 /**
  * Represents a JSON validator for longitude field
  */

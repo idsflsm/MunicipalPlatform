@@ -10,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 public class AuthorizedContributorMapper {
     /**
      * Converts an AuthorizedContributor entity to an AuthorizedContributor DTO
-     * @param authorizedContributor the authorizedContributor entity to be converted
+     *
+     * @param authorizedContributor   the authorizedContributor entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AuthorizedContributorDto if the authorizedContributor parameter is not null, null otherwise
      */
@@ -34,7 +35,8 @@ public class AuthorizedContributorMapper {
     }
     /**
      * Converts an AuthorizedContributor DTO to an AuthorizedContributor entity
-     * @param dto the AuthorizedContributor DTO to be converted
+     *
+     * @param dto                     the AuthorizedContributor DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding AuthorizedContributor entity if the dto parameter is not null, null otherwise
      */

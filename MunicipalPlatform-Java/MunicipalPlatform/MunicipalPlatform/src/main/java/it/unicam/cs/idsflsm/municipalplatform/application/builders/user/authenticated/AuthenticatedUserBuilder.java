@@ -2,14 +2,15 @@ package it.unicam.cs.idsflsm.municipalplatform.application.builders.user.authent
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.*;
+import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * General builder class for AuthenticatedUser builders
  */

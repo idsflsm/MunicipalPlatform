@@ -18,7 +18,6 @@ public enum ContestResult {
     private ContestResult(int value) {
         this.value = value;
     }
-
     /**
      * Method for converting a string to a ContestResult value
      * @param text string value to be converted

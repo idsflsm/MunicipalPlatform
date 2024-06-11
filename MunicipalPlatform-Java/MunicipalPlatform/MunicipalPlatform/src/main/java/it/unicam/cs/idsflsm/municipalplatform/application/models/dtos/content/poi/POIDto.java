@@ -5,18 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContributionDto;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedTouristDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -80,6 +73,7 @@ public abstract class POIDto {
      * Method to get the invoking object, if it has the same state of the
      * one in parameter, and all its sub-entities, filtering them all by the state
      * in parameter
+     *
      * @param state the ContentState value that acts as a filter
      * @return the invoking object if it has same state of the one in
      * parameter, null otherwise

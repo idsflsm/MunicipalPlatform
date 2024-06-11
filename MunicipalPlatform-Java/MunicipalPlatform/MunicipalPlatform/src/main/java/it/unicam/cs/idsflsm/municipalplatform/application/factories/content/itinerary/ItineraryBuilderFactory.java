@@ -2,11 +2,8 @@ package it.unicam.cs.idsflsm.municipalplatform.application.factories.content.iti
 import it.unicam.cs.idsflsm.municipalplatform.application.builders.content.itinerary.AuthorizedItineraryBuilder;
 import it.unicam.cs.idsflsm.municipalplatform.application.builders.content.itinerary.IItineraryBuilder;
 import it.unicam.cs.idsflsm.municipalplatform.application.builders.content.itinerary.PendingItineraryBuilder;
-import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserPermission;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 /**
  * Builder factory class for the creation of different types of Itinerary builders
@@ -24,6 +21,7 @@ public class ItineraryBuilderFactory {
     private final AuthorizedItineraryBuilder _authorizedItineraryBuilder;
     /**
      * Method for creating an Itinerary builder based on the provided user permission
+     *
      * @param permission the user permission determining the type of builder to be created
      * @return an Itinerary builder corresponding to the user permission,
      * if a matching builder is found, null otherwise

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.itinerary;
-import it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi.POICriteria;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.AuthorizedItinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.PendingItinerary;

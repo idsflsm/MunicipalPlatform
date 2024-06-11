@@ -6,16 +6,14 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contributi
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.List;
-import java.util.stream.Collectors;
 /**
  * Utility class for mapping between Contribution and ContributionDto
  */
-
 public class ContributionMapper {
     /**
      * Converts a Contribution entity to a Contribution DTO
-     * @param contribution the contribution entity to be converted
+     *
+     * @param contribution            the contribution entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding ContributionDto if the contribution parameter is not null, null otherwise
      */
@@ -36,7 +34,8 @@ public class ContributionMapper {
     }
     /**
      * Converts a ContestDto to a Contest entity
-     * @param dto the ContestDto to be converted
+     *
+     * @param dto                     the ContestDto to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Contest entity if the dto parameter is not null, null otherwise
      */
@@ -57,7 +56,8 @@ public class ContributionMapper {
     }
     /**
      * Converts a list of Contribution entities to a list of Contribution DTOs
-     * @param contributions the list of Contribution entities to be converted
+     *
+     * @param contributions           the list of Contribution entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of ContributionDto if the list in the parameter is not null, null otherwise
      */
@@ -71,7 +71,8 @@ public class ContributionMapper {
     }
     /**
      * Converts a list of Contribution DTOs to a list of Contribution entities
-     * @param contributionDtos the list of Contribution DTOs to be converted
+     *
+     * @param contributionDtos        the list of Contribution DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of Contribution if the list in the parameter is not null, null otherwise
      */

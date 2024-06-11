@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
-import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.AuthenticatedTouristMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.AuthorizedPOIDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.AuthorizedPOI;
@@ -11,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.Author
 public class AuthorizedPOIMapper {
     /**
      * Converts an AuthorizedPOI entity to an AuthorizedPOI DTO
-     * @param poi the POI entity to be converted
+     *
+     * @param poi                     the POI entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AuthorizedPOIDto if the poi parameter is not null, null otherwise
      */
@@ -37,7 +37,8 @@ public class AuthorizedPOIMapper {
     }
     /**
      * Converts an AuthorizedPOI DTO to an AuthorizedPOI entity
-     * @param dto the POI DTO to be converted
+     *
+     * @param dto                     the POI DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding AuthorizedPOI entity if the dto parameter is not null, null otherwise
      */

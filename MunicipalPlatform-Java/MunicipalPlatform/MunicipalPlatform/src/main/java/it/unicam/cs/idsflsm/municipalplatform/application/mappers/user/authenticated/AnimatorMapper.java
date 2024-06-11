@@ -10,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 public class AnimatorMapper {
     /**
      * Converts an Animator entity to an Animator DTO
-     * @param animator the animator entity to be converted
+     *
+     * @param animator                the animator entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AnimatorDto if the animator parameter is not null, null otherwise
      */
@@ -34,7 +35,8 @@ public class AnimatorMapper {
     }
     /**
      * Converts an Animator DTO to an Animator entity
-     * @param dto the Animator DTO to be converted
+     *
+     * @param dto                     the Animator DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Animator entity if the dto parameter is not null, null otherwise
      */

@@ -1,13 +1,9 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
-import java.util.List;
 import java.util.UUID;
-
 /**
  * Represents generic content on the platform. It provides methods for manipulating its data
  */

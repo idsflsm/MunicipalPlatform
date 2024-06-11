@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.contest;
-import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.AuthenticatedTouristMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest.ContestDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
@@ -12,7 +11,8 @@ import java.util.stream.Collectors;
 public class ContestMapper {
     /**
      * Converts a Contest entity to a Contest DTO
-     * @param contest the contest entity to be converted
+     *
+     * @param contest                 the contest entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding ContestDto if the contest parameter is not null, null otherwise
      */
@@ -36,7 +36,8 @@ public class ContestMapper {
     }
     /**
      * Converts a ContestDto to a Contest entity
-     * @param dto the ContestDto to be converted
+     *
+     * @param dto                     the ContestDto to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Contest entity if the dto parameter is not null, null otherwise
      */
@@ -60,7 +61,8 @@ public class ContestMapper {
     }
     /**
      * Converts a list of Contest entities to a list of Contest DTOs
-     * @param contests the list of Contest entities to be converted
+     *
+     * @param contests                the list of Contest entities to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding list of ContestDto if the list in the parameter is not null, null otherwise
      */
@@ -74,7 +76,8 @@ public class ContestMapper {
     }
     /**
      * Converts a list of Contest DTOs to a list of Contest entities
-     * @param contestDtos the list of Contest DTOs to be converted
+     *
+     * @param contestDtos             the list of Contest DTOs to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding list of Contest if the list in the parameter is not null, null otherwise
      */

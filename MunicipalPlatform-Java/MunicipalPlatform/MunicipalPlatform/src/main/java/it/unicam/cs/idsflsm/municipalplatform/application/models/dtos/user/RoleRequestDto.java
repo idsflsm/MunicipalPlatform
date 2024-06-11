@@ -1,6 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.RoleRequest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.UUID;
-
 /**
  * Represents a DTO related to the entity RoleRequest.
  * It contains all fields belonging to the entity

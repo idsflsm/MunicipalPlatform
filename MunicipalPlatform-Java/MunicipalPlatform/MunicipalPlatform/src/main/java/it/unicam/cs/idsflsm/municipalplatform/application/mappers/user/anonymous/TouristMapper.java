@@ -7,6 +7,7 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.anonymous.Tou
 public class TouristMapper {
     /**
      * Converts a Tourist entity to a Tourist DTO
+     *
      * @param tourist the tourist entity to be converted
      * @return the corresponding TouristDto if the tourist parameter is not null, null otherwise
      */
@@ -20,6 +21,7 @@ public class TouristMapper {
     }
     /**
      * Converts a RoleRequestDto to a RoleRequest entity
+     *
      * @param dto the RoleRequestDto to be converted
      * @return the corresponding RoleRequest entity if the dto parameter is not null, null otherwise
      */

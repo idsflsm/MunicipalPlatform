@@ -10,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated
 public class AdministratorMapper {
     /**
      * Converts an Administrator entity to an Administrator DTO
-     * @param administrator the administrator entity to be converted
+     *
+     * @param administrator           the administrator entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding AdministratorDto if the administrator parameter is not null, null otherwise
      */
@@ -34,7 +35,8 @@ public class AdministratorMapper {
     }
     /**
      * Converts an Administrator DTO to an Administrator entity
-     * @param dto the Administrator DTO to be converted
+     *
+     * @param dto                     the Administrator DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding Administrator entity if the dto parameter is not null, null otherwise
      */

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.contest;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.OnlyLettersString;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUsername;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Getter
 @Setter
 @NoArgsConstructor

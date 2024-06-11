@@ -1,6 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedTourist;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import jakarta.persistence.*;
@@ -10,7 +8,6 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 /**
  * Represents a contest of contribution. It contains general information about the contest,
  * including the list of participants and their contributions
@@ -24,7 +21,6 @@ public class Contest implements IContest {
      * The unique identifier of the contest
      */
     @Id
-    // @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
     private UUID id;
     /**
@@ -66,13 +62,13 @@ public class Contest implements IContest {
     /**
      * The list of contributions of the contest
      */
-    @OneToMany(mappedBy = "contest", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE}, /* orphanRemoval = true, */
+    @OneToMany(mappedBy = "contest", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.EAGER)
     private List<Contribution> contributions = new ArrayList<Contribution>();
     /**
      * The list of participants of the contest
      */
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
             name = "contest_participants",
             joinColumns = @JoinColumn(name = "contest_id"),

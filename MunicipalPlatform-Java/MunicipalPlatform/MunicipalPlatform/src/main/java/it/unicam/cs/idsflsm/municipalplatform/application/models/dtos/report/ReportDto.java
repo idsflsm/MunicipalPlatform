@@ -2,12 +2,11 @@ package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.report;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.attachment.AttachmentDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.report.Report;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.util.UUID;
 /**
  * Represents a DTO related to the entity Report.

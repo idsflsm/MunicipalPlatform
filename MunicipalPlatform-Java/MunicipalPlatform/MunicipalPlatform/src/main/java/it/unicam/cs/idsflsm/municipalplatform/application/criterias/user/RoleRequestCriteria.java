@@ -1,7 +1,5 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.user;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.RoleRequest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.user.authenticated.AuthenticatedUser;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.UserRole;
 
 import java.util.function.Predicate;

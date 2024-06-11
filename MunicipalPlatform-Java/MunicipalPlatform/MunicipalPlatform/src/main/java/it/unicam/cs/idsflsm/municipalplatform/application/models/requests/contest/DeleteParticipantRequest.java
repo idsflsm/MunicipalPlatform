@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.requests.contest;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.OnlyLettersString;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUUID;
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.validators.ValidUsername;

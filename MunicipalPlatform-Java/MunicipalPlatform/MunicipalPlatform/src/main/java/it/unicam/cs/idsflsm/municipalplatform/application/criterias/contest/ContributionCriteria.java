@@ -1,10 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.contest;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contribution;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContestResult;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Coordinates;
-import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 
 import java.util.UUID;
 import java.util.function.Predicate;

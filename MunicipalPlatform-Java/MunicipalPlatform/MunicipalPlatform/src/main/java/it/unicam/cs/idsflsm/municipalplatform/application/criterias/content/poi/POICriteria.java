@@ -1,6 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.criterias.content.poi;
-
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.AuthorizedPOI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.POI;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.PendingPOI;
@@ -58,7 +56,6 @@ public class POICriteria<T extends POI> {
         if (description != null && !description.isBlank()) {
             return poi -> poi.getDescription().toLowerCase().contains(description.toLowerCase());
         } else {
-            // No filtering if description is blank
             return poi -> true;
         }
     }
@@ -66,7 +63,6 @@ public class POICriteria<T extends POI> {
         if (author != null && !author.isBlank()) {
             return poi -> poi.getAuthor().toLowerCase().contains(author.toLowerCase());
         } else {
-            // No filtering if author is blank
             return poi -> true;
         }
     }
@@ -74,7 +70,6 @@ public class POICriteria<T extends POI> {
         if (creationDate != null) {
             return poi -> poi.getCreationDate().equals(creationDate);
         } else {
-            // No filtering if creationDate is null
             return poi -> true;
         }
     }
@@ -82,7 +77,6 @@ public class POICriteria<T extends POI> {
         if (expiryDate != null) {
             return poi -> poi.getExpiryDate().equals(expiryDate);
         } else {
-            // No filtering if expiryDate is null
             return poi -> true;
         }
     }
@@ -90,7 +84,6 @@ public class POICriteria<T extends POI> {
         if (state != null) {
             return poi -> poi.getState().equals(state);
         } else {
-            // No filtering if state is null
             return poi -> true;
         }
     }

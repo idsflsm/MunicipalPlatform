@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
+/**
+ * Interface that represents the repository for AuthenticatedUser entity
+ */
 @Repository
 public interface IAuthenticatedUserRepository extends GenericRepository<AuthenticatedUser, UUID> {
     default List<AuthenticatedUser> findByUsername(String username) {

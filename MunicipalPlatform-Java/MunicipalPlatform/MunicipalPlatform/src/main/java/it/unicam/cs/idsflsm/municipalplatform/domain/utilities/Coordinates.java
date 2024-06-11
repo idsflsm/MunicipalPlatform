@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
-
 import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidLatitudeException;
 import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidLongitudeException;
 import jakarta.persistence.Column;
@@ -8,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 /**
  * Represents the coordinates (latitude and longitude) on a map
  * of a content present on the platform
@@ -29,33 +27,20 @@ public class Coordinates {
      */
     @Column(name = "longitude", nullable = false)
     private double longitude;
-
     /**
      * Method to convert two strings, representing latitude and longitude,
      * into a Coordinates value
-     * @param latitudeString value that represents the latitude
+     *
+     * @param latitudeString  value that represents the latitude
      * @param longitudeString value that represents the longitude
      * @return a new Coordinates object if the parsing of the strings is successful
-     * @throws InvalidLatitudeException if latitudeString is null, out of range
-     * or generally invalid
+     * @throws InvalidLatitudeException  if latitudeString is null, out of range
+     *                                   or generally invalid
      * @throws InvalidLongitudeException if longitudeString is null, out of range
-     * or generally invalid
+     *                                   or generally invalid
      */
     public static Coordinates fromStrings(String latitudeString, String longitudeString)
             throws InvalidLatitudeException, InvalidLongitudeException {
-//        try {
-//            double latitude = Double.parseDouble(latitudeString);
-//            double longitude = Double.parseDouble(longitudeString);
-//            return new Coordinates(latitude, longitude);
-//        } catch (NumberFormatException e) {
-//            if (latitudeString == null) {
-//                throw new InvalidLatitudeException("Null latitude value");
-//            } else if (longitudeString == null) {
-//                throw new InvalidLongitudeException("Null longitude value");
-//            } else {
-//                throw new InvalidLatitudeException(latitudeString);
-//            }
-//        }
         try {
             if (latitudeString == null) {
                 throw new InvalidLatitudeException("Null latitude value");

@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.handlers.content.poi;
-
 import it.unicam.cs.idsflsm.municipalplatform.application.abstractions.handlers.content.poi.IPOIHandler;
 import it.unicam.cs.idsflsm.municipalplatform.application.factories.content.poi.POIBuilderFactory;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;

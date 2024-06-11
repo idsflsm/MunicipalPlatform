@@ -5,6 +5,7 @@ package it.unicam.cs.idsflsm.municipalplatform.api.exceptions;
 public class InvalidUserRoleException extends RuntimeException {
     /**
      * Constructs a new InvalidUserRoleException with a detailed message
+     *
      * @param text the name of the invalid UserRole value
      */
     public InvalidUserRoleException(String text) {

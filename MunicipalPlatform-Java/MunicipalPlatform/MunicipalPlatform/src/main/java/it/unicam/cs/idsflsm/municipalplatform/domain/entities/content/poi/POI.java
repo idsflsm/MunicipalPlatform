@@ -1,5 +1,4 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi;
-
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.Content;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.itinerary.Itinerary;
@@ -12,8 +11,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Represents a Point Of Interest on the platform. It contains information such as
  * the list of its attachments and the associated contest contribution if exists
@@ -28,22 +27,20 @@ public abstract class POI extends Content implements IPOI {
     /**
      * The list of itineraries that contain the poi
      */
-//    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "itineraryPois", cascade = {CascadeType.PERSIST, /* CascadeType.MERGE */})
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST/*, /* CascadeType.MERGE */})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
-        name = "itinerary_pois",
-        joinColumns = @JoinColumn(name = "poi_id", unique = false),
-        inverseJoinColumns = @JoinColumn(name = "itinerary_id", unique = false))
+            name = "itinerary_pois",
+            joinColumns = @JoinColumn(name = "poi_id", unique = false),
+            inverseJoinColumns = @JoinColumn(name = "itinerary_id", unique = false))
     private List<Itinerary> poiItineraries = new ArrayList<Itinerary>();
     /**
      * The list of authenticated users that saved the poi
      */
-//    @ManyToMany(mappedBy = "pois", fetch = FetchType.EAGER, cascade = {/* CascadeType.MERGE, */ CascadeType.PERSIST})
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(
-        name = "user_poi",
-        joinColumns = @JoinColumn(name = "poi_id", unique = false),
-        inverseJoinColumns = @JoinColumn(name = "user_id", unique = false)
+            name = "user_poi",
+            joinColumns = @JoinColumn(name = "poi_id", unique = false),
+            inverseJoinColumns = @JoinColumn(name = "user_id", unique = false)
     )
     private List<AuthenticatedUser> users = new ArrayList<AuthenticatedUser>();
     /**
@@ -55,7 +52,7 @@ public abstract class POI extends Content implements IPOI {
     /**
      * The corresponding contest contribution (if exists)
      */
-    @OneToOne(mappedBy = "poi", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE /*, orphanRemoval = true */)
+    @OneToOne(mappedBy = "poi", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Contribution contribution;
     public POI() {
     }
@@ -86,19 +83,5 @@ public abstract class POI extends Content implements IPOI {
         setPoiItineraries(new ArrayList<Itinerary>());
         this.users.forEach(authenticatedUser -> authenticatedUser.getPois().remove(this));
         setUsers(new ArrayList<AuthenticatedUser>());
-//        this.attachments.forEach(attachment -> attachment.setItinerary(null));
-//        setAttachments(new ArrayList<Attachment>());
-//        this.contribution.setPoi(null);
-//        this.contribution = null;
     }
-//    @PreRemove
-//    @Override
-//    public void checkItinerariesSize() {
-//        this.poiItineraries.forEach(itinerary -> {
-//            if (itinerary.getItineraryPois().size() < 3) {
-//                itinerary.detachFromEntities();
-//                EntityManager entityManager
-//            }
-//        });
-//    }
 }

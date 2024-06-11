@@ -1,8 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.domain.utilities;
-
 import it.unicam.cs.idsflsm.municipalplatform.api.exceptions.InvalidContentStateException;
 import lombok.Getter;
-
 /**
  * Represents the possible states that a content on the platform may have
  */
@@ -28,14 +26,14 @@ public enum ContentState {
     private ContentState(int value) {
         this.value = value;
     }
-
     /**
      * Method for converting a string to a ContentState value
+     *
      * @param text string value to be converted
      * @return the value of ContentState associated with the string
      * if the latter is not null, null otherwise
      * @throws InvalidContentStateException if string is not null
-     * but cannot be converted to any ContentState value
+     *                                      but cannot be converted to any ContentState value
      */
     public static ContentState fromString(String text) throws InvalidContentStateException {
         if (text != null) {

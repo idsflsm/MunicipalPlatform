@@ -26,6 +26,7 @@ public interface IItineraryBuilder {
     void setContribution(Contribution contribution);
     /**
      * Builds and returns an Itinerary instance based on the stored information
+     *
      * @return the built Itinerary instance
      */
     Itinerary build();

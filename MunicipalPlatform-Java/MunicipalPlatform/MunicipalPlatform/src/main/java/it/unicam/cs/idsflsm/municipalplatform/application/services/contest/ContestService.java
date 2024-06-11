@@ -63,16 +63,12 @@ public class ContestService implements IContestService {
     public void saveInRepository(Contribution contribution) {
         _contributionRepository.save(contribution);
     }
-//    @Override
-//    public void deleteFromRepository(Contribution contribution) {
-//        _contributionRepository.delete(contribution);
-//    }
     @Override
     public List<ContestDto> getContests(Optional<Predicate<Contest>> predicate) {
         List<Contest> result = predicate.map(contestPredicate -> _contestRepository.findAll()
-                    .stream()
-                    .filter(contestPredicate)
-                    .collect(Collectors.toList()))
+                        .stream()
+                        .filter(contestPredicate)
+                        .collect(Collectors.toList()))
                 .orElseGet(_contestRepository::findAll);
         if (!result.isEmpty()) {
             return ContestMapper.toDto(result, true);
@@ -107,22 +103,11 @@ public class ContestService implements IContestService {
         return null;
     }
     @Override
-    public boolean deleteContest(ContestDto contestDto, Optional<Predicate<Contest>> predicate) {
-        List<ContestDto> contests = getContests(predicate);
-        if (!contests.isEmpty()) {
-            Contest contest = ContestMapper.toEntity(contestDto, true);
-            assert contest != null;
-            _contestRepository.delete(contest);
-            return true;
-        }
-        return false;
-    }
-    @Override
     public List<ContributionDto> getContributions(Optional<Predicate<Contribution>> predicate) {
         List<Contribution> result = predicate.map(contributionPredicate -> _contributionRepository.findAll()
-                    .stream()
-                    .filter(contributionPredicate)
-                    .collect(Collectors.toList()))
+                        .stream()
+                        .filter(contributionPredicate)
+                        .collect(Collectors.toList()))
                 .orElseGet(_contributionRepository::findAll);
         if (!result.isEmpty()) {
             return ContributionMapper.toDto(result, true);
@@ -163,27 +148,12 @@ public class ContestService implements IContestService {
     public ContributionDto deleteContributionById(UUID id) {
         Contribution contribution = _contributionRepository.findById(id).orElse(null);
         if (contribution != null) {
-//            contribution.setState(ContentState.REMOVABLE);
-//            _contributionRepository.save(contribution);
             contribution.detachFromEntities(false);
             _contributionRepository.delete(contribution);
             return ContributionMapper.toDto(contribution, true);
         }
         return null;
     }
-//    @Override
-//    public boolean deleteContribution(ContributionDto contributionDto, Optional<Predicate<Contribution>> predicate) {
-//        if (getAllContributions(predicate).get(0) != null) {
-//            Contribution contribution = ContributionMapper.toEntity(contributionDto);
-//            assert contribution != null;
-//            contribution.setState(ContentState.Removable);
-//            // _contributionRepository.delete(contribution);
-//            _contributionRepository.save(contribution);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
     @Override
     public ContributionDto validateContribution(UUID idContribution, boolean validate) {
         Contribution contribution = _contributionRepository.findById(idContribution).orElse(null);
@@ -228,10 +198,6 @@ public class ContestService implements IContestService {
     public ContributionDto uploadContribution(UUID idContribution) {
         Contribution contribution = _contributionRepository.findById(idContribution).orElse(null);
         if (contribution != null && contribution.getResult().equals(ContestResult.WINNER)) {
-//            contribution.setNotNullPoi(null);
-//            contribution.setNotNullItinerary(null);
-//            contribution.getContest().getContributions().remove(contribution);
-//            contribution.setContest(null);
             if (contribution.getContent() instanceof Itinerary itinerary) {
                 itinerary.setState(ContentState.UPLOADED);
                 _itineraryRepository.save(itinerary);
@@ -273,7 +239,7 @@ public class ContestService implements IContestService {
         Contest contest = _contestRepository.findById(idContest).orElse(null);
         if (contest != null) {
             List<AuthenticatedUser> result = predicate.map(authenticatedTouristPredicate ->
-                contest.getParticipatingUsers().stream().filter(authenticatedTouristPredicate).toList()
+                    contest.getParticipatingUsers().stream().filter(authenticatedTouristPredicate).toList()
             ).orElseGet(contest::getParticipatingUsers);
             if (!result.isEmpty()) {
                 return GenericAuthenticatedUserMapper.toDto(result, true);

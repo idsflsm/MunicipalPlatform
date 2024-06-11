@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.poi;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.attachment.GenericAttachmentMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.content.itinerary.GenericItineraryMapper;
-import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.AuthenticatedTouristMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.mappers.user.authenticated.GenericAuthenticatedUserMapper;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.PendingPOIDto;
 import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.PendingPOI;
@@ -11,7 +10,8 @@ import it.unicam.cs.idsflsm.municipalplatform.domain.entities.content.poi.Pendin
 public class PendingPOIMapper {
     /**
      * Converts a PendingPOI entity to a PendingPOI DTO
-     * @param poi the POI entity to be converted
+     *
+     * @param poi                     the POI entity to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-entities
      * @return the corresponding PendingPOIDto if the poi parameter is not null, null otherwise
      */
@@ -37,7 +37,8 @@ public class PendingPOIMapper {
     }
     /**
      * Converts a PendingPOI DTO to a PendingPOI entity
-     * @param dto the POI DTO to be converted
+     *
+     * @param dto                     the POI DTO to be converted
      * @param includeRelativeEntities flag indicating whether to map the sub-DTOs
      * @return the corresponding PendingPOI entity if the dto parameter is not null, null otherwise
      */
@@ -59,7 +60,6 @@ public class PendingPOIMapper {
             entity.setUsers(GenericAuthenticatedUserMapper.toEntity(dto.getTourists(), false));
             entity.setAttachments(GenericAttachmentMapper.toEntity(dto.getAttachments(), false));
         }
-
         return entity;
     }
 }

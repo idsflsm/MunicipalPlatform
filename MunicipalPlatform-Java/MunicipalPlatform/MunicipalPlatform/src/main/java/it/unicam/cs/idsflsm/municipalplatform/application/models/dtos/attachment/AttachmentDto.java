@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.itinerary.ItineraryDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.content.poi.POIDto;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.report.ReportDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.attachment.Attachment;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.ContentState;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import lombok.Getter;
@@ -66,6 +65,7 @@ public abstract class AttachmentDto {
      * Method to get the invoking object, if it has the same state of the
      * one in parameter, and all its sub-entities, filtering them all by the state
      * in parameter
+     *
      * @param state the ContentState value that acts as a filter
      * @return the invoking object if it has same state of the one in
      * parameter, null otherwise

@@ -1,7 +1,6 @@
 package it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.contest;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import it.unicam.cs.idsflsm.municipalplatform.application.models.dtos.user.authenticated.AuthenticatedUserDto;
-import it.unicam.cs.idsflsm.municipalplatform.domain.entities.contest.Contest;
 import it.unicam.cs.idsflsm.municipalplatform.domain.utilities.Date;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
